@@ -1,0 +1,31 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="py-5 text-center">
+    <h1 class="display-5">Welcome to DecorMate</h1>
+    <p class="lead">Platform for companies and mobile users.</p>
+
+    <div class="mt-4">
+        @if (User?.Identity?.IsAuthenticated ?? false)
+        {
+            <a class="btn btn-primary me-2" href="@Url.Action("Profile","Auth")">My Profile</a>
+            <form method="post" action="@Url.Action("Logout","Auth")" style="display:inline;">
+                @Html.AntiForgeryToken()
+                <button class="btn btn-outline-secondary">Logout</button>
+            </form>
+        }
+        else
+        {
+            <a class="btn btn-primary me-2" href="@Url.Action("Register","Auth")">Register</a>
+            <a class="btn btn-outline-primary" href="@Url.Action("Login","Auth")">Login</a>
+        }
+    </div>
+</div>
+
+<div class="card mt-4">
+    <div class="card-body">
+        <h5>Quick info</h5>
+        <p>Use the navigation to login or register.</p>
+    </div>
+</div>

@@ -1,0 +1,31 @@
+﻿@model DecorMate_Backend_Web_app.Models.DTOs.LoginDto
+@{
+    ViewData["Title"] = "Login";
+}
+<h2>Login</h2>
+
+<form asp-action="Login" asp-controller="Auth" method="post">
+    @Html.AntiForgeryToken()
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="Email"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Password"></label>
+        <input asp-for="Password" type="password" class="form-control" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+    <div class="form-check mb-3">
+        <input asp-for="RememberMe" class="form-check-input" />
+        <label asp-for="RememberMe" class="form-check-label"></label>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Login</button>
+    <a class="btn btn-link" href="/Auth/ForgotPassword">Forgot password?</a>
+</form>
+@section Scripts {
+<partial name="_ValidationScriptsPartial" />
+ }

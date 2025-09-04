@@ -1,0 +1,15 @@
+﻿@model DecorMate_Backend_Web_app.Models.ErrorViewModel
+@{
+    ViewData["Title"] = "Error";
+}
+<div class="text-center">
+    <h1 class="text-danger">Error</h1>
+    @if (!string.IsNullOrEmpty(Model?.Message))
+    {
+        <div class="alert alert-warning">@Model.Message</div>
+    }
+    @if (Model?.ShowRequestId ?? false)
+    {
+        <p><strong>Request ID:</strong> <code>@Model.RequestId</code></p>
+    }
+</div>

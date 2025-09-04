@@ -1,0 +1,34 @@
+C:\Users\a7med\OneDrive\سطح المكتب\programming projects\.NET\DecorMate Backend Web app\DecorMate Backend Web app\bin\Debug\net8.0\appsettings.Development.json
+C:\Users\a7med\OneDrive\سطح المكتب\programming projects\.NET\DecorMate Backend Web app\DecorMate Backend Web app\bin\Debug\net8.0\appsettings.json
+C:\Users\a7med\OneDrive\سطح المكتب\programming projects\.NET\DecorMate Backend Web app\DecorMate Backend Web app\bin\Debug\net8.0\DecorMate Backend Web app.staticwebassets.runtime.json
+C:\Users\a7med\OneDrive\سطح المكتب\programming projects\.NET\DecorMate Backend Web app\DecorMate Backend Web app\bin\Debug\net8.0\DecorMate Backend Web app.staticwebassets.endpoints.json
+C:\Users\a7med\OneDrive\سطح المكتب\programming projects\.NET\DecorMate Backend Web app\DecorMate Backend Web app\bin\Debug\net8.0\DecorMate Backend Web app.exe
+C:\Users\a7med\OneDrive\سطح المكتب\programming projects\.NET\DecorMate Backend Web app\DecorMate Backend Web app\bin\Debug\net8.0\DecorMate Backend Web app.deps.json
+C:\Users\a7med\OneDrive\سطح المكتب\programming projects\.NET\DecorMate Backend Web app\DecorMate Backend Web app\bin\Debug\net8.0\DecorMate Backend Web app.runtimeconfig.json
+C:\Users\a7med\OneDrive\سطح المكتب\programming projects\.NET\DecorMate Backend Web app\DecorMate Backend Web app\bin\Debug\net8.0\DecorMate Backend Web app.dll
+C:\Users\a7med\OneDrive\سطح المكتب\programming projects\.NET\DecorMate Backend Web app\DecorMate Backend Web app\bin\Debug\net8.0\DecorMate Backend Web app.pdb
+C:\Users\a7med\OneDrive\سطح المكتب\programming projects\.NET\DecorMate Backend Web app\DecorMate Backend Web app\obj\Debug\net8.0\DecorMate Backend Web app.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\a7med\OneDrive\سطح المكتب\programming projects\.NET\DecorMate Backend Web app\DecorMate Backend Web app\obj\Debug\net8.0\DecorMate Backend Web app.AssemblyInfoInputs.cache
+C:\Users\a7med\OneDrive\سطح المكتب\programming projects\.NET\DecorMate Backend Web app\DecorMate Backend Web app\obj\Debug\net8.0\DecorMate Backend Web app.AssemblyInfo.cs
+C:\Users\a7med\OneDrive\سطح المكتب\programming projects\.NET\DecorMate Backend Web app\DecorMate Backend Web app\obj\Debug\net8.0\DecorMate Backend Web app.csproj.CoreCompileInputs.cache
+C:\Users\a7med\OneDrive\سطح المكتب\programming projects\.NET\DecorMate Backend Web app\DecorMate Backend Web app\obj\Debug\net8.0\DecorMate Backend Web app.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\a7med\OneDrive\سطح المكتب\programming projects\.NET\DecorMate Backend Web app\DecorMate Backend Web app\obj\Debug\net8.0\DecorMate Backend Web app.RazorAssemblyInfo.cache
+C:\Users\a7med\OneDrive\سطح المكتب\programming projects\.NET\DecorMate Backend Web app\DecorMate Backend Web app\obj\Debug\net8.0\DecorMate Backend Web app.RazorAssemblyInfo.cs
+C:\Users\a7med\OneDrive\سطح المكتب\programming projects\.NET\DecorMate Backend Web app\DecorMate Backend Web app\obj\Debug\net8.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
+C:\Users\a7med\OneDrive\سطح المكتب\programming projects\.NET\DecorMate Backend Web app\DecorMate Backend Web app\obj\Debug\net8.0\scopedcss\bundle\DecorMate Backend Web app.styles.css
+C:\Users\a7med\OneDrive\سطح المكتب\programming projects\.NET\DecorMate Backend Web app\DecorMate Backend Web app\obj\Debug\net8.0\scopedcss\projectbundle\DecorMate Backend Web app.bundle.scp.css
+C:\Users\a7med\OneDrive\سطح المكتب\programming projects\.NET\DecorMate Backend Web app\DecorMate Backend Web app\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\a7med\OneDrive\سطح المكتب\programming projects\.NET\DecorMate Backend Web app\DecorMate Backend Web app\obj\Debug\net8.0\staticwebassets.development.json
+C:\Users\a7med\OneDrive\سطح المكتب\programming projects\.NET\DecorMate Backend Web app\DecorMate Backend Web app\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+C:\Users\a7med\OneDrive\سطح المكتب\programming projects\.NET\DecorMate Backend Web app\DecorMate Backend Web app\obj\Debug\net8.0\staticwebassets\msbuild.DecorMate Backend Web app.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\a7med\OneDrive\سطح المكتب\programming projects\.NET\DecorMate Backend Web app\DecorMate Backend Web app\obj\Debug\net8.0\staticwebassets\msbuild.DecorMate Backend Web app.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+C:\Users\a7med\OneDrive\سطح المكتب\programming projects\.NET\DecorMate Backend Web app\DecorMate Backend Web app\obj\Debug\net8.0\staticwebassets\msbuild.build.DecorMate Backend Web app.props
+C:\Users\a7med\OneDrive\سطح المكتب\programming projects\.NET\DecorMate Backend Web app\DecorMate Backend Web app\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.DecorMate Backend Web app.props
+C:\Users\a7med\OneDrive\سطح المكتب\programming projects\.NET\DecorMate Backend Web app\DecorMate Backend Web app\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.DecorMate Backend Web app.props
+C:\Users\a7med\OneDrive\سطح المكتب\programming projects\.NET\DecorMate Backend Web app\DecorMate Backend Web app\obj\Debug\net8.0\staticwebassets.pack.json
+C:\Users\a7med\OneDrive\سطح المكتب\programming projects\.NET\DecorMate Backend Web app\DecorMate Backend Web app\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\a7med\OneDrive\سطح المكتب\programming projects\.NET\DecorMate Backend Web app\DecorMate Backend Web app\obj\Debug\net8.0\DecorMate Backend Web app.dll
+C:\Users\a7med\OneDrive\سطح المكتب\programming projects\.NET\DecorMate Backend Web app\DecorMate Backend Web app\obj\Debug\net8.0\refint\DecorMate Backend Web app.dll
+C:\Users\a7med\OneDrive\سطح المكتب\programming projects\.NET\DecorMate Backend Web app\DecorMate Backend Web app\obj\Debug\net8.0\DecorMate Backend Web app.pdb
+C:\Users\a7med\OneDrive\سطح المكتب\programming projects\.NET\DecorMate Backend Web app\DecorMate Backend Web app\obj\Debug\net8.0\DecorMate Backend Web app.genruntimeconfig.cache
+C:\Users\a7med\OneDrive\سطح المكتب\programming projects\.NET\DecorMate Backend Web app\DecorMate Backend Web app\obj\Debug\net8.0\ref\DecorMate Backend Web app.dll
