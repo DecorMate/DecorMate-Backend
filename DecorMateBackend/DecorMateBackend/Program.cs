@@ -1,4 +1,4 @@
-using System.Text;
+﻿using System.Text;
 using DecorMate_Backend_Web_app.Data;
 using DecorMate_Backend_Web_app.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -48,15 +48,15 @@ var jwtIssuer = jwtSection.GetValue<string>("Issuer") ?? "DecorMate";
 var jwtAudience = jwtSection.GetValue<string>("Audience") ?? "DecorMateClients";
 
 // ----------------------------
-// Authentication: Cookies (Identity) + JwtBearer (API) + External providers
-    services.AddAuthentication(options =>
-    {
+// Authentication
+services.AddAuthentication(options =>
+{
     options.DefaultScheme = IdentityConstants.ApplicationScheme;
     options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
     options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
-    })
-    .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
-    {
+})
+.AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+{
     options.RequireHttpsMetadata = true;
     options.SaveToken = true;
     options.TokenValidationParameters = new TokenValidationParameters
@@ -72,23 +72,7 @@ var jwtAudience = jwtSection.GetValue<string>("Audience") ?? "DecorMateClients";
         RoleClaimType = ClaimTypes.Role,
         NameClaimType = ClaimTypes.NameIdentifier
     };
-    options.Events = new JwtBearerEvents
-    {
-        OnAuthenticationFailed = ctx =>
-        {
-            var logger = ctx.HttpContext.RequestServices.GetRequiredService<ILogger<Program>>();
-            logger.LogError(ctx.Exception, "JWT authentication failed: {msg}", ctx.Exception.Message);
-            return Task.CompletedTask;
-        },
-        OnTokenValidated = ctx =>
-        {
-            var logger = ctx.HttpContext.RequestServices.GetRequiredService<ILogger<Program>>();
-            logger.LogInformation("Token validated for {sub}", ctx.Principal?.FindFirst(JwtRegisteredClaimNames.Sub)?.Value);
-            return Task.CompletedTask;
-        }
-    };
-    })
-// Google + Facebook (keep chaining to same AuthenticationBuilder)
+})
 .AddGoogle(googleOptions =>
 {
     googleOptions.ClientId = configuration["Authentication:Google:ClientId"];
@@ -101,26 +85,23 @@ var jwtAudience = jwtSection.GetValue<string>("Audience") ?? "DecorMateClients";
 });
 
 // ----------------------------
-// Configure the Identity application cookie options
+// Cookie options
 services.ConfigureApplicationCookie(opts =>
 {
     opts.LoginPath = "/Auth/Login";
     opts.LogoutPath = "/Auth/Logout";
-    // opts.ExpireTimeSpan = TimeSpan.FromDays(14);
 });
 
 // ----------------------------
-// Authorization policies
+// Authorization
 services.AddAuthorization(options =>
 {
-    // Pages protected for companies (use Cookie auth + Company role)
     options.AddPolicy("CompanyOnly", policy =>
     {
         policy.AddAuthenticationSchemes(IdentityConstants.ApplicationScheme);
         policy.RequireRole("Company");
     });
 
-    // API endpoints for mobile users (JWT + User role)
     options.AddPolicy("MobileUserOnly", policy =>
     {
         policy.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme);
@@ -133,94 +114,69 @@ services.AddAuthorization(options =>
 services.AddHttpClient();
 services.AddScoped<JwtService>();
 services.AddScoped<IEmailSender, SmtpEmailSender>();
-builder.Services.AddSingleton<CloudinaryService>();
+services.AddSingleton<CloudinaryService>();
 services.AddControllersWithViews();
 services.AddRazorPages();
 services.AddEndpointsApiExplorer();
-services.AddSwaggerGen(options =>
-{
-    options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
-    {
-        Title = "DecorMate API",
-        Version = "v1",
-        Description = "API documentation for Auth and other endpoints"
-    });
+services.AddSwaggerGen();
 
-    // Better JWT scheme for Swagger UI
-    options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
-    {
-        Description = "Enter 'Bearer {token}'",
-        Name = "Authorization",
-        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
-        Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
-        Scheme = "bearer",
-        BearerFormat = "JWT"
-    });
-
-    options.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement {
-        {
-            new Microsoft.OpenApi.Models.OpenApiSecurityScheme
-            {
-                Reference = new Microsoft.OpenApi.Models.OpenApiReference
-                {
-                    Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            new string[] { }
-        }
-    });
-});
-
+// ----------------------------
 // Build app
 var app = builder.Build();
 
-// Swagger in dev or always (you already enabled)
+using (var scope = app.Services.CreateScope())
+{
+    var service = scope.ServiceProvider;
+    var logger = service.GetRequiredService<ILogger<Program>>();
+    try
+    {
+        var db = service.GetRequiredService<ApplicationDbContext>();
+        await db.Database.MigrateAsync();
+
+        var roleManager = service.GetRequiredService<RoleManager<IdentityRole>>();
+        var userManager = service.GetRequiredService<UserManager<ApplicationUser>>();
+
+        var roles = new[] { "User", "Company", "Admin" };
+        foreach (var r in roles)
+        {
+            if (!await roleManager.RoleExistsAsync(r))
+                await roleManager.CreateAsync(new IdentityRole(r));
+        }
+
+        var seedEmail = configuration["Seed:CompanyEmail"];
+        var seedPass = configuration["Seed:CompanyPassword"];
+        if (!string.IsNullOrEmpty(seedEmail) && !string.IsNullOrEmpty(seedPass))
+        {
+            var existing = await userManager.FindByEmailAsync(seedEmail);
+            if (existing == null)
+            {
+                var cmp = new ApplicationUser
+                {
+                    UserName = seedEmail,
+                    Email = seedEmail,
+                    EmailConfirmed = true,
+                    FirstName = "Company",
+                    LastName = "Admin"
+                };
+                var res = await userManager.CreateAsync(cmp, seedPass);
+                if (res.Succeeded) await userManager.AddToRoleAsync(cmp, "Company");
+            }
+        }
+    }
+    catch (Exception ex)
+    {
+        logger.LogError(ex, "Error while migrating or seeding database on startup.");
+    }
+}
+
+// ----------------------------
+// Swagger
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "DecorMate API V1");
     c.RoutePrefix = "swagger";
 });
-
-// ----------------------------
-// Seed roles (and optional seed user) at startup
-using (var scope = app.Services.CreateScope())
-{
-    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-
-    var roles = new[] { "User", "Company", "Admin" };
-    foreach (var r in roles)
-    {
-        if (!await roleManager.RoleExistsAsync(r))
-            await roleManager.CreateAsync(new IdentityRole(r));
-    }
-
-    // Optional: seed a company account (configure in appsettings - Seed section)
-    var seedEmail = configuration["Seed:CompanyEmail"];
-    var seedPass = configuration["Seed:CompanyPassword"];
-    if (!string.IsNullOrEmpty(seedEmail) && !string.IsNullOrEmpty(seedPass))
-    {
-        var existing = await userManager.FindByEmailAsync(seedEmail);
-        if (existing == null)
-        {
-            var cmp = new ApplicationUser
-            {
-                UserName = seedEmail,
-                Email = seedEmail,
-                FirstName = "Company",
-                LastName = "Admin",
-                EmailConfirmed = true
-            };
-            var res = await userManager.CreateAsync(cmp, seedPass);
-            if (res.Succeeded)
-            {
-                await userManager.AddToRoleAsync(cmp, "Company");
-            }
-        }
-    }
-}
 
 // ----------------------------
 // Middleware pipeline
@@ -240,13 +196,15 @@ app.UseCors(policy => policy
     .AllowAnyHeader()
     .AllowAnyMethod());
 
-// Authentication & Authorization (order matters)
 app.UseAuthentication();
 app.UseAuthorization();
 
+// ----------------------------
+// Default route → Home/Index
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}"
+);
 
 app.MapRazorPages();
 app.MapControllers();

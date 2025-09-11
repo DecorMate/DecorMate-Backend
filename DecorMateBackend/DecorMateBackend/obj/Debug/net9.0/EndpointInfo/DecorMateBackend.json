@@ -1,9 +1,8 @@
 {
   "openapi": "3.0.4",
   "info": {
-    "title": "DecorMate API",
-    "description": "API documentation for Auth and other endpoints",
-    "version": "v1"
+    "title": "DecorMateBackend",
+    "version": "1.0"
   },
   "paths": {
     "/Auth/Profile": {
@@ -799,19 +798,6 @@
         },
         "additionalProperties": false
       }
-    },
-    "securitySchemes": {
-      "Bearer": {
-        "type": "http",
-        "description": "Enter 'Bearer {token}'",
-        "scheme": "bearer",
-        "bearerFormat": "JWT"
-      }
     }
-  },
-  "security": [
-    {
-      "Bearer": [ ]
-    }
-  ]
+  }
 }

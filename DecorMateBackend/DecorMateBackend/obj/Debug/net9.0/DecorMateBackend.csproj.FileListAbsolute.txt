@@ -504,3 +504,4 @@ C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMa
 C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\obj\Debug\net9.0\DecorMateBackend.pdb
 C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\obj\Debug\net9.0\DecorMateBackend.genruntimeconfig.cache
 C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\obj\Debug\net9.0\ref\DecorMateBackend.dll
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
