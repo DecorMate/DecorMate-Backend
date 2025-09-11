@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.13.35818.85
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DecorMateBackend", "DecorMate Backend Web app\DecorMateBackend.csproj", "{8C0CE469-D237-4FC3-B459-C5C3DFE01023}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DecorMateBackend", "DecorMateBackend\DecorMateBackend.csproj", "{8C0CE469-D237-4FC3-B459-C5C3DFE01023}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

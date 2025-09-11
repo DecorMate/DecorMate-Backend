@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\buildMultiTargeting\DecorMate Backend Web app.props" />
-</Project>

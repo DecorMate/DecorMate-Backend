@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project>
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA7BwZUCUbY02zF8/wZ9+s1QAAAAACAAAAAAAQZgAAAAEAACAAAAD2Vxi5hL8bBoEAlEeiwHlc9r2eLWSwwyArXpTsEL+TXQAAAAAOgAAAAAIAACAAAABQJELtXDes8Rc/pAPF5i74Mc6HZy3+S46QcXD3TyaO7SAAAABn1cEvYdfh65bZJIyUFv02cziOcdsHipkle7IY82w4SEAAAACpIWLaUO+5MWdddl5V4jijDFlqTcDCLJzR+0ZHFTMdMMx0s2NGaCE0vNHiio1TbA5nfTWCOAnpl893PXwRj4IN</EncryptedPassword>
+    <History>True|2025-09-11T09:58:26.8363865Z||;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="DefaultConnection">
+      <Value>Server=db27116.public.databaseasp.net%3b Database=db27116%3b User Id=db27116%3b Password=i%402QF9s_5t+Y%3b Encrypt=False%3b MultipleActiveResultSets=True%3b</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+</Project>
