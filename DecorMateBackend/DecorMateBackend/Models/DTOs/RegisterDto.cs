@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DecorMateBackend.Models.Enums;
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace DecorMate_Backend_Web_app.Models.DTOs
 {
@@ -21,5 +23,8 @@ namespace DecorMate_Backend_Web_app.Models.DTOs
 
         [StringLength(100)]
         public string? LastName { get; set; }
+
+        [JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
+        public ConfirmationMethod ConfirmationMethod { get; set; } = ConfirmationMethod.Otp;
     }
 }

@@ -11,9 +11,13 @@ using Microsoft.AspNetCore.WebUtilities;
 using DecorMate_Backend_Web_app.Data;
 using DecorMate_Backend_Web_app.Models;
 using DecorMate_Backend_Web_app.Models.DTOs;
+using System.Security.Claims;
 using DecorMate_Backend_Web_app.Services;
+using DecorMateBackend.Models.Enums;
+using DecorMateBackend.Services;
+using static System.Net.WebRequestMethods;
 
-namespace DecorMate_Backend_Web_app.Controllers.Api
+namespace DecorMateBackend.Controllers.Api
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -23,35 +27,35 @@ namespace DecorMate_Backend_Web_app.Controllers.Api
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ApplicationDbContext _db;
         private readonly JwtService _jwtService;
-        private readonly IEmailSender _emailSender;
         private readonly JwtSettings _jwtSettings;
         private readonly ILogger<AuthApiController> _logger;
         private readonly IHttpClientFactory _httpFactory;
         private readonly IConfiguration _configuration; 
         private readonly CloudinaryService _cloudinary;
+        private readonly EmailService _emailService;
 
         public AuthApiController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ApplicationDbContext db,
             JwtService jwtService,
-            IEmailSender emailSender,
             IOptions<JwtSettings> jwtOptions,
             ILogger<AuthApiController> logger,
             IHttpClientFactory httpFactory,
             IConfiguration configuration,
-            CloudinaryService cloudinaryService)
+            CloudinaryService cloudinaryService,
+             EmailService emailService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _db = db;
             _jwtService = jwtService;
-            _emailSender = emailSender;
             _jwtSettings = jwtOptions.Value;
             _logger = logger;
             _httpFactory = httpFactory;
             _configuration = configuration;
             _cloudinary = cloudinaryService;
+            _emailService = emailService;
         }
 
         // -----------------------
@@ -62,8 +66,20 @@ namespace DecorMate_Backend_Web_app.Controllers.Api
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            if (await _userManager.FindByEmailAsync(dto.Email) != null)
-                return BadRequest(new { message = "Email already in use" });
+            var existing = await _userManager.FindByEmailAsync(dto.Email);
+            if (existing != null)
+            {
+                if (existing.EmailConfirmed)
+                    return BadRequest(new { message = "Email already in use" });
+                // user exists but not confirmed -> delete to allow re-register
+                var delRes = await _userManager.DeleteAsync(existing);
+                if (!delRes.Succeeded)
+                {
+                    _logger.LogWarning("Failed to delete existing unconfirmed user {Email}: {Errors}",
+                        dto.Email, string.Join(",", delRes.Errors.Select(e => e.Description)));
+                    // continue, but inform client
+                }
+            }
 
             var user = new ApplicationUser
             {
@@ -72,36 +88,53 @@ namespace DecorMate_Backend_Web_app.Controllers.Api
                 FirstName = dto.FirstName,
                 LastName = dto.LastName,
                 Provider = AuthProvider.Local,
-                EmailConfirmed = false // keep false until OTP confirmation
+                EmailConfirmed = false
             };
 
             var createRes = await _userManager.CreateAsync(user, dto.Password);
             if (!createRes.Succeeded)
+            {
+                _logger.LogWarning("Create user failed for {Email}: {Errors}", dto.Email, string.Join(",", createRes.Errors.Select(e => e.Description)));
                 return BadRequest(createRes.Errors.Select(e => e.Description));
+            }
 
-            // assign mobile role
             await _userManager.AddToRoleAsync(user, "User");
 
-            // generate OTP
+            // Generate and persist OTP
             var otp = GenerateOtp(6);
             user.OtpCode = otp;
             user.OtpExpiry = DateTime.UtcNow.AddMinutes(10);
-            await _userManager.UpdateAsync(user);
+            var upd = await _userManager.UpdateAsync(user);
+            if (!upd.Succeeded)
+            {
+                _logger.LogWarning("Failed to update user with verification code for {Email}: {Errors}", user.Email, string.Join(",", upd.Errors.Select(e => e.Description)));
+                // still attempt to send email, but record the failure
+            }
 
-            // send OTP via email (IEmailSender implementation decides actual sending)
+            // TRY TO SEND EMAIL — do NOT swallow exceptions silently
             try
             {
-                await _emailSender.SendEmailAsync(user.Email, "Confirm your account", $"Your OTP code is: <b>{HtmlEncoder.Default.Encode(otp)}</b> (valid for 10 minutes)");
+                // Decide callback only if you want a link; for mobile we used OTP only
+                string? callback = null; // or $"{Request.Scheme}://{Request.Host}/Auth/ConfirmEmail?userId={user.Id}"
+                await _emailService.SendConfirmationAsync(user, callback, includeButton: false, otp: otp, ct: CancellationToken.None);
+
+                _logger.LogInformation("Register: verification code email sent successfully to {Email}", user.Email);
+                return Ok(new { message = "Registered. Please check your email for the verification code." });
             }
             catch (Exception ex)
             {
-                _logger.LogWarning(ex, "Failed to send OTP email for {Email}", user.Email);
-                // don't break registration if mail sending fails — still return ok but inform client
-                return Ok(new { message = "Registered but failed to send OTP email. Contact admin." });
-            }
+                // Log full exception (stack trace) for diagnosis
+                _logger.LogError(ex, "Register: Failed to send verification code email for {Email}", user.Email);
 
-            return Ok(new { message = "Registered. Please check your email for the OTP." });
+                // Return helpful response to client (in production you may hide details)
+                return StatusCode(StatusCodes.Status502BadGateway, new
+                {
+                    message = "Registered but failed to send confirmation email.",
+                    error = ex.Message
+                });
+            }
         }
+
 
         // -----------------------
         // Register confirmation (OTP) -> returns tokens
@@ -110,7 +143,7 @@ namespace DecorMate_Backend_Web_app.Controllers.Api
         public async Task<IActionResult> RegisterConfirmation([FromBody] ConfirmDto dto)
         {
             if (string.IsNullOrEmpty(dto.Email) || string.IsNullOrEmpty(dto.Otp))
-                return BadRequest(new { message = "Email and OTP are required" });
+                return BadRequest(new { message = "Email and verification code are required" });
 
             var user = await _userManager.FindByEmailAsync(dto.Email);
             if (user == null) return BadRequest(new { message = "Invalid email" });
@@ -118,7 +151,7 @@ namespace DecorMate_Backend_Web_app.Controllers.Api
             if (user.EmailConfirmed) return BadRequest(new { message = "Email already confirmed" });
 
             if (user.OtpCode != dto.Otp || !user.OtpExpiry.HasValue || user.OtpExpiry.Value < DateTime.UtcNow)
-                return BadRequest(new { message = "Invalid or expired OTP" });
+                return BadRequest(new { message = "Invalid or expired verification code" });
 
             user.EmailConfirmed = true;
             user.OtpCode = null;
@@ -126,7 +159,16 @@ namespace DecorMate_Backend_Web_app.Controllers.Api
             await _userManager.UpdateAsync(user);
 
             var tokens = await _jwtService.GenerateTokensAsync(user);
-
+            var roles = await _userManager.GetRolesAsync(user);
+            tokens.User = new UserDto
+            {
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                ProfilePictureUrl = user.ProfilePictureUrl,
+                PhoneNumber = user.PhoneNumber,
+                Roles = roles.ToArray()
+            };
             var refreshEntity = new RefreshToken
             {
                 Token = tokens.RefreshToken,
@@ -201,21 +243,22 @@ namespace DecorMate_Backend_Web_app.Controllers.Api
             var user = await _userManager.FindByEmailAsync(dto.Email);
             // don't reveal whether user exists
             if (user == null)
-                return Ok(new { message = "If the account exists, an OTP has been sent to the email." });
+                return Ok(new { message = "If the account exists, an verification code has been sent to the email." });
 
             var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
             user.PasswordResetToken = Convert.ToBase64String(Encoding.UTF8.GetBytes(resetToken));
             user.PasswordResetTokenExpiry = DateTime.UtcNow.AddHours(1);
 
-            user.PasswordResetOtp = GenerateOtp(6);
+            var otp = GenerateOtp(6);
+            user.PasswordResetOtp = otp;
             user.PasswordResetOtpExpiry = DateTime.UtcNow.AddMinutes(10);
 
             await _userManager.UpdateAsync(user);
-
+            await _db.SaveChangesAsync();
             // send OTP email
-            await _emailSender.SendEmailAsync(user.Email, "Reset your password", $"Your password reset OTP is: <b>{HtmlEncoder.Default.Encode(user.PasswordResetOtp)}</b>. It expires in 10 minutes.");
+            await _emailService.SendPasswordResetOtpAsync(user, otp);
 
-            return Ok(new { message = "If the account exists, an OTP has been sent to the email." });
+            return Ok(new { message = "If the account exists, an verification code has been sent to the email." });
         }
 
         // -----------------------
@@ -235,7 +278,7 @@ namespace DecorMate_Backend_Web_app.Controllers.Api
                 !user.PasswordResetOtpExpiry.HasValue ||
                 user.PasswordResetOtpExpiry.Value < DateTime.UtcNow)
             {
-                return BadRequest(new { message = "Invalid or expired OTP" });
+                return BadRequest(new { message = "Invalid or expired verification code" });
             }
 
             // validate stored token
@@ -243,7 +286,7 @@ namespace DecorMate_Backend_Web_app.Controllers.Api
                 !user.PasswordResetTokenExpiry.HasValue ||
                 user.PasswordResetTokenExpiry.Value < DateTime.UtcNow)
             {
-                return BadRequest(new { message = "Reset token expired or missing. Please request a new OTP." });
+                return BadRequest(new { message = "Reset token expired or missing. Please request a new verification code." });
             }
 
             // decode token
@@ -254,7 +297,7 @@ namespace DecorMate_Backend_Web_app.Controllers.Api
             }
             catch
             {
-                return BadRequest(new { message = "Invalid reset token stored. Please request a new OTP." });
+                return BadRequest(new { message = "Invalid reset token stored. Please request a new verification code." });
             }
 
             // reset password
@@ -278,17 +321,41 @@ namespace DecorMate_Backend_Web_app.Controllers.Api
                 await _userManager.UpdateAsync(user);
             }
 
-            // issue tokens for immediate login
-            var roles = await _userManager.GetRolesAsync(user);
-            var accessToken =await _jwtService.GenerateTokensAsync(user);
-            var refreshToken = CreateRefreshToken(Request.HttpContext.Connection.RemoteIpAddress?.ToString());
-            refreshToken.ApplicationUserId = user.Id;
-            _db.RefreshTokens.Add(refreshToken);
+           
             await _db.SaveChangesAsync();
 
-            SetRefreshTokenCookie(refreshToken.Token, refreshToken.Expires);
 
-            return Ok(accessToken);
+            return Ok(new { message = "Password updated successfully, Please login again" });
+        }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPost("update-password")]
+        public async Task<IActionResult> UpdatePassword([FromBody] ResetPasswordDto dto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value
+                         ?? User.FindFirst(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Sub)?.Value;
+
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized(new { message = "Invalid token / user." });
+
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+                return Unauthorized(new { message = "User not found." });
+
+            if (dto.NewPassword != dto.ConfirmPassword)
+                return BadRequest(new { message = "New password and confirmation do not match." });
+
+            // Reset password using token since we don't require CurrentPassword
+            var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var resetRes = await _userManager.ResetPasswordAsync(user, resetToken, dto.NewPassword);
+
+            if (!resetRes.Succeeded)
+                return BadRequest(new { errors = resetRes.Errors.Select(e => e.Description) });
+
+            return Ok(new { message = "Password updated successfully, Please login again" });
         }
 
         // -----------------------
@@ -357,7 +424,7 @@ namespace DecorMate_Backend_Web_app.Controllers.Api
         // Protected: me
         // -----------------------
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [HttpGet("me")]
+        [HttpGet("User")]
         public async Task<IActionResult> Me()
         {
             var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value

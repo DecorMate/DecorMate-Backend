@@ -3,8 +3,68 @@
   "WorkspaceRootPath": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|c:\\users\\a7med\\onedrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\decormate\\decormate backend\\decormate-backend\\decormatebackend\\decormatebackend\\services\\emailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\services\\emailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|c:\\users\\a7med\\onedrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\decormate\\decormate backend\\decormate-backend\\decormatebackend\\decormatebackend\\models\\errorviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\models\\errorviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|c:\\users\\a7med\\onedrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\decormate\\decormate backend\\decormate-backend\\decormatebackend\\decormatebackend\\controllers\\authapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\controllers\\authapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|c:\\users\\a7med\\onedrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\decormate\\decormate backend\\decormate-backend\\decormatebackend\\decormatebackend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|c:\\users\\a7med\\onedrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\decormate\\decormate backend\\decormate-backend\\decormatebackend\\decormatebackend\\services\\smtpemailsender.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\services\\smtpemailsender.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|c:\\users\\a7med\\onedrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\decormate\\decormate backend\\decormate-backend\\decormatebackend\\decormatebackend\\models\\iemailsendero.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\models\\iemailsendero.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|c:\\users\\a7med\\onedrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\decormate\\decormate backend\\decormate-backend\\decormatebackend\\decormatebackend\\services\\emailtemplates.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\services\\emailtemplates.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|c:\\users\\a7med\\onedrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\decormate\\decormate backend\\decormate-backend\\decormatebackend\\decormatebackend\\models\\smtpsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\models\\smtpsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|c:\\users\\a7med\\onedrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\decormate\\decormate backend\\decormate-backend\\decormatebackend\\decormatebackend\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|c:\\users\\a7med\\onedrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\decormate\\decormate backend\\decormate-backend\\decormatebackend\\decormatebackend\\services\\cloudinaryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\services\\cloudinaryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|c:\\users\\a7med\\onedrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\decormate\\decormate backend\\decormate-backend\\decormatebackend\\decormatebackend\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|c:\\users\\a7med\\onedrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\decormate\\decormate backend\\decormate-backend\\decormatebackend\\decormatebackend\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|c:\\users\\a7med\\onedrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\decormate\\decormate backend\\decormate-backend\\decormatebackend\\decormatebackend\\wwwroot\\lib\\jquery\\dist\\jquery.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\wwwroot\\lib\\jquery\\dist\\jquery.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|c:\\users\\a7med\\onedrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\decormate\\decormate backend\\decormate-backend\\decormatebackend\\decormatebackend\\models\\dtos\\registerdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\models\\dtos\\registerdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|c:\\users\\a7med\\onedrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\decormate\\decormate backend\\decormate-backend\\decormatebackend\\decormatebackend\\models\\enums\\confirmationmethod.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\models\\enums\\confirmationmethod.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|c:\\users\\a7med\\onedrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\decormate\\decormate backend\\decormate-backend\\decormatebackend\\decormatebackend\\services\\otpservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\services\\otpservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,7 +74,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 139,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Bookmark",
@@ -22,15 +82,210 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
+              "Title": "ErrorViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Models\\ErrorViewModel.cs",
+              "RelativeDocumentMoniker": "DecorMateBackend\\Models\\ErrorViewModel.cs",
+              "ToolTip": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Models\\ErrorViewModel.cs",
+              "RelativeToolTip": "DecorMateBackend\\Models\\ErrorViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-12T03:54:48.667Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "IEmailSenderO.cs",
+              "DocumentMoniker": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Models\\IEmailSenderO.cs",
+              "RelativeDocumentMoniker": "DecorMateBackend\\Models\\IEmailSenderO.cs",
+              "ToolTip": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Models\\IEmailSenderO.cs",
+              "RelativeToolTip": "DecorMateBackend\\Models\\IEmailSenderO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-12T02:50:15.571Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Program.cs",
               "RelativeDocumentMoniker": "DecorMateBackend\\Program.cs",
               "ToolTip": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Program.cs",
               "RelativeToolTip": "DecorMateBackend\\Program.cs",
-              "ViewState": "AgIAALkAAAAAAAAAAAAiwNQAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAGwAAAAAAAAAAAAAAHQAAABrAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-11T10:38:46.767Z",
+              "WhenOpened": "2025-09-12T02:49:20.476Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\appsettings.json",
+              "RelativeDocumentMoniker": "DecorMateBackend\\appsettings.json",
+              "ToolTip": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\appsettings.json",
+              "RelativeToolTip": "DecorMateBackend\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-09-12T02:31:50.74Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Controllers\\AuthController.cs",
+              "RelativeDocumentMoniker": "DecorMateBackend\\Controllers\\AuthController.cs",
+              "ToolTip": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Controllers\\AuthController.cs",
+              "RelativeToolTip": "DecorMateBackend\\Controllers\\AuthController.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAASwBgAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-11T23:09:33.337Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "jquery.validate.js",
+              "DocumentMoniker": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js",
+              "RelativeDocumentMoniker": "DecorMateBackend\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js",
+              "ToolTip": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js",
+              "RelativeToolTip": "DecorMateBackend\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js",
+              "ViewState": "AgIAAFkAAAAAAAAAAAAAAFkAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-09-11T23:05:44.963Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "jquery.js",
+              "DocumentMoniker": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\wwwroot\\lib\\jquery\\dist\\jquery.js",
+              "RelativeDocumentMoniker": "DecorMateBackend\\wwwroot\\lib\\jquery\\dist\\jquery.js",
+              "ToolTip": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\wwwroot\\lib\\jquery\\dist\\jquery.js",
+              "RelativeToolTip": "DecorMateBackend\\wwwroot\\lib\\jquery\\dist\\jquery.js",
+              "ViewState": "AgIAAFIDAAAAAAAAAAAAAFIDAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-09-11T23:05:39.419Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "EmailService.cs",
+              "DocumentMoniker": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Services\\EmailService.cs",
+              "RelativeDocumentMoniker": "DecorMateBackend\\Services\\EmailService.cs",
+              "ToolTip": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Services\\EmailService.cs",
+              "RelativeToolTip": "DecorMateBackend\\Services\\EmailService.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAqwBQAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-11T22:59:51.936Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AuthApiController.cs",
+              "DocumentMoniker": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Controllers\\AuthApiController.cs",
+              "RelativeDocumentMoniker": "DecorMateBackend\\Controllers\\AuthApiController.cs",
+              "ToolTip": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Controllers\\AuthApiController.cs",
+              "RelativeToolTip": "DecorMateBackend\\Controllers\\AuthApiController.cs",
+              "ViewState": "AgIAAGwAAAAAAAAAAAAiwH4AAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-11T21:39:06.244Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "CloudinaryService.cs",
+              "DocumentMoniker": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Services\\CloudinaryService.cs",
+              "RelativeDocumentMoniker": "DecorMateBackend\\Services\\CloudinaryService.cs",
+              "ToolTip": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Services\\CloudinaryService.cs",
+              "RelativeToolTip": "DecorMateBackend\\Services\\CloudinaryService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-12T02:56:54.118Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "SmtpEmailSender.cs",
+              "DocumentMoniker": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Services\\SmtpEmailSender.cs",
+              "RelativeDocumentMoniker": "DecorMateBackend\\Services\\SmtpEmailSender.cs",
+              "ToolTip": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Services\\SmtpEmailSender.cs",
+              "RelativeToolTip": "DecorMateBackend\\Services\\SmtpEmailSender.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAA8AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-11T22:56:21.164Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "SmtpSettings.cs",
+              "DocumentMoniker": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Models\\SmtpSettings.cs",
+              "RelativeDocumentMoniker": "DecorMateBackend\\Models\\SmtpSettings.cs",
+              "ToolTip": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Models\\SmtpSettings.cs",
+              "RelativeToolTip": "DecorMateBackend\\Models\\SmtpSettings.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-11T22:56:18.68Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "EmailTemplates.cs",
+              "DocumentMoniker": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Services\\EmailTemplates.cs",
+              "RelativeDocumentMoniker": "DecorMateBackend\\Services\\EmailTemplates.cs",
+              "ToolTip": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Services\\EmailTemplates.cs",
+              "RelativeToolTip": "DecorMateBackend\\Services\\EmailTemplates.cs",
+              "ViewState": "AgIAAGAAAAAAAAAAAAAqwHsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-11T22:48:30.754Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "OTPService.cs",
+              "DocumentMoniker": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Services\\OTPService.cs",
+              "RelativeDocumentMoniker": "DecorMateBackend\\Services\\OTPService.cs",
+              "ToolTip": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Services\\OTPService.cs",
+              "RelativeToolTip": "DecorMateBackend\\Services\\OTPService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-11T22:40:50.091Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "RegisterDto.cs",
+              "DocumentMoniker": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Models\\DTOs\\RegisterDto.cs",
+              "RelativeDocumentMoniker": "DecorMateBackend\\Models\\DTOs\\RegisterDto.cs",
+              "ToolTip": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Models\\DTOs\\RegisterDto.cs",
+              "RelativeToolTip": "DecorMateBackend\\Models\\DTOs\\RegisterDto.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAQwBoAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-11T22:36:12.421Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "ConfirmationMethod.cs",
+              "DocumentMoniker": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Models\\Enums\\ConfirmationMethod.cs",
+              "RelativeDocumentMoniker": "DecorMateBackend\\Models\\Enums\\ConfirmationMethod.cs",
+              "ToolTip": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Models\\Enums\\ConfirmationMethod.cs",
+              "RelativeToolTip": "DecorMateBackend\\Models\\Enums\\ConfirmationMethod.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-11T22:35:33.073Z",
               "EditorCaption": ""
             }
           ]
@@ -54,10 +309,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
             }
           ]
         }

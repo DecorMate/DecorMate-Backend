@@ -8,7 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using DecorMate_Backend_Web_app.Services;
-using System.IdentityModel.Tokens.Jwt;
+using DecorMateBackend.Services;
+using DecorMateBackend.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -113,7 +114,10 @@ services.AddAuthorization(options =>
 // Other services
 services.AddHttpClient();
 services.AddScoped<JwtService>();
-services.AddScoped<IEmailSender, SmtpEmailSender>();
+builder.Services.Configure<DecorMateBackend.Models.SmtpSettings>(builder.Configuration.GetSection("Smtp"));
+builder.Services.AddTransient<DecorMateBackend.Services.SmtpEmailSender>();
+builder.Services.AddTransient<DecorMateBackend.Models.IEmailSenderO>(sp => sp.GetRequiredService<DecorMateBackend.Services.SmtpEmailSender>());
+builder.Services.AddScoped<DecorMateBackend.Services.EmailService>();
 services.AddSingleton<CloudinaryService>();
 services.AddControllersWithViews();
 services.AddRazorPages();

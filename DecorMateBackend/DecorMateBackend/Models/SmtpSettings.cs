@@ -1,4 +1,4 @@
-﻿namespace DecorMate_Backend_Web_app.Models
+﻿namespace DecorMateBackend.Models
 {
     public class SmtpSettings
     {

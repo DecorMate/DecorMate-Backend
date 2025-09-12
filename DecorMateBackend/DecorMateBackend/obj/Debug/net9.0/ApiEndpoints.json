@@ -1,6 +1,6 @@
 [
   {
-    "ContainingType": "DecorMate_Backend_Web_app.Controllers.Api.AuthApiController",
+    "ContainingType": "DecorMateBackend.Controllers.Api.AuthApiController",
     "Method": "ForgotPassword",
     "RelativePath": "api/AuthApi/forgot-password",
     "HttpMethod": "POST",
@@ -16,7 +16,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "DecorMate_Backend_Web_app.Controllers.Api.AuthApiController",
+    "ContainingType": "DecorMateBackend.Controllers.Api.AuthApiController",
     "Method": "Login",
     "RelativePath": "api/AuthApi/login",
     "HttpMethod": "POST",
@@ -32,17 +32,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "DecorMate_Backend_Web_app.Controllers.Api.AuthApiController",
-    "Method": "Me",
-    "RelativePath": "api/AuthApi/me",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "DecorMate_Backend_Web_app.Controllers.Api.AuthApiController",
+    "ContainingType": "DecorMateBackend.Controllers.Api.AuthApiController",
     "Method": "UpdateProfile",
     "RelativePath": "api/AuthApi/profile",
     "HttpMethod": "PUT",
@@ -78,7 +68,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "DecorMate_Backend_Web_app.Controllers.Api.AuthApiController",
+    "ContainingType": "DecorMateBackend.Controllers.Api.AuthApiController",
     "Method": "RefreshToken",
     "RelativePath": "api/AuthApi/refresh-token",
     "HttpMethod": "POST",
@@ -94,7 +84,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "DecorMate_Backend_Web_app.Controllers.Api.AuthApiController",
+    "ContainingType": "DecorMateBackend.Controllers.Api.AuthApiController",
     "Method": "Register",
     "RelativePath": "api/AuthApi/register",
     "HttpMethod": "POST",
@@ -110,7 +100,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "DecorMate_Backend_Web_app.Controllers.Api.AuthApiController",
+    "ContainingType": "DecorMateBackend.Controllers.Api.AuthApiController",
     "Method": "RegisterConfirmation",
     "RelativePath": "api/AuthApi/register-confirmation",
     "HttpMethod": "POST",
@@ -126,7 +116,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "DecorMate_Backend_Web_app.Controllers.Api.AuthApiController",
+    "ContainingType": "DecorMateBackend.Controllers.Api.AuthApiController",
     "Method": "ResetPasswordWithOtp",
     "RelativePath": "api/AuthApi/reset-password",
     "HttpMethod": "POST",
@@ -142,7 +132,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "DecorMate_Backend_Web_app.Controllers.Api.AuthApiController",
+    "ContainingType": "DecorMateBackend.Controllers.Api.AuthApiController",
     "Method": "Revoke",
     "RelativePath": "api/AuthApi/revoke",
     "HttpMethod": "POST",
@@ -155,6 +145,32 @@
         "IsRequired": true
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DecorMateBackend.Controllers.Api.AuthApiController",
+    "Method": "UpdatePassword",
+    "RelativePath": "api/AuthApi/update-password",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "DecorMate_Backend_Web_app.Models.DTOs.ResetPasswordDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DecorMateBackend.Controllers.Api.AuthApiController",
+    "Method": "Me",
+    "RelativePath": "api/AuthApi/User",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -367,6 +383,11 @@
       },
       {
         "Name": "LastName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ConfirmationMethod",
         "Type": "System.String",
         "IsRequired": false
       }

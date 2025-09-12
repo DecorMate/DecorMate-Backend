@@ -5,6 +5,9 @@ using DecorMate_Backend_Web_app.Data;
 using DecorMate_Backend_Web_app.Models;
 using DecorMate_Backend_Web_app.Models.DTOs;
 using Microsoft.AspNetCore.Authentication;
+using DecorMate_Backend_Web_app.Services;
+using DecorMateBackend.Models.Enums;
+using DecorMateBackend.Services;
 
 namespace DecorMate_Backend_Web_app.Controllers
 {
@@ -13,18 +16,18 @@ namespace DecorMate_Backend_Web_app.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ApplicationDbContext _db;
-        private readonly IEmailSender _emailSender;
+        private readonly EmailService _emailService;
 
         public AuthController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ApplicationDbContext db,
-            IEmailSender emailSender)
+           EmailService emailService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _db = db;
-            _emailSender = emailSender;
+            _emailService = emailService;
         }
         [Authorize(Policy = "CompanyOnly")]
         [HttpGet("/Auth/Profile")]
@@ -129,8 +132,7 @@ namespace DecorMate_Backend_Web_app.Controllers
 
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             var callback = Url.Action("ConfirmEmail", "Auth", new { userId = user.Id, token }, protocol: Request.Scheme);
-            await _emailSender.SendEmailAsync(user.Email, "Confirm your email",
-                $"Please confirm your account by clicking this link: <a href=\"{callback}\">Confirm</a>");
+            await _emailService.SendConfirmationAsync(user, $"{Request.Scheme}://{Request.Host}/Auth/ConfirmEmail",false);
 
             return RedirectToAction(nameof(RegisterConfirmation));
         }
@@ -240,7 +242,8 @@ namespace DecorMate_Backend_Web_app.Controllers
 
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
             var callback = Url.Action("ResetPassword", "Auth", new { email = user.Email, token }, protocol: Request.Scheme);
-            await _emailSender.SendEmailAsync(user.Email, "Reset your password", $"Reset your password by clicking here: <a href=\"{callback}\">Reset password</a>");
+            await _emailService.SendConfirmationAsync(user, $"{Request.Scheme}://{Request.Host}/Auth/ConfirmEmail", true);
+
 
             return RedirectToAction(nameof(ForgotPasswordConfirmation));
         }
