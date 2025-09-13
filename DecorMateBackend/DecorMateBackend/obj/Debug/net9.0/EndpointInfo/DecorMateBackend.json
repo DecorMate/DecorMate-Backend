@@ -143,13 +143,6 @@
               "minLength": 0,
               "type": "string"
             }
-          },
-          {
-            "name": "ConfirmationMethod",
-            "in": "query",
-            "schema": {
-              "$ref": "#/components/schemas/ConfirmationMethod"
-            }
           }
         ],
         "responses": {
@@ -721,6 +714,69 @@
           }
         }
       }
+    },
+    "/api/AuthApi/generate-image": {
+      "post": {
+        "tags": [
+          "AuthApi"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenerateImageRequestDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenerateImageRequestDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenerateImageRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/AuthApi/image-history": {
+      "get": {
+        "tags": [
+          "AuthApi"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -739,19 +795,24 @@
         },
         "additionalProperties": false
       },
-      "ConfirmationMethod": {
-        "enum": [
-          0,
-          1,
-          2
-        ],
-        "type": "integer",
-        "format": "int32"
-      },
       "ForgotPasswordDto": {
         "type": "object",
         "properties": {
           "email": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GenerateImageRequestDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "prompt": {
             "type": "string",
             "nullable": true
           }
@@ -823,9 +884,6 @@
             "minLength": 0,
             "type": "string",
             "nullable": true
-          },
-          "confirmationMethod": {
-            "$ref": "#/components/schemas/ConfirmationMethod"
           }
         },
         "additionalProperties": false

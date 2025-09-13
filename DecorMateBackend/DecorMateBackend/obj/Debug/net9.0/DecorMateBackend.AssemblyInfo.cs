@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DecorMateBackend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c444e5f040c4e1a5308a3da8acedc83848bb35c4")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+384d7c378394926d8169a05f36ed43653b4350e2")]
 [assembly: System.Reflection.AssemblyProductAttribute("DecorMateBackend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DecorMateBackend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

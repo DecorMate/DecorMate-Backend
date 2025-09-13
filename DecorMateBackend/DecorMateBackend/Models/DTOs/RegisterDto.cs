@@ -23,8 +23,5 @@ namespace DecorMate_Backend_Web_app.Models.DTOs
 
         [StringLength(100)]
         public string? LastName { get; set; }
-
-        [JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
-        public ConfirmationMethod ConfirmationMethod { get; set; } = ConfirmationMethod.Otp;
     }
 }

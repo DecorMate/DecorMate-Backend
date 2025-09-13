@@ -1,4 +1,5 @@
 ﻿using DecorMate_Backend_Web_app.Models;
+using DecorMateBackend.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,6 +14,7 @@ namespace DecorMate_Backend_Web_app.Data
         }
 
         public DbSet<RefreshToken> RefreshTokens { get; set; } = null!;
+        public DbSet<GeneratedImage> GeneratedImages { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

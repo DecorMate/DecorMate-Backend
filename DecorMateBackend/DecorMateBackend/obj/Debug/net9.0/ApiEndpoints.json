@@ -17,6 +17,43 @@
   },
   {
     "ContainingType": "DecorMateBackend.Controllers.Api.AuthApiController",
+    "Method": "GenerateImage",
+    "RelativePath": "api/AuthApi/generate-image",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "DecorMateBackend.Models.DTOs.GenerateImageRequestDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DecorMateBackend.Controllers.Api.AuthApiController",
+    "Method": "ImageHistory",
+    "RelativePath": "api/AuthApi/image-history",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DecorMateBackend.Controllers.Api.AuthApiController",
     "Method": "Login",
     "RelativePath": "api/AuthApi/login",
     "HttpMethod": "POST",
@@ -383,11 +420,6 @@
       },
       {
         "Name": "LastName",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "ConfirmationMethod",
         "Type": "System.String",
         "IsRequired": false
       }

@@ -1,95 +1,91 @@
 ﻿using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using Microsoft.Extensions.Configuration;
-using System.IO;
-using System.Threading;
+using System.Net;
+using System.Text.RegularExpressions;
 
 namespace DecorMate_Backend_Web_app.Services
 {
     public class CloudinaryService
     {
-        private readonly Cloudinary _cloudinary;
-        private readonly string _folder;
+        private readonly Cloudinary _client;
+        private readonly string _defaultFolder;
+        private readonly string _cloudName;
 
-        public CloudinaryService(IConfiguration config)
+        public CloudinaryService(IConfiguration configuration)
         {
-            var cloudName = config["Cloudinary:CloudName"];
-            var apiKey = config["Cloudinary:ApiKey"];
-            var apiSecret = config["Cloudinary:ApiSecret"];
-            _folder = config["Cloudinary:Folder"] ?? "profiles";
+            _cloudName = configuration["Cloudinary:CloudName"] ?? throw new ArgumentNullException("Cloudinary:CloudName");
+            var apiKey = configuration["Cloudinary:ApiKey"] ?? throw new ArgumentNullException("Cloudinary:ApiKey");
+            var apiSecret = configuration["Cloudinary:ApiSecret"] ?? throw new ArgumentNullException("Cloudinary:ApiSecret");
+            _defaultFolder = configuration["Cloudinary:Folder"] ?? "decor_mate";
 
-            if (string.IsNullOrWhiteSpace(cloudName) ||
-                string.IsNullOrWhiteSpace(apiKey) ||
-                string.IsNullOrWhiteSpace(apiSecret))
-            {
-                throw new InvalidOperationException("Cloudinary configuration is missing.");
-            }
-
-            var account = new Account(cloudName, apiKey, apiSecret);
-            _cloudinary = new Cloudinary(account)
-            {
-                Api = { Secure = true }
-            };
+            var acc = new Account(_cloudName, apiKey, apiSecret);
+            _client = new Cloudinary(acc) { Api = { Secure = true } };
         }
 
-        public async Task<(string Url, string PublicId)> UploadImageAsync(Stream stream, string fileName, string contentType, CancellationToken ct = default)
+        /// <summary>
+        /// Upload image from a stream. Returns (Url, PublicId).
+        /// </summary>
+        public async Task<(string Url, string PublicId)> UploadImageAsync(Stream stream, string fileName, string folder = null, CancellationToken ct = default)
         {
             if (stream == null) throw new ArgumentNullException(nameof(stream));
-            stream.Position = 0;
+            if (string.IsNullOrWhiteSpace(fileName)) fileName = $"file-{Guid.NewGuid():N}.jpg";
 
-            var publicId = $"{_folder}/{Path.GetFileNameWithoutExtension(fileName)}-{Guid.NewGuid():N}";
+            if (stream.CanSeek) stream.Position = 0;
+            using var ms = new MemoryStream();
+            await stream.CopyToAsync(ms, ct);
+            var bytes = ms.ToArray();
+
+            var effectiveFolder = string.IsNullOrWhiteSpace(folder) ? _defaultFolder : folder.Trim('/');
+            var publicIdBase = $"{effectiveFolder}/{Path.GetFileNameWithoutExtension(fileName)}-{Guid.NewGuid():N}";
 
             var uploadParams = new ImageUploadParams
             {
-                File = new FileDescription(fileName, stream),
-                PublicId = publicId,
-                Overwrite = false,
-                UseFilename = false,
-                UniqueFilename = false
+                File = new FileDescription(fileName, new MemoryStream(bytes)),
+                PublicId = publicIdBase,
+                Overwrite = false
             };
 
-            var result = await _cloudinary.UploadAsync(uploadParams, ct);
-
-            if (result == null || result.StatusCode != System.Net.HttpStatusCode.OK && result.StatusCode != System.Net.HttpStatusCode.Created)
+            var res = await _client.UploadAsync(uploadParams, ct);
+            if (res == null || (res.StatusCode != HttpStatusCode.OK && res.StatusCode != HttpStatusCode.Created))
             {
-                throw new InvalidOperationException($"Cloudinary upload failed: {result?.Error?.Message}");
+                var msg = res?.Error?.Message ?? "Unknown Cloudinary upload error";
+                throw new InvalidOperationException($"Cloudinary upload failed: {msg}");
             }
 
-            return (result.SecureUrl?.ToString() ?? result.Url?.ToString() ?? string.Empty, result.PublicId);
+            return (res.SecureUrl?.ToString() ?? string.Empty, res.PublicId ?? string.Empty);
         }
 
+        /// <summary>
+        /// Delete image by public id
+        /// </summary>
         public async Task<bool> DeleteAsync(string publicId, CancellationToken ct = default)
         {
             if (string.IsNullOrEmpty(publicId)) return false;
-            var deletionParams = new DeletionParams(publicId)
-            {
-                ResourceType = ResourceType.Image
-            };
-            var res = await _cloudinary.DestroyAsync(deletionParams);
-            return res.Result == "ok" || res.Result == "not_found";
+            var del = new DeletionParams(publicId) { ResourceType = ResourceType.Image };
+            var res = await _client.DestroyAsync(del);
+            return res != null && (string.Equals(res.Result, "ok", StringComparison.OrdinalIgnoreCase) || res.StatusCode == HttpStatusCode.OK);
         }
 
-        // Optional helper to try to extract Cloudinary public_id from an existing URL
+        /// <summary>
+        /// Best-effort extract public id from Cloudinary URL
+        /// </summary>
         public static string? ExtractPublicIdFromUrl(string url, string cloudName)
         {
-            if (string.IsNullOrEmpty(url)) return null;
+            if (string.IsNullOrEmpty(url) || string.IsNullOrEmpty(cloudName)) return null;
             try
             {
                 var uri = new Uri(url);
-                // path: /<cloudName>/image/upload/v123/<publicId>.<ext>
-                var path = uri.AbsolutePath; // "/<cloudName>/image/upload/v123/folder/name.ext"
-                var parts = path.Split(new[] { "/upload/" }, StringSplitOptions.None);
-                if (parts.Length < 2) return null;
-                var afterUpload = parts[1]; // "v123/folder/name.ext" or "folder/name.ext"
-                // remove version if present
-                afterUpload = System.Text.RegularExpressions.Regex.Replace(afterUpload, @"^v\d+/", "");
-                // remove extension
-                var dotIdx = afterUpload.LastIndexOf('.');
-                if (dotIdx > 0) afterUpload = afterUpload.Substring(0, dotIdx);
-                return afterUpload;
+                var path = uri.AbsolutePath; // /<cloudName>/image/upload/v1234/folder/name-uuid.jpg
+                var match = Regex.Match(path, @"upload/(?:v\d+/)?(?<publicId>.+)\.(?:jpg|jpeg|png|webp|gif|bmp)$", RegexOptions.IgnoreCase);
+                if (match.Success) return match.Groups["publicId"].Value;
+                // fallback: file name without extension
+                return Path.GetFileNameWithoutExtension(path);
             }
-            catch { return null; }
+            catch
+            {
+                return null;
+            }
         }
     }
 }
-    

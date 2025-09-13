@@ -16,6 +16,10 @@ using DecorMate_Backend_Web_app.Services;
 using DecorMateBackend.Models.Enums;
 using DecorMateBackend.Services;
 using static System.Net.WebRequestMethods;
+using DecorMateBackend.Models.DTOs;
+using DecorMateBackend.Models;
+using System.Text.Json;
+using System.Net.Http.Headers;
 
 namespace DecorMateBackend.Controllers.Api
 {
@@ -30,7 +34,7 @@ namespace DecorMateBackend.Controllers.Api
         private readonly JwtSettings _jwtSettings;
         private readonly ILogger<AuthApiController> _logger;
         private readonly IHttpClientFactory _httpFactory;
-        private readonly IConfiguration _configuration; 
+        private readonly IConfiguration _configuration;
         private readonly CloudinaryService _cloudinary;
         private readonly EmailService _emailService;
 
@@ -203,10 +207,10 @@ namespace DecorMateBackend.Controllers.Api
             if (!await _userManager.IsEmailConfirmedAsync(user))
                 return BadRequest(new { message = "Email not confirmed" });
             var roles = await _userManager.GetRolesAsync(user);
-            if (roles.FirstOrDefault("Company")== "Company")
-                return BadRequest(new { message = "Use the Dashboard"});
+            if (roles.FirstOrDefault("Company") == "Company")
+                return BadRequest(new { message = "Use the Dashboard" });
             var tokens = await _jwtService.GenerateTokensAsync(user);
-            tokens.User =new UserDto
+            tokens.User = new UserDto
             {
                 Email = user.Email,
                 FirstName = user.FirstName,
@@ -321,7 +325,7 @@ namespace DecorMateBackend.Controllers.Api
                 await _userManager.UpdateAsync(user);
             }
 
-           
+
             await _db.SaveChangesAsync();
 
 
@@ -449,11 +453,10 @@ namespace DecorMateBackend.Controllers.Api
         // -----------------------
         // Update profile (text + optional image)
         // -----------------------
-        [HttpPut("profile")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPut("profile")]
         public async Task<IActionResult> UpdateProfile([FromForm] ProfileUpdateDto dto, CancellationToken ct)
         {
-            // 1. get current user id from token
             var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value
                          ?? User.FindFirst(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Sub)?.Value;
             if (string.IsNullOrEmpty(userId)) return Unauthorized();
@@ -461,35 +464,29 @@ namespace DecorMateBackend.Controllers.Api
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null) return NotFound();
 
-            // capture previous values for cleanup if needed
-            var previousProfileUrl = user.ProfilePictureUrl;
-            var previousPublicId = user.ProfilePicturePublicId;
+            var prevUrl = user.ProfilePictureUrl;
+            var prevPublicId = user.ProfilePicturePublicId;
 
-            // 2. validate companyName edit
             if (!string.IsNullOrEmpty(dto.CompanyName) && !await _userManager.IsInRoleAsync(user, "Company"))
                 return Forbid("Only company accounts can update CompanyName.");
 
-            // 3. apply textual updates
             if (!string.IsNullOrEmpty(dto.FirstName)) user.FirstName = dto.FirstName;
             if (!string.IsNullOrEmpty(dto.LastName)) user.LastName = dto.LastName;
             if (!string.IsNullOrEmpty(dto.PhoneNumber)) user.PhoneNumber = dto.PhoneNumber;
             if (!string.IsNullOrEmpty(dto.CompanyName) && await _userManager.IsInRoleAsync(user, "Company"))
                 user.CompanyName = dto.CompanyName;
 
-            // 4. handle image if provided
             string? newUrl = null;
             string? newPublicId = null;
 
             if (dto.ProfileImage != null)
             {
-                // basic validations
                 var allowed = new[] { "image/jpeg", "image/png", "image/webp" };
                 if (!allowed.Contains(dto.ProfileImage.ContentType?.ToLower()))
                     return BadRequest(new { message = "Unsupported image type. Allowed: jpeg, png, webp." });
 
-                const long maxBytes = 5 * 1024 * 1024; // 5MB limite
-                if (dto.ProfileImage.Length > maxBytes)
-                    return BadRequest(new { message = "Image too large. Max 5MB." });
+                const long maxBytes = 5 * 1024 * 1024;
+                if (dto.ProfileImage.Length > maxBytes) return BadRequest(new { message = "Image too large. Max 5MB." });
 
                 try
                 {
@@ -497,101 +494,262 @@ namespace DecorMateBackend.Controllers.Api
                     await dto.ProfileImage.CopyToAsync(ms, ct);
                     ms.Position = 0;
 
-                    // upload to Cloudinary
-                    var uploadRes = await _cloudinary.UploadImageAsync(ms, dto.ProfileImage.FileName, dto.ProfileImage.ContentType, ct);
-                    newUrl = uploadRes.Url;
-                    newPublicId = uploadRes.PublicId;
+                    (newUrl, newPublicId) = await _cloudinary.UploadImageAsync(ms, dto.ProfileImage.FileName, "profiles", ct);
 
-                    // assign new url/public id to user
                     user.ProfilePictureUrl = newUrl;
                     user.ProfilePicturePublicId = newPublicId;
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, "Error uploading profile image");
+                    _logger.LogError(ex, "Cloudinary upload error");
                     return StatusCode(500, new { message = "Failed to upload image" });
                 }
             }
 
-            // 5. persist changes
-            var updateRes = await _userManager.UpdateAsync(user);
-            if (!updateRes.Succeeded)
+            var upd = await _userManager.UpdateAsync(user);
+            if (!upd.Succeeded)
             {
-                // if upload succeeded but DB update failed -> delete uploaded image to avoid orphan
                 if (!string.IsNullOrEmpty(newPublicId))
                 {
-                    try { await _cloudinary.DeleteAsync(newPublicId, ct); } catch { /* ignore */ }
+                    await _cloudinary.DeleteAsync(newPublicId, ct);
                 }
-                return BadRequest(new { errors = updateRes.Errors.Select(e => e.Description) });
+                return BadRequest(new { errors = upd.Errors.Select(e => e.Description) });
             }
 
-            // 6. delete previous image from Cloudinary if existed and different (best-effort)
+            // delete previous image if different
             try
             {
-                if (!string.IsNullOrEmpty(previousPublicId) && previousPublicId != user.ProfilePicturePublicId)
+                if (!string.IsNullOrEmpty(prevPublicId) && prevPublicId != user.ProfilePicturePublicId)
                 {
-                    await _cloudinary.DeleteAsync(previousPublicId, ct);
+                    await _cloudinary.DeleteAsync(prevPublicId, ct);
                 }
-                else if (!string.IsNullOrEmpty(previousProfileUrl) && previousProfileUrl.Contains("/res.cloudinary.com/"))
+                else if (!string.IsNullOrEmpty(prevUrl) && prevUrl.Contains("/res.cloudinary.com/"))
                 {
-                    // fallback: try to extract public id from previous URL
-                    var prevId = CloudinaryService.ExtractPublicIdFromUrl(previousProfileUrl, _configuration["Cloudinary:CloudName"]);
+                    var prevId = CloudinaryService.ExtractPublicIdFromUrl(prevUrl, _configuration["Cloudinary:CloudName"]);
                     if (!string.IsNullOrEmpty(prevId) && prevId != user.ProfilePicturePublicId)
-                    {
                         await _cloudinary.DeleteAsync(prevId, ct);
-                    }
                 }
             }
-            catch (Exception ex) { _logger.LogWarning(ex, "Failed to delete previous Cloudinary image"); /* swallow */ }
+            catch { /* ignore */ }
 
-            // 7. return updated user dto
             var roles = await _userManager.GetRolesAsync(user);
-            var result = new UserDto
+            return Ok(new
             {
+                Id = user.Id,
                 Email = user.Email,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 PhoneNumber = user.PhoneNumber,
                 ProfilePictureUrl = user.ProfilePictureUrl,
                 Roles = roles.ToArray()
+            });
+        }
+
+        // ----------------------
+        // Generate image using external AI service, upload to Cloudinary and store history
+        // ----------------------
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPost("generate-image")]
+        public async Task<IActionResult> GenerateImage([FromBody] GenerateImageRequestDto dto, CancellationToken ct)
+        {
+            if (dto == null || string.IsNullOrWhiteSpace(dto.Prompt))
+                return BadRequest(new { message = "Prompt required" });
+
+            // get user id from token
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value
+                         ?? User.FindFirst(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Sub)?.Value;
+            if (string.IsNullOrEmpty(userId)) return Unauthorized();
+
+            // read config
+            var aiEndpoint = _configuration["AI:Endpoint"];
+            if (string.IsNullOrWhiteSpace(aiEndpoint))
+                return StatusCode(500, new { message = "AI:Endpoint missing in config" });
+
+            var aiApiKey = _configuration["AI:ApiKey"]; // optional
+
+            var client = _httpFactory.CreateClient(); // you can use CreateClient("ai") if configured
+            if (!string.IsNullOrEmpty(aiApiKey))
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", aiApiKey);
+
+            // *** IMPORTANT: the AI expects { "description": "..." } according to your note ***
+            var payload = new
+            {
+                description = dto.Prompt
             };
 
-            return Ok(result);
+            HttpResponseMessage aiResponse;
+            string aiBody = "";
+            try
+            {
+                var json = JsonSerializer.Serialize(payload);
+                using var content = new StringContent(json, Encoding.UTF8, "application/json");
+                aiResponse = await client.PostAsync(aiEndpoint, content, ct);
+                aiBody = await aiResponse.Content.ReadAsStringAsync(ct);
+            }
+            catch (OperationCanceledException)
+            {
+                _logger.LogWarning("AI request cancelled");
+                return StatusCode(504, new { message = "AI request timed out" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "AI request failed");
+                return StatusCode(502, new { message = "Failed to contact AI service", detail = ex.Message });
+            }
+
+            if (!aiResponse.IsSuccessStatusCode)
+            {
+                _logger.LogWarning("AI returned {Status}: {Body}", aiResponse.StatusCode, aiBody);
+                return StatusCode(502, new { message = "AI service error", detail = aiBody });
+            }
+
+            // Determine what the AI returned:
+            Stream imageStream = null!;
+            string contentType = aiResponse.Content.Headers.ContentType?.MediaType ?? "";
+
+            try
+            {
+                if (contentType.StartsWith("image", StringComparison.OrdinalIgnoreCase))
+                {
+                    imageStream = await aiResponse.Content.ReadAsStreamAsync(ct);
+                }
+                else
+                {
+                    // try parse JSON
+                    JsonDocument? doc = null;
+                    try
+                    {
+                        doc = JsonDocument.Parse(aiBody);
+                    }
+                    catch
+                    {
+                        doc = null;
+                    }
+
+                    if (doc != null)
+                    {
+                        var root = doc.RootElement;
+
+                        // common: { "image_url": "https://..." }
+                        if (root.TryGetProperty("image_url", out var urlEl) && urlEl.ValueKind == JsonValueKind.String)
+                        {
+                            var url = urlEl.GetString();
+                            if (string.IsNullOrEmpty(url)) return StatusCode(502, new { message = "AI returned empty image_url" });
+
+                            // download image bytes (from AI URL)
+                            var download = await client.GetAsync(url, ct);
+                            if (!download.IsSuccessStatusCode)
+                                return StatusCode(502, new { message = "Failed to download image from AI URL", detail = await download.Content.ReadAsStringAsync(ct) });
+
+                            imageStream = await download.Content.ReadAsStreamAsync(ct);
+                            contentType = download.Content.Headers.ContentType?.MediaType ?? "application/octet-stream";
+                        }
+                        // alternative: { "image_base64": "..." }
+                        else if (root.TryGetProperty("image_base64", out var b64El) && b64El.ValueKind == JsonValueKind.String)
+                        {
+                            var b64 = b64El.GetString() ?? "";
+                            var bytes = Convert.FromBase64String(b64);
+                            imageStream = new MemoryStream(bytes);
+                            contentType = "image/png";
+                        }
+                        // maybe nested: { "data": { "image_base64": "..." } }
+                        else if (root.TryGetProperty("data", out var dataEl) && dataEl.ValueKind == JsonValueKind.Object &&
+                                 dataEl.TryGetProperty("image_base64", out var nestedB64))
+                        {
+                            var b64 = nestedB64.GetString() ?? "";
+                            var bytes = Convert.FromBase64String(b64);
+                            imageStream = new MemoryStream(bytes);
+                            contentType = "image/png";
+                        }
+                        else
+                        {
+                            // unknown json -> return raw for debugging
+                            return StatusCode(502, new { message = "Unexpected AI response", detail = aiBody });
+                        }
+                    }
+                    else
+                    {
+                        // not json, not image: unexpected
+                        return StatusCode(502, new { message = "Unexpected AI response", detail = aiBody });
+                    }
+                }
+
+                // upload to Cloudinary (assumes _cloudinary.UploadImageAsync(Stream, fileName, folder, ct) returns (Url, PublicId))
+                await using (imageStream)
+                {
+                    var fileName = $"{(string.IsNullOrWhiteSpace(dto.Title) ? "generated" : dto.Title)}-{Guid.NewGuid():N}.png";
+                    var (url, publicId) = await _cloudinary.UploadImageAsync(imageStream, fileName, "generated", ct);
+
+                    // save history to DB
+                    var gi = new GeneratedImage
+                    {
+                        ApplicationUserId = userId,
+                        ImageUrl = url,
+                        CloudinaryPublicId = publicId,
+                        ProjectTitle = string.IsNullOrWhiteSpace(dto.Title) ? null : dto.Title,
+                        Prompt = dto.Prompt,
+                        CreatedAt = DateTime.UtcNow
+                    };
+                    _db.GeneratedImages.Add(gi);
+                    await _db.SaveChangesAsync(ct);
+
+                    var resultDto = new GeneratedImageDto
+                    {
+                        Id = gi.Id,
+                        Url = gi.ImageUrl,
+                        PublicId = gi.CloudinaryPublicId,
+                        Title = gi.ProjectTitle,
+                        Prompt = gi.Prompt,
+                        CreatedAt = gi.CreatedAt
+                    };
+
+                    return Ok(resultDto);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while processing AI response / uploading image");
+                return StatusCode(500, new { message = "Failed to store generated image", detail = ex.Message });
+            }
         }
+
+        // ----------------------
+        // Get image generation history for the current user
+        // ----------------------
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet("image-history")]
+        public async Task<IActionResult> ImageHistory(int page = 1, int pageSize = 20, CancellationToken ct = default)
+        {
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value
+                         ?? User.FindFirst(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Sub)?.Value;
+            if (string.IsNullOrEmpty(userId)) return Unauthorized();
+
+            var q = _db.GeneratedImages
+                       .Where(g => g.ApplicationUserId == userId)
+                       .OrderByDescending(g => g.CreatedAt);
+
+            var total = await q.CountAsync(ct);
+            var items = await q.Skip((page - 1) * pageSize).Take(pageSize)
+                               .Select(g => new GeneratedImageDto
+                               {
+                                   Id = g.Id,
+                                   Url = g.ImageUrl,
+                                   PublicId = g.CloudinaryPublicId,
+                                   Prompt = g.Prompt,
+                                   Title = g.ProjectTitle,
+                                   CreatedAt = g.CreatedAt
+                               })
+                               .ToListAsync(ct);
+
+            return Ok(new { total, page, pageSize, items });
+        }
+ 
 
 
         // -----------------------
         // Helpers
         // -----------------------
-        private RefreshToken CreateRefreshToken(string? ipAddress)
-        {
-            var randomBytes = new byte[64];
-            using var rng = System.Security.Cryptography.RandomNumberGenerator.Create();
-            rng.GetBytes(randomBytes);
-
-            var token = WebEncoders.Base64UrlEncode(randomBytes);
-
-            return new RefreshToken
-            {
-                Token = token,
-                Expires = DateTime.UtcNow.AddDays(_jwtSettings.RefreshTokenExpirationDays > 0 ? _jwtSettings.RefreshTokenExpirationDays : 30),
-                Created = DateTime.UtcNow,
-                CreatedByIp = ipAddress
-            };
-        }
-
-        private void SetRefreshTokenCookie(string token, DateTime expires)
-        {
-            var cookieOptions = new CookieOptions
-            {
-                HttpOnly = true,
-                Expires = expires,
-                Secure = true,
-                SameSite = SameSiteMode.Strict
-            };
-            Response.Cookies.Append("refreshToken", token, cookieOptions);
-        }
-
+        
         private static string GenerateOtp(int length = 6)
         {
             const string chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; // avoid confusing chars
