@@ -743,13 +743,93 @@ namespace DecorMateBackend.Controllers.Api
 
             return Ok(new { total, page, pageSize, items });
         }
- 
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpDelete("generated/{id:int}")]
+        public async Task<IActionResult> DeleteGeneratedImage(int id, CancellationToken ct)
+        {
+            // 1. current user
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value
+                         ?? User.FindFirst(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Sub)?.Value;
+            if (string.IsNullOrEmpty(userId)) return Unauthorized();
+
+            // 2. find record
+            var img = await _db.GeneratedImages
+                .FirstOrDefaultAsync(g => g.Id == id, ct);
+            if (img == null) return NotFound(new { message = "Image not found" });
+
+            // 3. authorize: owner or Admin
+            if (img.ApplicationUserId != userId)
+            {
+                var currentUser = await _userManager.FindByIdAsync(userId);
+                if (currentUser == null || !await _userManager.IsInRoleAsync(currentUser, "Admin"))
+                    return Forbid();
+            }
+
+            // 4. delete from cloudinary (if public id exists)
+            if (!string.IsNullOrEmpty(img.CloudinaryPublicId))
+            {
+                try
+                {
+                    await _cloudinary.DeleteAsync(img.CloudinaryPublicId, ct);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Cloudinary delete failed for publicId={publicId}", img.CloudinaryPublicId);
+                    // Return 502 to indicate upstream storage failure (don't delete DB if cloud delete failed)
+                    return StatusCode(502, new { message = "Failed to delete image from cloud storage", detail = ex.Message });
+                }
+            }
+
+            // 5. remove DB record
+            _db.GeneratedImages.Remove(img);
+            await _db.SaveChangesAsync(ct);
+
+            // 204 No Content is a common response for delete success
+            return NoContent();
+        }
+
+        // DELETE api/auth/generated/by-publicid?publicId=...
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpDelete("generated/by-publicid")]
+        public async Task<IActionResult> DeleteGeneratedImageByPublicId([FromQuery] string publicId, CancellationToken ct)
+        {
+            if (string.IsNullOrWhiteSpace(publicId)) return BadRequest(new { message = "publicId required" });
+
+            var img = await _db.GeneratedImages.FirstOrDefaultAsync(g => g.CloudinaryPublicId == publicId, ct);
+            if (img == null) return NotFound(new { message = "Image not found" });
+
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value
+                         ?? User.FindFirst(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Sub)?.Value;
+            if (string.IsNullOrEmpty(userId)) return Unauthorized();
+
+            if (img.ApplicationUserId != userId)
+            {
+                var currentUser = await _userManager.FindByIdAsync(userId);
+                if (currentUser == null || !await _userManager.IsInRoleAsync(currentUser, "Admin"))
+                    return Forbid();
+            }
+
+            try
+            {
+                await _cloudinary.DeleteAsync(publicId, ct);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Cloudinary delete failed for publicId={publicId}", publicId);
+                return StatusCode(502, new { message = "Failed to delete image from cloud storage", detail = ex.Message });
+            }
+
+            _db.GeneratedImages.Remove(img);
+            await _db.SaveChangesAsync(ct);
+
+            return NoContent();
+        }
 
         // -----------------------
         // Helpers
         // -----------------------
-        
+
         private static string GenerateOtp(int length = 6)
         {
             const string chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; // avoid confusing chars

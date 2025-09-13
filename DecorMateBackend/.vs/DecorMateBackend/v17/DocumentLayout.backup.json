@@ -50,11 +50,24 @@
       "DocumentGroups": [
         {
           "DockedWidth": 139,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AuthApiController.cs",
+              "DocumentMoniker": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Controllers\\AuthApiController.cs",
+              "RelativeDocumentMoniker": "DecorMateBackend\\Controllers\\AuthApiController.cs",
+              "ToolTip": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Controllers\\AuthApiController.cs",
+              "RelativeToolTip": "DecorMateBackend\\Controllers\\AuthApiController.cs",
+              "ViewState": "AgIAACsDAAAAAAAAAAAiwBkDAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-12T18:21:41.519Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -66,8 +79,7 @@
               "RelativeToolTip": "DecorMateBackend\\Models\\DTOs\\AiGenerateDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-13T01:10:10.848Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-13T01:10:10.848Z"
             },
             {
               "$type": "Document",
@@ -79,21 +91,7 @@
               "RelativeToolTip": "DecorMateBackend\\Services\\CloudinaryService.cs",
               "ViewState": "AgIAAB4AAAAAAAAAAAAqwC0AAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-12T23:40:14.136Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "AuthApiController.cs",
-              "DocumentMoniker": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Controllers\\AuthApiController.cs",
-              "RelativeDocumentMoniker": "DecorMateBackend\\Controllers\\AuthApiController.cs",
-              "ToolTip": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Controllers\\AuthApiController.cs",
-              "RelativeToolTip": "DecorMateBackend\\Controllers\\AuthApiController.cs",
-              "ViewState": "AgIAALUCAAAAAAAAAAAiwEACAAAoAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-12T18:21:41.519Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-12T23:40:14.136Z"
             },
             {
               "$type": "Document",
@@ -105,8 +103,7 @@
               "RelativeToolTip": "DecorMateBackend\\Models\\ApplicationDbContext.cs",
               "ViewState": "AgIAAAkAAAAAAAAAAAAAwBYAAAAyAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-12T23:46:19.557Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-12T23:46:19.557Z"
             },
             {
               "$type": "Document",
@@ -118,8 +115,7 @@
               "RelativeToolTip": "DecorMateBackend\\Models\\DTOs\\GeneratedImageDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-12T23:48:33.838Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-12T23:48:33.838Z"
             },
             {
               "$type": "Document",
@@ -131,8 +127,7 @@
               "RelativeToolTip": "DecorMateBackend\\Models\\GeneratedImage.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAuwAUAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-12T23:45:40.964Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-12T23:45:40.964Z"
             },
             {
               "$type": "Document",
@@ -144,8 +139,7 @@
               "RelativeToolTip": "DecorMateBackend\\Program.cs",
               "ViewState": "AgIAAGgAAAAAAAAAAAAqwHcAAABFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-12T13:05:24.334Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-12T13:05:24.334Z"
             },
             {
               "$type": "Document",
@@ -157,8 +151,7 @@
               "RelativeToolTip": "DecorMateBackend\\appsettings.json",
               "ViewState": "AgIAABMAAAAAAAAAAAAuwB0AAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-09-12T23:49:11.203Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-12T23:49:11.203Z"
             },
             {
               "$type": "Document",
@@ -170,8 +163,7 @@
               "RelativeToolTip": "DecorMateBackend\\Models\\DTOs\\GenerateImageRequestDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAuwAgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-12T23:48:02.051Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-12T23:48:02.051Z"
             },
             {
               "$type": "Document",
@@ -183,8 +175,7 @@
               "RelativeToolTip": "DecorMateBackend\\Models\\DTOs\\RegisterDto.cs",
               "ViewState": "AgIAAA0AAAAAAAAAAAAQwBgAAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-12T18:21:52.119Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-12T18:21:52.119Z"
             }
           ]
         },

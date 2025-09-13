@@ -777,6 +777,50 @@
           }
         }
       }
+    },
+    "/api/AuthApi/generated/{id}": {
+      "delete": {
+        "tags": [
+          "AuthApi"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/AuthApi/generated/by-publicid": {
+      "delete": {
+        "tags": [
+          "AuthApi"
+        ],
+        "parameters": [
+          {
+            "name": "publicId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {

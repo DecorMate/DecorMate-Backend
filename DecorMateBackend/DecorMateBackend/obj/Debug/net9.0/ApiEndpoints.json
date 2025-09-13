@@ -33,6 +33,38 @@
   },
   {
     "ContainingType": "DecorMateBackend.Controllers.Api.AuthApiController",
+    "Method": "DeleteGeneratedImage",
+    "RelativePath": "api/AuthApi/generated/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DecorMateBackend.Controllers.Api.AuthApiController",
+    "Method": "DeleteGeneratedImageByPublicId",
+    "RelativePath": "api/AuthApi/generated/by-publicid",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "publicId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DecorMateBackend.Controllers.Api.AuthApiController",
     "Method": "ImageHistory",
     "RelativePath": "api/AuthApi/image-history",
     "HttpMethod": "GET",
