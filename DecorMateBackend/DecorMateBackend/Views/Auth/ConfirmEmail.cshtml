@@ -1,5 +1,14 @@
 ﻿@{
     ViewData["Title"] = "Email confirmed";
 }
-<h2>Email confirmed</h2>
-<p>Your email has been confirmed. You can now <a href="/Auth/Login">login</a>.</p>
+<div class="row justify-content-center">
+    <div class="col-md-7">
+        <div class="card p-4 text-center">
+            <div class="card-body">
+                <h4>Thanks — email confirmed</h4>
+                <p class="text-muted">Your account has been confirmed. You can now sign in.</p>
+                <a class="btn brand-btn" href="@Url.Action("Login","Auth")">Sign in</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -17,6 +17,32 @@
   },
   {
     "ContainingType": "DecorMateBackend.Controllers.Api.AuthApiController",
+    "Method": "GenerateFromFile",
+    "RelativePath": "api/AuthApi/generate-from-file",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "File",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      },
+      {
+        "Name": "Prompt",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Title",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DecorMateBackend.Controllers.Api.AuthApiController",
     "Method": "GenerateImage",
     "RelativePath": "api/AuthApi/generate-image",
     "HttpMethod": "POST",
@@ -43,22 +69,6 @@
         "Name": "id",
         "Type": "System.Int32",
         "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "DecorMateBackend.Controllers.Api.AuthApiController",
-    "Method": "DeleteGeneratedImageByPublicId",
-    "RelativePath": "api/AuthApi/generated/by-publicid",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "publicId",
-        "Type": "System.String",
-        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -243,7 +253,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "DecorMate_Backend_Web_app.Controllers.AuthController",
+    "ContainingType": "DecorMateBackend.Controllers.AuthController",
     "Method": "ConfirmEmail",
     "RelativePath": "Auth/ConfirmEmail",
     "HttpMethod": "GET",
@@ -264,7 +274,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "DecorMate_Backend_Web_app.Controllers.AuthController",
+    "ContainingType": "DecorMateBackend.Controllers.AuthController",
     "Method": "ForgotPassword",
     "RelativePath": "Auth/ForgotPassword",
     "HttpMethod": "GET",
@@ -274,7 +284,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "DecorMate_Backend_Web_app.Controllers.AuthController",
+    "ContainingType": "DecorMateBackend.Controllers.AuthController",
     "Method": "ForgotPasswordPost",
     "RelativePath": "Auth/ForgotPassword",
     "HttpMethod": "POST",
@@ -290,7 +300,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "DecorMate_Backend_Web_app.Controllers.AuthController",
+    "ContainingType": "DecorMateBackend.Controllers.AuthController",
     "Method": "ForgotPasswordConfirmation",
     "RelativePath": "Auth/ForgotPasswordConfirmation",
     "HttpMethod": "GET",
@@ -300,7 +310,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "DecorMate_Backend_Web_app.Controllers.AuthController",
+    "ContainingType": "DecorMateBackend.Controllers.AuthController",
     "Method": "Login",
     "RelativePath": "Auth/Login",
     "HttpMethod": "GET",
@@ -316,7 +326,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "DecorMate_Backend_Web_app.Controllers.AuthController",
+    "ContainingType": "DecorMateBackend.Controllers.AuthController",
     "Method": "LoginPost",
     "RelativePath": "Auth/Login",
     "HttpMethod": "POST",
@@ -347,7 +357,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "DecorMate_Backend_Web_app.Controllers.AuthController",
+    "ContainingType": "DecorMateBackend.Controllers.AuthController",
     "Method": "Logout",
     "RelativePath": "Auth/Logout",
     "HttpMethod": "POST",
@@ -357,7 +367,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "DecorMate_Backend_Web_app.Controllers.AuthController",
+    "ContainingType": "DecorMateBackend.Controllers.AuthController",
     "Method": "Profile",
     "RelativePath": "Auth/Profile",
     "HttpMethod": "GET",
@@ -367,7 +377,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "DecorMate_Backend_Web_app.Controllers.AuthController",
+    "ContainingType": "DecorMateBackend.Controllers.AuthController",
     "Method": "ProfilePost",
     "RelativePath": "Auth/Profile",
     "HttpMethod": "POST",
@@ -375,27 +385,12 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "Id",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "Email",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
         "Name": "FirstName",
         "Type": "System.String",
         "IsRequired": false
       },
       {
         "Name": "LastName",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "ProfilePictureUrl",
         "Type": "System.String",
         "IsRequired": false
       },
@@ -408,12 +403,27 @@
         "Name": "CompanyName",
         "Type": "System.String",
         "IsRequired": false
+      },
+      {
+        "Name": "ProfileImage",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      },
+      {
+        "Name": "Location",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ProfessionalCategory",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "DecorMate_Backend_Web_app.Controllers.AuthController",
+    "ContainingType": "DecorMateBackend.Controllers.AuthController",
     "Method": "Register",
     "RelativePath": "Auth/Register",
     "HttpMethod": "GET",
@@ -423,7 +433,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "DecorMate_Backend_Web_app.Controllers.AuthController",
+    "ContainingType": "DecorMateBackend.Controllers.AuthController",
     "Method": "RegisterPost",
     "RelativePath": "Auth/Register",
     "HttpMethod": "POST",
@@ -454,12 +464,32 @@
         "Name": "LastName",
         "Type": "System.String",
         "IsRequired": false
+      },
+      {
+        "Name": "IsCompany",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      },
+      {
+        "Name": "CompanyName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Location",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ProfessionalCategory",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "DecorMate_Backend_Web_app.Controllers.AuthController",
+    "ContainingType": "DecorMateBackend.Controllers.AuthController",
     "Method": "RegisterConfirmation",
     "RelativePath": "Auth/RegisterConfirmation",
     "HttpMethod": "GET",
@@ -469,7 +499,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "DecorMate_Backend_Web_app.Controllers.AuthController",
+    "ContainingType": "DecorMateBackend.Controllers.AuthController",
     "Method": "ResetPassword",
     "RelativePath": "Auth/ResetPassword",
     "HttpMethod": "GET",
@@ -490,7 +520,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "DecorMate_Backend_Web_app.Controllers.AuthController",
+    "ContainingType": "DecorMateBackend.Controllers.AuthController",
     "Method": "ResetPasswordPost",
     "RelativePath": "Auth/ResetPassword",
     "HttpMethod": "POST",
@@ -521,13 +551,117 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "DecorMate_Backend_Web_app.Controllers.AuthController",
+    "ContainingType": "DecorMateBackend.Controllers.AuthController",
     "Method": "ResetPasswordConfirmation",
     "RelativePath": "Auth/ResetPasswordConfirmation",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DecorMateBackend.Controllers.PaymentsController",
+    "Method": "VodafoneCallback",
+    "RelativePath": "Payments/Callback/{id}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "status",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "transactionId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DecorMateBackend.Controllers.PaymentsController",
+    "Method": "PaymentConfirmation",
+    "RelativePath": "Payments/Confirmation",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DecorMateBackend.Controllers.PaymentsController",
+    "Method": "History",
+    "RelativePath": "Payments/History",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DecorMateBackend.Controllers.PaymentsController",
+    "Method": "Plan",
+    "RelativePath": "Payments/Plan",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DecorMateBackend.Controllers.PaymentsController",
+    "Method": "PaymentProcessing",
+    "RelativePath": "Payments/Processing",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DecorMateBackend.Controllers.PaymentsController",
+    "Method": "Start",
+    "RelativePath": "Payments/Start",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Plan",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "PhoneNumber",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Notes",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
     "ReturnTypes": []
   }
 ]

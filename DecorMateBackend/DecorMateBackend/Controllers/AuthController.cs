@@ -1,15 +1,16 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using DecorMate_Backend_Web_app.Data;
 using DecorMate_Backend_Web_app.Models;
 using DecorMate_Backend_Web_app.Models.DTOs;
-using Microsoft.AspNetCore.Authentication;
-using DecorMate_Backend_Web_app.Services;
-using DecorMateBackend.Models.Enums;
 using DecorMateBackend.Services;
+using DecorMate_Backend_Web_app.Services;
+using DecorMateBackend.Models.DTOs;
 
-namespace DecorMate_Backend_Web_app.Controllers
+namespace DecorMateBackend.Controllers
 {
     public class AuthController : Controller
     {
@@ -17,94 +18,193 @@ namespace DecorMate_Backend_Web_app.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ApplicationDbContext _db;
         private readonly EmailService _emailService;
+        private readonly CloudinaryService _cloudinary;
+        private readonly ILogger<AuthController> _logger;
 
         public AuthController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ApplicationDbContext db,
-           EmailService emailService)
+            EmailService emailService,
+            CloudinaryService cloudinary,
+            ILogger<AuthController> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _db = db;
             _emailService = emailService;
+            _cloudinary = cloudinary;
+            _logger = logger;
         }
+
+        // ---------------------------
+        // Profile (Company only)
+        // GET: /Auth/Profile
+        // ---------------------------
         [Authorize(Policy = "CompanyOnly")]
         [HttpGet("/Auth/Profile")]
         public async Task<IActionResult> Profile()
         {
             var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-            if (userId == null) return Challenge();
+            if (string.IsNullOrEmpty(userId)) return Challenge();
 
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null) return NotFound();
 
-            var model = new ProfileViewModel
+            var vm = new MvcProfileUpdateViewModel
             {
-                Id = user.Id,
-                Email = user.Email!,
-                FirstName = user.FirstName ?? string.Empty,
-                LastName = user.LastName ?? string.Empty,
-                ProfilePictureUrl = user.ProfilePictureUrl,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
                 PhoneNumber = user.PhoneNumber,
-                CompanyName = user.CompanyName 
+                CompanyName = user.CompanyName,
+                // don't populate ProfileImage - that's an upload field
+                Location = user.Location, // optional: if ApplicationUser has it
+                ProfessionalCategory = user.ProfessionalCategory // optional
             };
 
-            return View("~/Views/Auth/Profile.cshtml", model);
+            ViewData["ProfilePictureUrl"] = user.ProfilePictureUrl;
+            return View("~/Views/Auth/Profile.cshtml", vm);
         }
 
-        // POST: /Auth/Profile
+        // ---------------------------
+        // Profile POST (update)
+        // ---------------------------
         [Authorize(Policy = "CompanyOnly")]
         [HttpPost("/Auth/Profile")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ProfilePost(ProfileViewModel model)
+        public async Task<IActionResult> ProfilePost(MvcProfileUpdateViewModel model, CancellationToken ct)
         {
             if (!ModelState.IsValid) return View("~/Views/Auth/Profile.cshtml", model);
 
             var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-            if (userId == null) return Challenge();
+            if (string.IsNullOrEmpty(userId)) return Challenge();
 
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null) return NotFound();
 
-            // Update allowed fields
+            // apply textual updates (only allowed fields)
             user.FirstName = model.FirstName;
             user.LastName = model.LastName;
-            user.ProfilePictureUrl = model.ProfilePictureUrl;
             user.PhoneNumber = model.PhoneNumber;
-            // if ApplicationUser has CompanyName property:
-            // user.CompanyName = model.CompanyName;
+            if (!string.IsNullOrWhiteSpace(model.CompanyName))
+            {
+                // allow CompanyName only if Company role (should be always true due to policy)
+                if (await _userManager.IsInRoleAsync(user, "Company"))
+                    user.CompanyName = model.CompanyName;
+            }
 
+            // optional fields
+            user.Location = model.Location ?? user.Location;
+            user.ProfessionalCategory = model.ProfessionalCategory ?? user.ProfessionalCategory;
+
+            // handle profile image upload (if provided)
+            string? newUrl = null;
+            string? newPublicId = null;
+            var previousPublicId = user.ProfilePicturePublicId;
+            var previousUrl = user.ProfilePictureUrl;
+
+            if (model.ProfileImage != null && model.ProfileImage.Length > 0)
+            {
+                // basic validations
+                var allowed = new[] { "image/jpeg", "image/png", "image/webp" };
+                if (!allowed.Contains(model.ProfileImage.ContentType?.ToLower()))
+                {
+                    ModelState.AddModelError(string.Empty, "Unsupported image type. Allowed: jpeg, png, webp.");
+                    return View("~/Views/Auth/Profile.cshtml", model);
+                }
+
+                const long maxBytes = 5 * 1024 * 1024; // 5MB
+                if (model.ProfileImage.Length > maxBytes)
+                {
+                    ModelState.AddModelError(string.Empty, "Image too large. Max 5MB.");
+                    return View("~/Views/Auth/Profile.cshtml", model);
+                }
+
+                try
+                {
+                    await using var ms = new MemoryStream();
+                    await model.ProfileImage.CopyToAsync(ms, ct);
+                    ms.Position = 0;
+
+                    // upload to cloudinary (folder "profiles")
+                    var (url, publicId) = await _cloudinary.UploadImageAsync(ms, model.ProfileImage.FileName, "profiles", ct);
+
+                    newUrl = url;
+                    newPublicId = publicId;
+
+                    user.ProfilePictureUrl = newUrl;
+                    user.ProfilePicturePublicId = newPublicId;
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Failed uploading profile image for user {UserId}", userId);
+                    ModelState.AddModelError(string.Empty, "Failed to upload image. Try again later.");
+                    return View("~/Views/Auth/Profile.cshtml", model);
+                }
+            }
+
+            // persist changes
             var res = await _userManager.UpdateAsync(user);
             if (!res.Succeeded)
             {
-                foreach (var err in res.Errors) ModelState.AddModelError(string.Empty, err.Description);
+                // rollback uploaded image if DB update failed
+                if (!string.IsNullOrEmpty(newPublicId))
+                {
+                    try { await _cloudinary.DeleteAsync(newPublicId, ct); } catch { /* ignore */ }
+                }
+
+                foreach (var e in res.Errors) ModelState.AddModelError(string.Empty, e.Description);
                 return View("~/Views/Auth/Profile.cshtml", model);
+            }
+
+            // best-effort delete previous image from Cloudinary if replaced
+            try
+            {
+                if (!string.IsNullOrEmpty(previousPublicId) && !string.IsNullOrEmpty(newPublicId) && previousPublicId != newPublicId)
+                {
+                    await _cloudinary.DeleteAsync(previousPublicId, ct);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Failed to delete previous Cloudinary asset for user {UserId}", userId);
             }
 
             TempData["Success"] = "Profile updated successfully.";
             return RedirectToAction("Profile");
         }
+
         // ---------------------------
         // Register (MVC)
         // GET: /Auth/Register
+        // ---------------------------
         [HttpGet("/Auth/Register")]
         [AllowAnonymous]
-        public IActionResult Register() => View("~/Views/Auth/Register.cshtml");
+        public IActionResult Register()
+        {
+            // you said you want a top navigation: home/about/plan — that's view work
+            return View("~/Views/Auth/Register.cshtml", new MvcRegisterViewModel());
+        }
 
         // POST: /Auth/Register
         [HttpPost("/Auth/Register")]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RegisterPost(RegisterDto model)
+        public async Task<IActionResult> RegisterPost(MvcRegisterViewModel model, CancellationToken ct)
         {
             if (!ModelState.IsValid) return View("~/Views/Auth/Register.cshtml", model);
 
+            // if email exists but not confirmed, optionally delete stale record (like you had)
             var existing = await _userManager.FindByEmailAsync(model.Email);
             if (existing != null)
             {
-                ModelState.AddModelError(string.Empty, "Email already in use");
-                return View("~/Views/Auth/Register.cshtml", model);
+                if (existing.EmailConfirmed)
+                {
+                    ModelState.AddModelError(string.Empty, "Email already in use");
+                    return View("~/Views/Auth/Register.cshtml", model);
+                }
+                // delete stale entry to allow re-register
+                await _userManager.DeleteAsync(existing);
             }
 
             var user = new ApplicationUser
@@ -113,7 +213,11 @@ namespace DecorMate_Backend_Web_app.Controllers
                 Email = model.Email,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-                Provider = AuthProvider.Local
+                Provider = AuthProvider.Local,
+                EmailConfirmed = false,
+                CompanyName = model.CompanyName,
+                Location = model.Location,
+                ProfessionalCategory = model.IsCompany ? model.ProfessionalCategory : null
             };
 
             var createRes = await _userManager.CreateAsync(user, model.Password);
@@ -122,17 +226,30 @@ namespace DecorMate_Backend_Web_app.Controllers
                 foreach (var e in createRes.Errors) ModelState.AddModelError(string.Empty, e.Description);
                 return View("~/Views/Auth/Register.cshtml", model);
             }
+
+            // assign Company role by default for MVC registrations
             await _userManager.AddToRoleAsync(user, "Company");
 
-            await _signInManager.SignInAsync(user, isPersistent: false);
-            RedirectToAction("RegisterConfirmation", "Auth");
+            // generate OTP (optional) and send confirmation email with button (MVC)
+            var otp = GenerateOtp(6);
+            user.OtpCode = otp;
+            user.OtpExpiry = DateTime.UtcNow.AddMinutes(10);
+            await _userManager.UpdateAsync(user);
 
-            // Optionally assign role (for web you may assign Company based on form or admin)
-            // await _userManager.AddToRoleAsync(user, "Company");
-
-            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            var callback = Url.Action("ConfirmEmail", "Auth", new { userId = user.Id, token }, protocol: Request.Scheme);
-            await _emailService.SendConfirmationAsync(user, $"{Request.Scheme}://{Request.Host}/Auth/ConfirmEmail",false);
+            var callbackUrl = $"{Request.Scheme}://{Request.Host}/Auth/ConfirmEmail?userId={user.Id}";
+            try
+            {
+                // includeButton = true for MVC
+                await _emailService.SendConfirmationAsync(user, callbackUrl, includeButton: true, otp: otp, ct: ct);
+                _logger.LogInformation("Register: OTP email sent successfully to {Email}", user.Email);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Failed to send registration email to {Email}", user.Email);
+                // choose to return success but warn
+                TempData["Warning"] = "Registered but failed to send confirmation email. Contact support.";
+                return RedirectToAction(nameof(RegisterConfirmation));
+            }
 
             return RedirectToAction(nameof(RegisterConfirmation));
         }
@@ -144,6 +261,7 @@ namespace DecorMate_Backend_Web_app.Controllers
         // ---------------------------
         // Login (MVC)
         // GET: /Auth/Login
+        // ---------------------------
         [HttpGet("/Auth/Login")]
         [AllowAnonymous]
         public IActionResult Login(string? returnUrl = null)
@@ -167,10 +285,13 @@ namespace DecorMate_Backend_Web_app.Controllers
                 ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                 return View("~/Views/Auth/Login.cshtml", model);
             }
+
+            // only Company role allowed on MVC login
             if (!await _userManager.IsInRoleAsync(user, "Company"))
             {
-                return View("Error",new ErrorViewModel{Message= "Only company accounts can login from here.", });
+                return View("~/Views/Shared/Error.cshtml", new ErrorViewModel { RequestId = HttpContext.TraceIdentifier, Message = "Only company accounts can login from here." });
             }
+
             if (!await _userManager.IsEmailConfirmedAsync(user))
             {
                 ModelState.AddModelError(string.Empty, "Email not confirmed.");
@@ -181,7 +302,6 @@ namespace DecorMate_Backend_Web_app.Controllers
             if (res.Succeeded)
             {
                 if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl)) return Redirect(returnUrl);
-                // if user belongs to Company role, redirect to company dashboard maybe
                 return RedirectToAction("Index", "Home");
             }
 
@@ -195,7 +315,10 @@ namespace DecorMate_Backend_Web_app.Controllers
             return View("~/Views/Auth/Login.cshtml", model);
         }
 
+        // ---------------------------
+        // Logout
         // POST: /Auth/Logout
+        // ---------------------------
         [HttpPost("/Auth/Logout")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
@@ -207,6 +330,7 @@ namespace DecorMate_Backend_Web_app.Controllers
         // ---------------------------
         // Confirm Email
         // GET: /Auth/ConfirmEmail
+        // ---------------------------
         [HttpGet("/Auth/ConfirmEmail")]
         [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmail(string userId, string token)
@@ -216,20 +340,25 @@ namespace DecorMate_Backend_Web_app.Controllers
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null) return NotFound();
 
-            var result = await _userManager.ConfirmEmailAsync(user, token);
+            // decode token (because we urlencoded it when sending)
+            var decodedToken = System.Web.HttpUtility.UrlDecode(token);
+
+            var result = await _userManager.ConfirmEmailAsync(user, decodedToken);
             if (result.Succeeded) return View("~/Views/Auth/ConfirmEmail.cshtml");
 
+            // show error view with details (don't leak token)
             return View("~/Views/Shared/Error.cshtml", new ErrorViewModel { RequestId = HttpContext.TraceIdentifier, Message = "Email confirmation failed." });
         }
 
+
         // ---------------------------
         // Forgot Password (MVC)
-        // GET: /Auth/ForgotPassword
+        // GET/POST
+        // ---------------------------
         [HttpGet("/Auth/ForgotPassword")]
         [AllowAnonymous]
         public IActionResult ForgotPassword() => View("~/Views/Auth/ForgotPassword.cshtml");
 
-        // POST: /Auth/ForgotPassword
         [HttpPost("/Auth/ForgotPassword")]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -240,10 +369,21 @@ namespace DecorMate_Backend_Web_app.Controllers
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null) return RedirectToAction(nameof(ForgotPasswordConfirmation));
 
+            // Generate reset token + OTP and send via EmailService
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            // store base64 token and OTP on user (optional) or include token in callback URL
             var callback = Url.Action("ResetPassword", "Auth", new { email = user.Email, token }, protocol: Request.Scheme);
-            await _emailService.SendConfirmationAsync(user, $"{Request.Scheme}://{Request.Host}/Auth/ConfirmEmail", true);
 
+            // use EmailService to send confirmation with link/button
+            try
+            {
+                // includeButton true so user can click in email
+                await _emailService.SendConfirmationAsync(user, callback ?? string.Empty, includeButton: true, otp: null);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Failed to send forgot-password email to {Email}", user.Email);
+            }
 
             return RedirectToAction(nameof(ForgotPasswordConfirmation));
         }
@@ -254,7 +394,8 @@ namespace DecorMate_Backend_Web_app.Controllers
 
         // ---------------------------
         // Reset Password (MVC)
-        // GET: /Auth/ResetPassword
+        // GET/POST
+        // ---------------------------
         [HttpGet("/Auth/ResetPassword")]
         [AllowAnonymous]
         public IActionResult ResetPassword(string email, string token)
@@ -263,7 +404,6 @@ namespace DecorMate_Backend_Web_app.Controllers
             return View("~/Views/Auth/ResetPassword.cshtml", model);
         }
 
-        // POST: /Auth/ResetPassword
         [HttpPost("/Auth/ResetPassword")]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -287,5 +427,19 @@ namespace DecorMate_Backend_Web_app.Controllers
         [HttpGet("/Auth/ResetPasswordConfirmation")]
         [AllowAnonymous]
         public IActionResult ResetPasswordConfirmation() => View("~/Views/Auth/ResetPasswordConfirmation.cshtml");
+
+        // ---------------------------
+        // Helpers
+        // ---------------------------
+        private static string GenerateOtp(int length = 6)
+        {
+            const string chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+            var sb = new System.Text.StringBuilder();
+            using var rng = System.Security.Cryptography.RandomNumberGenerator.Create();
+            var bytes = new byte[length];
+            rng.GetBytes(bytes);
+            for (int i = 0; i < length; i++) sb.Append(chars[bytes[i] % chars.Length]);
+            return sb.ToString();
+        }
     }
 }

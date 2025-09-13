@@ -2,14 +2,17 @@
 @{
     ViewData["Title"] = "Error";
 }
-<div class="text-center">
-    <h1 class="text-danger">Error</h1>
-    @if (!string.IsNullOrEmpty(Model?.Message))
-    {
-        <div class="alert alert-warning">@Model.Message</div>
-    }
-    @if (Model?.ShowRequestId ?? false)
-    {
-        <p><strong>Request ID:</strong> <code>@Model.RequestId</code></p>
-    }
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card p-4">
+            <div class="card-body text-center">
+                <h3>Something went wrong</h3>
+                <p>@Model?.Message</p>
+                <small>Request id: @Model?.RequestId</small>
+                <div class="mt-3">
+                    <a class="btn btn-outline-dark" href="@Url.Action("Index","Home")">Back to home</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

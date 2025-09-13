@@ -18,22 +18,24 @@ namespace DecorMateBackend.Services
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
         }
 
-        public async Task SendConfirmationAsync(ApplicationUser user, string callbackUrl, bool includeButton, string? otp = null, CancellationToken ct = default)
+        public async Task SendConfirmationAsync(ApplicationUser user, string callbackBaseUrl, bool includeButton, string? otp = null, CancellationToken ct = default)
         {
-            var display = user.FirstName ?? user.Email ?? "User";
-            var (html, text) = EmailTemplates.ConfirmEmail(display, includeButton ? callbackUrl : null, otp, showButton: includeButton);
+            if (user == null) throw new ArgumentNullException(nameof(user));
+            if (string.IsNullOrEmpty(callbackBaseUrl)) throw new ArgumentNullException(nameof(callbackBaseUrl));
 
-            // Save OTP to user if provided (ensure it's already set by caller if preferred)
-            if (!string.IsNullOrEmpty(otp))
-            {
-                user.OtpCode = otp;
-                user.OtpExpiry = DateTime.UtcNow.AddMinutes(10);
-                var upd = await _userManager.UpdateAsync(user);
-                if (!upd.Succeeded)
-                    _logger.LogWarning("Failed to save verification code for {Email}: {Errors}", user.Email, string.Join(", ", upd.Errors.Select(e => e.Description)));
-            }
+            // Generate token and URL-encode it
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var encodedToken = System.Web.HttpUtility.UrlEncode(token);
 
-            await _sender.SendTemplatedEmailAsync(user.Email!, "Confirm your DecorMate account", html, text, null, ct);
+            // Build callback URL with userId + token
+            // callbackBaseUrl expected like: "https://yourhost/Auth/ConfirmEmail"
+            var callback = $"{callbackBaseUrl}?userId={user.Id}&token={encodedToken}";
+
+            // Prepare HTML + text using template utility (you can reuse EmailTemplates.ConfirmEmail)
+            var (html, text) = EmailTemplates.ConfirmEmail(user.FirstName ?? user.Email, callback, otp, includeButton);
+
+            // send via underlying sender
+            await _sender.SendTemplatedEmailAsync(user.Email!, "Confirm your DecorMate account", html, text, embedLocalLogoPath: null, ct);
         }
 
         public async Task SendPasswordResetOtpAsync(ApplicationUser user, string otp, CancellationToken ct = default)

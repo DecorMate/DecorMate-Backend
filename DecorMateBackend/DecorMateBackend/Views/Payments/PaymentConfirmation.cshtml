@@ -1,0 +1,32 @@
+﻿@model DecorMate_Backend_Web_app.Models.PaymentRecord
+@{
+    ViewData["Title"] = "Payment result";
+    Layout = "_Layout";
+}
+<div class="container py-4">
+    <div class="card shadow-sm">
+        <div class="card-body text-center">
+            <h4>Payment @Model.Status</h4>
+            <p class="mb-2"><strong>Plan:</strong> @Model.Plan</p>
+            <p class="mb-2"><strong>Amount:</strong> @Model.Amount.ToString("0.##") EGP</p>
+            <p class="mb-2"><strong>Transaction:</strong> @(String.IsNullOrEmpty(Model.TransactionId) ? "—" : Model.TransactionId)</p>
+
+            @if (Model.Status == "Completed")
+            {
+                <p class="text-success">Thank you — your plan is active.</p>
+            }
+            else if (Model.Status == "Pending")
+            {
+                <p class="text-warning">Your payment is still pending. If you've completed payment, wait a moment or contact support.</p>
+            }
+            else
+            {
+                <p class="text-danger">Payment failed. Please try again.</p>
+            }
+
+            <div class="mt-3">
+                <a class="btn btn-outline-dark" href="@Url.Action("Plan","Payments")">Back to plans</a>
+            </div>
+        </div>
+    </div>
+</div>

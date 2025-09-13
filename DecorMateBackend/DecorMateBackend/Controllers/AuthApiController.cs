@@ -561,11 +561,11 @@ namespace DecorMateBackend.Controllers.Api
             if (string.IsNullOrEmpty(userId)) return Unauthorized();
 
             // read config
-            var aiEndpoint = _configuration["AI:Endpoint"];
+            var aiEndpoint = _configuration["AI1:Endpoint"];
             if (string.IsNullOrWhiteSpace(aiEndpoint))
                 return StatusCode(500, new { message = "AI:Endpoint missing in config" });
 
-            var aiApiKey = _configuration["AI:ApiKey"]; // optional
+            var aiApiKey = _configuration["AI1:ApiKey"]; // optional
 
             var client = _httpFactory.CreateClient(); // you can use CreateClient("ai") if configured
             if (!string.IsNullOrEmpty(aiApiKey))
@@ -789,43 +789,159 @@ namespace DecorMateBackend.Controllers.Api
             return NoContent();
         }
 
-        // DELETE api/auth/generated/by-publicid?publicId=...
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [HttpDelete("generated/by-publicid")]
-        public async Task<IActionResult> DeleteGeneratedImageByPublicId([FromQuery] string publicId, CancellationToken ct)
-        {
-            if (string.IsNullOrWhiteSpace(publicId)) return BadRequest(new { message = "publicId required" });
 
-            var img = await _db.GeneratedImages.FirstOrDefaultAsync(g => g.CloudinaryPublicId == publicId, ct);
-            if (img == null) return NotFound(new { message = "Image not found" });
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPost("generate-from-file")]
+        public async Task<IActionResult> GenerateFromFile([FromForm] GenerateWithFileRequestDto dto, CancellationToken ct)
+        {
+            if (dto == null) return BadRequest(new { message = "Invalid request" });
+            if (dto.File == null || dto.File.Length == 0) return BadRequest(new { message = "File is required" });
+            if (string.IsNullOrWhiteSpace(dto.Prompt)) return BadRequest(new { message = "Prompt required" });
 
             var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value
                          ?? User.FindFirst(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Sub)?.Value;
             if (string.IsNullOrEmpty(userId)) return Unauthorized();
 
-            if (img.ApplicationUserId != userId)
-            {
-                var currentUser = await _userManager.FindByIdAsync(userId);
-                if (currentUser == null || !await _userManager.IsInRoleAsync(currentUser, "Admin"))
-                    return Forbid();
-            }
+            // prepare http client for AI
+            var aiEndpoint = _configuration["AI2:Endpoint"] ?? throw new InvalidOperationException("AI:Endpoint missing in config");
+            var aiApiKey = _configuration["AI2:ApiKey"];
+            var client = _httpFactory.CreateClient();
+            if (!string.IsNullOrEmpty(aiApiKey)) client.DefaultRequestHeaders.Add("Authorization", $"Bearer {aiApiKey}");
 
-            try
-            {
-                await _cloudinary.DeleteAsync(publicId, ct);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Cloudinary delete failed for publicId={publicId}", publicId);
-                return StatusCode(502, new { message = "Failed to delete image from cloud storage", detail = ex.Message });
-            }
+            // Build multipart form data to send file + prompt to AI endpoint
+            using var content = new MultipartFormDataContent();
 
-            _db.GeneratedImages.Remove(img);
-            await _db.SaveChangesAsync(ct);
+            // add prompt/title fields
+            content.Add(new StringContent(dto.Prompt), "prompt");
+            if (!string.IsNullOrEmpty(dto.Title))
+                content.Add(new StringContent(dto.Title), "title");
 
-            return NoContent();
+            // add file stream
+            await using (var ms = new MemoryStream())
+            {
+                await dto.File.CopyToAsync(ms, ct);
+                ms.Position = 0;
+                var fileContent = new StreamContent(ms);
+                fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(dto.File.ContentType ?? "application/octet-stream");
+
+                // "file" is the form field name expected by the AI endpoint (as in screenshot)
+                content.Add(fileContent, "file", dto.File.FileName);
+
+                HttpResponseMessage aiResponse;
+                try
+                {
+                    aiResponse = await client.PostAsync(aiEndpoint, content, ct);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "AI transform API request failed");
+                    return StatusCode(502, new { message = "Failed to contact AI service" });
+                }
+
+                if (!aiResponse.IsSuccessStatusCode)
+                {
+                    var txt = await aiResponse.Content.ReadAsStringAsync(ct);
+                    _logger.LogWarning("AI service returned {Status}: {Body}", aiResponse.StatusCode, txt);
+                    return StatusCode(502, new { message = "AI service error", detail = txt });
+                }
+
+                // interpret AI response: could be raw image bytes, or JSON with image_url / image_base64
+                Stream imageStream;
+                string contentType = aiResponse.Content.Headers.ContentType?.MediaType ?? "";
+
+                if (contentType.StartsWith("image", StringComparison.OrdinalIgnoreCase))
+                {
+                    imageStream = await aiResponse.Content.ReadAsStreamAsync(ct);
+                }
+                else
+                {
+                    // parse JSON
+                    var json = await aiResponse.Content.ReadFromJsonAsync<JsonElement?>(cancellationToken: ct);
+                    if (!json.HasValue)
+                    {
+                        var txt = await aiResponse.Content.ReadAsStringAsync(ct);
+                        return StatusCode(502, new { message = "Unexpected AI response", detail = txt });
+                    }
+
+                    var root = json.Value;
+
+                    if (root.TryGetProperty("image_base64", out var b64El) && b64El.ValueKind == JsonValueKind.String)
+                    {
+                        var b64 = b64El.GetString() ?? "";
+                        var bytes = Convert.FromBase64String(b64);
+                        imageStream = new MemoryStream(bytes);
+                        contentType = "image/png";
+                    }
+                    else if (root.TryGetProperty("image_url", out var urlEl) && urlEl.ValueKind == JsonValueKind.String)
+                    {
+                        var imageUrl = urlEl.GetString() ?? "";
+                        if (string.IsNullOrEmpty(imageUrl))
+                            return StatusCode(502, new { message = "AI returned empty image_url" });
+
+                        // download image bytes from the provided url
+                        var di = await client.GetAsync(imageUrl, ct);
+                        if (!di.IsSuccessStatusCode)
+                            return StatusCode(502, new { message = "Failed to download image from AI url" });
+
+                        imageStream = await di.Content.ReadAsStreamAsync(ct);
+                        contentType = di.Content.Headers.ContentType?.MediaType ?? "image/png";
+                    }
+                    else
+                    {
+                        // unknown payload
+                        var txt = root.ToString();
+                        return StatusCode(502, new { message = "Unexpected AI response structure", detail = txt });
+                    }
+                }
+
+                // Upload result image to Cloudinary
+                try
+                {
+                    await using (imageStream)
+                    {
+                        // create a filename
+                        var safeTitle = string.IsNullOrWhiteSpace(dto.Title) ? "generated" : dto.Title.Replace(" ", "_");
+                        var fileName = $"{safeTitle}-{Guid.NewGuid():N}.png";
+
+                        // UploadImageAsync returns (Url, PublicId) — adapt if your signature differs
+                        var uploadRes = await _cloudinary.UploadImageAsync(imageStream, fileName, "generated", ct);
+                        var url = uploadRes.Url;
+                        var publicId = uploadRes.PublicId;
+
+                        // Save to DB
+                        var gi = new GeneratedImage
+                        {
+                            ApplicationUserId = userId,
+                            ImageUrl = url,
+                            CloudinaryPublicId = publicId,
+                            ProjectTitle = string.IsNullOrWhiteSpace(dto.Title) ? null : dto.Title,
+                            Prompt = dto.Prompt,
+                            CreatedAt = DateTime.UtcNow
+                        };
+
+                        _db.GeneratedImages.Add(gi);
+                        await _db.SaveChangesAsync(ct);
+
+                        var resultDto = new GeneratedImageDto
+                        {
+                            Id = gi.Id,
+                            Url = gi.ImageUrl,
+                            PublicId = gi.CloudinaryPublicId,
+                            Title = gi.ProjectTitle,
+                            Prompt = gi.Prompt,
+                            CreatedAt = gi.CreatedAt
+                        };
+
+                        return Ok(resultDto);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Failed to upload/store generated image");
+                    return StatusCode(500, new { message = "Failed to store generated image" });
+                }
+            }
         }
-
         // -----------------------
         // Helpers
         // -----------------------

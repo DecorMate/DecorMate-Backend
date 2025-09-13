@@ -22,60 +22,75 @@
         ],
         "parameters": [
           {
-            "name": "Id",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Email",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "email"
-            }
-          },
-          {
             "name": "FirstName",
             "in": "query",
-            "required": true,
             "schema": {
+              "maxLength": 100,
+              "minLength": 0,
               "type": "string"
             }
           },
           {
             "name": "LastName",
             "in": "query",
-            "required": true,
             "schema": {
+              "maxLength": 100,
+              "minLength": 0,
               "type": "string"
-            }
-          },
-          {
-            "name": "ProfilePictureUrl",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "format": "uri"
             }
           },
           {
             "name": "PhoneNumber",
             "in": "query",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "format": "tel"
             }
           },
           {
             "name": "CompanyName",
             "in": "query",
             "schema": {
+              "maxLength": 200,
+              "minLength": 0,
               "type": "string"
+            }
+          },
+          {
+            "name": "Location",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ProfessionalCategory",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/ProfessionalCategory"
             }
           }
         ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "ProfileImage": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "ProfileImage": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK"
@@ -142,6 +157,34 @@
               "maxLength": 100,
               "minLength": 0,
               "type": "string"
+            }
+          },
+          {
+            "name": "IsCompany",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "CompanyName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Location",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ProfessionalCategory",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/ProfessionalCategory"
             }
           }
         ],
@@ -801,19 +844,206 @@
         }
       }
     },
-    "/api/AuthApi/generated/by-publicid": {
-      "delete": {
+    "/api/AuthApi/generate-from-file": {
+      "post": {
         "tags": [
           "AuthApi"
         ],
-        "parameters": [
-          {
-            "name": "publicId",
-            "in": "query",
-            "schema": {
-              "type": "string"
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "File": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "Prompt": {
+                    "type": "string"
+                  },
+                  "Title": {
+                    "type": "string"
+                  }
+                }
+              },
+              "encoding": {
+                "File": {
+                  "style": "form"
+                },
+                "Prompt": {
+                  "style": "form"
+                },
+                "Title": {
+                  "style": "form"
+                }
+              }
             }
           }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Payments/Plan": {
+      "get": {
+        "tags": [
+          "Payments"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Payments/Start": {
+      "post": {
+        "tags": [
+          "Payments"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "required": [
+                  "PhoneNumber",
+                  "Plan"
+                ],
+                "type": "object",
+                "properties": {
+                  "Plan": {
+                    "type": "string"
+                  },
+                  "PhoneNumber": {
+                    "type": "string",
+                    "format": "tel"
+                  },
+                  "Notes": {
+                    "type": "string"
+                  }
+                }
+              },
+              "encoding": {
+                "Plan": {
+                  "style": "form"
+                },
+                "PhoneNumber": {
+                  "style": "form"
+                },
+                "Notes": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Payments/Processing": {
+      "get": {
+        "tags": [
+          "Payments"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Payments/Confirmation": {
+      "get": {
+        "tags": [
+          "Payments"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Payments/Callback/{id}": {
+      "post": {
+        "tags": [
+          "Payments"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "type": "string"
+                  },
+                  "transactionId": {
+                    "type": "string"
+                  }
+                }
+              },
+              "encoding": {
+                "status": {
+                  "style": "form"
+                },
+                "transactionId": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Payments/History": {
+      "get": {
+        "tags": [
+          "Payments"
         ],
         "responses": {
           "200": {
@@ -884,6 +1114,17 @@
           }
         },
         "additionalProperties": false
+      },
+      "ProfessionalCategory": {
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "type": "integer",
+        "format": "int32"
       },
       "RefreshRequestDto": {
         "type": "object",

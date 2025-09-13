@@ -1,0 +1,26 @@
+﻿@model IEnumerable<DecorMate_Backend_Web_app.Models.PaymentRecord>
+@{
+    ViewData["Title"] = "Payment history";
+    Layout = "_Layout";
+}
+<div class="container py-4">
+    <h4>Payment history</h4>
+
+    <table class="table table-striped">
+        <thead>
+            <tr><th>Date</th><th>Plan</th><th>Amount</th><th>Phone</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+            @foreach (var p in Model)
+            {
+                <tr>
+                    <td>@p.CreatedAt.ToLocalTime()</td>
+                    <td>@p.Plan</td>
+                    <td>@p.Amount.ToString("0.##")</td>
+                    <td>@p.PhoneNumber</td>
+                    <td>@p.Status</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

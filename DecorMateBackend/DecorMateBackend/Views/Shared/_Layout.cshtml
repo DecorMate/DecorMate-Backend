@@ -1,78 +1,85 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<DecorMate_Backend_Web_app.Models.ApplicationUser> SignInManager
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>@ViewData["Title"] - DecorMate</title>
 
+    <!-- Bootstrap 5 CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="~/css/site.css" />
-</head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
-        <div class="container">
-            <a class="navbar-brand" href="@Url.Action("Index", "Home")">DecorMate</a>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
+    <style>
+        :root {
+            --brand: #FEB47B; /* brand color used in emails */
+            --brand-dark: #e09a63;
+        }
+        .brand-bg { background: var(--brand); }
+        .brand-btn { background: var(--brand); border-color: var(--brand); color: #111; }
+        .brand-btn:hover { background: var(--brand-dark); border-color: var(--brand-dark); color: #111; }
+        .card-brand { border: none; box-shadow: 0 6px 20px rgba(0,0,0,0.06); }
+        a.brand-link { color: #222; font-weight:700; text-decoration:none; }
+        footer.site-footer { background:#f8f9fa; padding:18px 0; color:#666; }
+    </style>
+
+    @RenderSection("Head", required: false)
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light brand-bg">
+        <div class="container">
+            <a class="navbar-brand brand-link" href="@Url.Action("Index", "Home")">DecorMate</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
-            <div class="collapse navbar-collapse" id="navMain">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a class="nav-link" href="@Url.Action("Index","Home")">Home</a></li>
-                </ul>
-
+            <div class="collapse navbar-collapse" id="mainNav">
                 <ul class="navbar-nav ms-auto">
-                    @if (User?.Identity?.IsAuthenticated ?? false)
+                    <li class="nav-item"><a class="nav-link" href="@Url.Action("Index", "Home")">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="@Url.Action("Privacy", "Home")">About</a></li>
+                    @if (User.Identity?.IsAuthenticated ?? false)
                     {
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="userMenu" role="button" data-bs-toggle="dropdown">
-                                @User.Identity.Name
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
-                                <li><a class="dropdown-item" href="@Url.Action("Profile","Auth")">Profile</a></li>
-
-                                @* show company-specific link if user is in Company role *@
-                                @if (User.IsInRole("Company"))
-                                {
-                                    <li><a class="dropdown-item" href="@Url.Action("CompanyDashboard","Home")">Company Dashboard</a></li>
-                                }
-
-                                <li><hr class="dropdown-divider" /></li>
-                                <li>
-                                    <form method="post" action="@Url.Action("Logout","Auth")" class="px-3 py-1">
-                                        @Html.AntiForgeryToken()
-                                        <button type="submit" class="btn btn-link dropdown-item">Logout</button>
-                                    </form>
-                                </li>
-                            </ul>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="@Url.Action("Plan","Payments")">Plan</a>
+                        </li>
+                    }
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <li class="nav-item"><a class="nav-link" href="@Url.Action("Profile", "Auth")">Profile</a></li>
+                        <li class="nav-item">
+                            <form method="post" action="@Url.Action("Logout", "Auth")" class="d-inline">
+                                @Html.AntiForgeryToken()
+                                <button class="btn btn-sm btn-outline-dark ms-2">Logout</button>
+                            </form>
                         </li>
                     }
                     else
                     {
-                        <li class="nav-item"><a class="nav-link" href="@Url.Action("Login","Auth")">Login</a></li>
-                        <li class="nav-item"><a class="nav-link" href="@Url.Action("Register","Auth")">Register</a></li>
+                        <li class="nav-item"><a class="nav-link" href="@Url.Action("Login", "Auth")">Login</a></li>
+                        <li class="nav-item"><a class="nav-link" href="@Url.Action("Register", "Auth")">Register</a></li>
                     }
                 </ul>
             </div>
         </div>
     </nav>
 
-    <div class="container mt-4">
-        @if (TempData["Success"] != null)
-        {
-            <div class="alert alert-success">@TempData["Success"]</div>
-        }
-        @if (TempData["Error"] != null)
-        {
-            <div class="alert alert-danger">@TempData["Error"]</div>
-        }
+    <main class="py-5">
+        <div class="container">
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success">@TempData["Success"]</div>
+            }
+            @if (TempData["Warning"] != null)
+            {
+                <div class="alert alert-warning">@TempData["Warning"]</div>
+            }
+            @RenderBody()
+        </div>
+    </main>
 
-        @RenderBody()
-    </div>
-
-    <footer class="border-top mt-5 py-3">
-        <div class="container text-center small">&copy; @DateTime.UtcNow.Year — DecorMate</div>
+    <footer class="site-footer">
+        <div class="container text-center">
+            <small>© @DateTime.UtcNow.Year DecorMate. All rights reserved.</small>
+        </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
