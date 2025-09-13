@@ -16,6 +16,8 @@ namespace DecorMate_Backend_Web_app.Data
         public DbSet<RefreshToken> RefreshTokens { get; set; } = null!;
         public DbSet<GeneratedImage> GeneratedImages { get; set; } = null!;
         public DbSet<PaymentRecord> PaymentRecords { get; set; } = null!;
+        public DbSet<VendorRating> VendorRatings { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

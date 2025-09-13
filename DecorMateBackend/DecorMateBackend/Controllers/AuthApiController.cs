@@ -942,6 +942,169 @@ namespace DecorMateBackend.Controllers.Api
                 }
             }
         }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet("filter")]
+        public async Task<IActionResult> Filter([FromQuery] VendorFilterRequestDto q)
+        {
+            // join users with roles to select only vendors (companies / professionals)
+            // We assume users with role "Company" or "Vendor" etc. Use role names your app uses.
+            var vendorRoleNames = new[] { "Company", "Vendor", "Manufacturer", "Designer" }; // tune as needed
+
+            // get role ids for these role names
+            var roleIds = await _db.Roles
+                .Where(r => vendorRoleNames.Contains(r.Name))
+                .Select(r => r.Id)
+                .ToListAsync();
+
+            // join AspNetUserRoles to filter users that have those roles
+            var vendorUserIdsQuery = _db.UserRoles
+                .Where(ur => roleIds.Contains(ur.RoleId))
+                .Select(ur => ur.UserId);
+
+            // base users query
+            var usersQ = _db.Users
+                .Where(u => vendorUserIdsQuery.Contains(u.Id))
+                .AsNoTracking();
+
+            if (!string.IsNullOrWhiteSpace(q.Location))
+            {
+                var loc = q.Location.Trim().ToLower();
+                usersQ = usersQ.Where(u => (u.CompanyName ?? "").ToLower().Contains(loc)
+                                            || (u.ProfilePictureUrl ?? "").ToLower().Contains(loc) == false // placeholder (optional)
+                                            || (u.CompanyName ?? "").ToLower().Contains(loc) // keep for search
+                                            || (u.CompanyName ?? "").ToLower().Contains(loc) // duplicate safe
+                                           );
+                // ideally user should have a Location field; if so use it:
+                usersQ = usersQ.Where(u => (u.Location ?? "").ToLower().Contains(loc) || (u.CompanyName ?? "").ToLower().Contains(loc));
+            }
+
+            if (!string.IsNullOrWhiteSpace(q.Category))
+            {
+                var cat = q.Category.Trim().ToLower();
+                usersQ = usersQ.Where(u => (u.CompanyName ?? "").ToLower().Contains(cat));
+            }
+
+            if (!string.IsNullOrWhiteSpace(q.Search))
+            {
+                var s = q.Search.Trim().ToLower();
+                usersQ = usersQ.Where(u =>
+                    (u.FirstName ?? "").ToLower().Contains(s)
+                    || (u.LastName ?? "").ToLower().Contains(s)
+                    || (u.CompanyName ?? "").ToLower().Contains(s)
+                    || (u.Email ?? "").ToLower().Contains(s)
+                );
+            }
+
+            // Project to DTO plus ratings aggregation and sponsorship priority
+            var page = Math.Max(1, q.Page);
+            var pageSize = Math.Clamp(q.PageSize, 1, 100);
+
+            var baseList = await usersQ
+                .Select(u => new
+                {
+                    u.Id,
+                    u.Email,
+                    u.FirstName,
+                    u.LastName,
+                    u.CompanyName,
+                    u.ProfilePictureUrl,
+                    u.PhoneNumber,
+                    Location = u.Location,
+                    Category = u.ProfessionalCategory,
+                    IsSponsored = u.IsSponsored, // assumes field exists
+                    // ratings aggregated (left join)
+                    RatingsCount = _db.VendorRatings.Count(r => r.ApplicationUserId == u.Id),
+                    RatingsAverage = _db.VendorRatings.Where(r => r.ApplicationUserId == u.Id).Select(r => (double?)r.Score).Average() ?? 0.0
+                })
+                .ToListAsync();
+
+            // sort: sponsored first, then by avg rating desc, then by ratings count desc
+            var ordered = baseList
+                .OrderByDescending(x => x.IsSponsored ? 1 : 0)
+                .ThenByDescending(x => x.RatingsAverage)
+                .ThenByDescending(x => x.RatingsCount)
+                .ToList();
+
+            var total = ordered.Count;
+            var paged = ordered.Skip((page - 1) * pageSize).Take(pageSize)
+                .Select(x => new VendorDto
+                {
+                    Id = x.Id,
+                    Email = x.Email,
+                    FirstName = x.FirstName,
+                    LastName = x.LastName,
+                    CompanyName = x.CompanyName,
+                    ProfilePictureUrl = x.ProfilePictureUrl,
+                    PhoneNumber = x.PhoneNumber,
+                    Location = x.Location,
+                    Category = x.Category.ToString(),
+                    IsSponsored = x.IsSponsored,
+                    AverageRating = Math.Round(x.RatingsAverage, 2),
+                    RatingsCount = x.RatingsCount
+                })
+                .ToList();
+
+            var resp = new
+            {
+                Total = total,
+                Page = page,
+                PageSize = pageSize,
+                Items = paged
+            };
+
+            return Ok(resp);
+        }
+
+        // POST api/vendors/{vendorId}/rate
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPost("{vendorId}/rate")]
+        public async Task<IActionResult> RateVendor([FromRoute] string vendorId, [FromBody] RateVendorDto dto)
+        {
+            if (string.IsNullOrEmpty(vendorId)) return BadRequest(new { message = "vendorId required" });
+            if (dto.Score < 1 || dto.Score > 5) return BadRequest(new { message = "score must be 1..5" });
+
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value
+                         ?? User.FindFirst(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Sub)?.Value;
+            if (string.IsNullOrEmpty(userId)) return Unauthorized();
+
+            var vendor = await _db.Users.FirstOrDefaultAsync(u => u.Id == vendorId);
+            if (vendor == null) return NotFound(new { message = "Vendor not found" });
+
+            // check if rater is trying to rate self
+            if (vendorId == userId) return BadRequest(new { message = "You cannot rate yourself" });
+
+            // See if an existing rating by this user exists — update it; otherwise create new
+            var existing = await _db.VendorRatings.FirstOrDefaultAsync(r => r.ApplicationUserId == vendorId && r.RatedByUserId == userId);
+
+            if (existing != null)
+            {
+                existing.Score = dto.Score;
+                existing.Comment = dto.Comment;
+                existing.CreatedAt = DateTime.UtcNow;
+                _db.VendorRatings.Update(existing);
+            }
+            else
+            {
+                var r = new VendorRating
+                {
+                    ApplicationUserId = vendorId,
+                    RatedByUserId = userId,
+                    Score = dto.Score,
+                    Comment = dto.Comment,
+                    CreatedAt = DateTime.UtcNow
+                };
+                await _db.VendorRatings.AddAsync(r);
+            }
+
+            await _db.SaveChangesAsync();
+
+            // return updated aggregated info
+            var avg = await _db.VendorRatings.Where(r => r.ApplicationUserId == vendorId).Select(r => (double?)r.Score).AverageAsync() ?? 0.0;
+            var cnt = await _db.VendorRatings.CountAsync(r => r.ApplicationUserId == vendorId);
+
+            return Ok(new { AverageRating = Math.Round(avg, 2), RatingsCount = cnt });
+        }
         // -----------------------
         // Helpers
         // -----------------------
