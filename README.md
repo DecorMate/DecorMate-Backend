@@ -378,15 +378,3 @@ Call protected endpoint with Bearer:
 ```bash
 curl -H "Authorization: Bearer <accessToken>" https://localhost:7247/api/AuthApi/me
 ```
-
----
-
-## Final notes
-
-If you want I can:
-- produce a Postman collection with example requests / responses,
-- create migration scripts for the fields discussed (Location, ProfessionalCategory, IsSponsored, GeneratedImage table, VendorRating),
-- provide full Razor view templates for the pages (Register/Login/Profile/Plan) styled with `#FEB47B`,
-- or update the `GenerateImage` method to match the exact AI README you provided (send me the exact expected JSON body and I will adapt the controller payload and response parsing).
-
-If you'd like the README in another format (e.g., short QuickStart + Reference split into files), tell me which and I’ll prepare it.
