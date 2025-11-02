@@ -416,7 +416,7 @@ namespace DecorMateBackend.Controllers.Api
             if (string.IsNullOrEmpty(token)) return BadRequest(new { message = "Token required" });
 
             var existing = await _db.RefreshTokens.FirstOrDefaultAsync(r => r.Token == token);
-            if (existing == null) return NotFound();
+            if (existing == null) return NotFound();    
 
             existing.Revoked = DateTime.UtcNow;
             existing.RevokedByIp = Request.HttpContext.Connection.RemoteIpAddress?.ToString();

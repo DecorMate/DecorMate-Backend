@@ -1,57 +1,72 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\",
+  "WorkspaceRootPath": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|c:\\users\\a7med\\onedrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\decormate\\decormate backend\\decormate-backend\\decormatebackend\\decormatebackend\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|d:\\graduation project\\decormate-backend\\decormatebackend\\decormatebackend\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|c:\\users\\a7med\\onedrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\decormate\\decormate backend\\decormate-backend\\decormatebackend\\decormatebackend\\controllers\\authapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|d:\\graduation project\\decormate-backend\\decormatebackend\\decormatebackend\\applicationdbcontext.dgml||{295A0962-5A59-4F4F-9E12-6BC670C15C3B}",
+      "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\applicationdbcontext.dgml||{295A0962-5A59-4F4F-9E12-6BC670C15C3B}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|d:\\graduation project\\decormate-backend\\decormatebackend\\decormatebackend\\controllers\\authapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\controllers\\authapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|c:\\users\\a7med\\onedrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\decormate\\decormate backend\\decormate-backend\\decormatebackend\\decormatebackend\\models\\enums\\professionalcategory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\models\\enums\\professionalcategory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|c:\\users\\a7med\\onedrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\decormate\\decormate backend\\decormate-backend\\decormatebackend\\decormatebackend\\models\\dtos\\vendordto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\models\\dtos\\vendordto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|c:\\users\\a7med\\onedrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\decormate\\decormate backend\\decormate-backend\\decormatebackend\\decormatebackend\\models\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|d:\\graduation project\\decormate-backend\\decormatebackend\\decormatebackend\\models\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\models\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|c:\\users\\a7med\\onedrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\decormate\\decormate backend\\decormate-backend\\decormatebackend\\decormatebackend\\models\\dtos\\ratevendordto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\models\\dtos\\ratevendordto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|d:\\graduation project\\decormate-backend\\decormatebackend\\decormatebackend\\models\\refreshtoken.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\models\\refreshtoken.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|c:\\users\\a7med\\onedrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\decormate\\decormate backend\\decormate-backend\\decormatebackend\\decormatebackend\\models\\dtos\\vendorfilterrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\models\\dtos\\vendorfilterrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|c:\\users\\a7med\\onedrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\decormate\\decormate backend\\decormate-backend\\decormatebackend\\decormatebackend\\models\\vendorrating.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\models\\vendorrating.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|c:\\users\\a7med\\onedrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\decormate\\decormate backend\\decormate-backend\\decormatebackend\\decormatebackend\\models\\dtos\\generatedimagedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|d:\\graduation project\\decormate-backend\\decormatebackend\\decormatebackend\\models\\dtos\\generatedimagedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\models\\dtos\\generatedimagedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|c:\\users\\a7med\\onedrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\decormate\\decormate backend\\decormate-backend\\decormatebackend\\decormatebackend\\models\\dtos\\generatewithfilerequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|d:\\graduation project\\decormate-backend\\decormatebackend\\decormatebackend\\models\\dtos\\generatewithfilerequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\models\\dtos\\generatewithfilerequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|c:\\users\\a7med\\onedrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\decormate\\decormate backend\\decormate-backend\\decormatebackend\\decormatebackend\\services\\emailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|d:\\graduation project\\decormate-backend\\decormatebackend\\decormatebackend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|d:\\graduation project\\decormate-backend\\decormatebackend\\decormatebackend\\models\\dtos\\vendordto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\models\\dtos\\vendordto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|d:\\graduation project\\decormate-backend\\decormatebackend\\decormatebackend\\models\\enums\\professionalcategory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\models\\enums\\professionalcategory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|d:\\graduation project\\decormate-backend\\decormatebackend\\decormatebackend\\models\\dtos\\ratevendordto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\models\\dtos\\ratevendordto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|d:\\graduation project\\decormate-backend\\decormatebackend\\decormatebackend\\models\\dtos\\vendorfilterrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\models\\dtos\\vendorfilterrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|d:\\graduation project\\decormate-backend\\decormatebackend\\decormatebackend\\models\\vendorrating.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\models\\vendorrating.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|d:\\graduation project\\decormate-backend\\decormatebackend\\decormatebackend\\services\\emailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\services\\emailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|c:\\users\\a7med\\onedrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\decormate\\decormate backend\\decormate-backend\\decormatebackend\\decormatebackend\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|d:\\graduation project\\decormate-backend\\decormatebackend\\decormatebackend\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|c:\\users\\a7med\\onedrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\decormate\\decormate backend\\decormate-backend\\decormatebackend\\decormatebackend\\views\\auth\\profile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|d:\\graduation project\\decormate-backend\\decormatebackend\\decormatebackend\\views\\auth\\profile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\views\\auth\\profile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
@@ -62,147 +77,191 @@
       "DocumentGroups": [
         {
           "DockedWidth": 139,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
-              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "VendorDto.cs",
-              "DocumentMoniker": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Models\\DTOs\\VendorDto.cs",
-              "RelativeDocumentMoniker": "DecorMateBackend\\Models\\DTOs\\VendorDto.cs",
-              "ToolTip": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Models\\DTOs\\VendorDto.cs",
-              "RelativeToolTip": "DecorMateBackend\\Models\\DTOs\\VendorDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAuwA4AAAAWAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-13T20:32:28.098Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "VendorFilterRequestDto.cs",
-              "DocumentMoniker": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Models\\DTOs\\VendorFilterRequestDto.cs",
-              "RelativeDocumentMoniker": "DecorMateBackend\\Models\\DTOs\\VendorFilterRequestDto.cs",
-              "ToolTip": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Models\\DTOs\\VendorFilterRequestDto.cs",
-              "RelativeToolTip": "DecorMateBackend\\Models\\DTOs\\VendorFilterRequestDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-13T20:31:55.767Z",
-              "EditorCaption": ""
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
+              "Title": "RefreshToken.cs",
+              "DocumentMoniker": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Models\\RefreshToken.cs",
+              "RelativeDocumentMoniker": "DecorMateBackend\\Models\\RefreshToken.cs",
+              "ToolTip": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Models\\RefreshToken.cs",
+              "RelativeToolTip": "DecorMateBackend\\Models\\RefreshToken.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-31T15:06:33.352Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ApplicationDbContext.dgml [Viewer]",
+              "DocumentMoniker": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\ApplicationDbContext.dgml",
+              "RelativeDocumentMoniker": "DecorMateBackend\\ApplicationDbContext.dgml",
+              "ToolTip": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\ApplicationDbContext.dgml [Viewer]",
+              "RelativeToolTip": "DecorMateBackend\\ApplicationDbContext.dgml [Viewer]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000968|",
+              "WhenOpened": "2025-10-31T14:15:10.111Z",
+              "EditorCaption": " [Viewer]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\appsettings.json",
+              "RelativeDocumentMoniker": "DecorMateBackend\\appsettings.json",
+              "ToolTip": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\appsettings.json",
+              "RelativeToolTip": "DecorMateBackend\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAABtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-10-31T13:54:30.622Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\appsettings.json",
+              "ToolTip": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\appsettings.json",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-09-13T20:03:07.367Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Program.cs",
+              "RelativeDocumentMoniker": "DecorMateBackend\\Program.cs",
+              "ToolTip": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Program.cs",
+              "RelativeToolTip": "DecorMateBackend\\Program.cs",
+              "ViewState": "AgIAAC0AAAAAAAAAAAAAAFIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-31T13:43:15.793Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "VendorDto.cs",
+              "DocumentMoniker": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Models\\DTOs\\VendorDto.cs",
+              "RelativeDocumentMoniker": "DecorMateBackend\\Models\\DTOs\\VendorDto.cs",
+              "ToolTip": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Models\\DTOs\\VendorDto.cs",
+              "RelativeToolTip": "DecorMateBackend\\Models\\DTOs\\VendorDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwA4AAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-13T20:32:28.098Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "VendorFilterRequestDto.cs",
+              "DocumentMoniker": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Models\\DTOs\\VendorFilterRequestDto.cs",
+              "RelativeDocumentMoniker": "DecorMateBackend\\Models\\DTOs\\VendorFilterRequestDto.cs",
+              "ToolTip": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Models\\DTOs\\VendorFilterRequestDto.cs",
+              "RelativeToolTip": "DecorMateBackend\\Models\\DTOs\\VendorFilterRequestDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-13T20:31:55.767Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "ApplicationDbContext.cs",
-              "DocumentMoniker": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Models\\ApplicationDbContext.cs",
+              "DocumentMoniker": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Models\\ApplicationDbContext.cs",
               "RelativeDocumentMoniker": "DecorMateBackend\\Models\\ApplicationDbContext.cs",
-              "ToolTip": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Models\\ApplicationDbContext.cs",
+              "ToolTip": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Models\\ApplicationDbContext.cs",
               "RelativeToolTip": "DecorMateBackend\\Models\\ApplicationDbContext.cs",
-              "ViewState": "AgIAAAcAAAAAAAAAAAAywBIAAAA+AAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACYAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-13T20:31:11.477Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 13,
               "Title": "VendorRating.cs",
-              "DocumentMoniker": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Models\\VendorRating.cs",
+              "DocumentMoniker": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Models\\VendorRating.cs",
               "RelativeDocumentMoniker": "DecorMateBackend\\Models\\VendorRating.cs",
-              "ToolTip": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Models\\VendorRating.cs",
+              "ToolTip": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Models\\VendorRating.cs",
               "RelativeToolTip": "DecorMateBackend\\Models\\VendorRating.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-13T20:29:22.25Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-13T20:29:22.25Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "AuthApiController.cs",
-              "DocumentMoniker": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Controllers\\AuthApiController.cs",
+              "DocumentMoniker": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Controllers\\AuthApiController.cs",
               "RelativeDocumentMoniker": "DecorMateBackend\\Controllers\\AuthApiController.cs",
-              "ToolTip": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Controllers\\AuthApiController.cs",
+              "ToolTip": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Controllers\\AuthApiController.cs",
               "RelativeToolTip": "DecorMateBackend\\Controllers\\AuthApiController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAkAAAAAAAAAA==",
+              "ViewState": "AgIAAMwDAAAAAAAAAAAAAGYEAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-13T20:02:45.2Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\appsettings.json",
-              "RelativeDocumentMoniker": "DecorMateBackend\\appsettings.json",
-              "ToolTip": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\appsettings.json",
-              "RelativeToolTip": "DecorMateBackend\\appsettings.json",
-              "ViewState": "AgIAABsAAAAAAAAAAAAAACoAAABPAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-09-13T20:03:07.367Z",
-              "EditorCaption": ""
+              "DocumentIndex": 11,
+              "Title": "RateVendorDto.cs",
+              "DocumentMoniker": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Models\\DTOs\\RateVendorDto.cs",
+              "RelativeDocumentMoniker": "DecorMateBackend\\Models\\DTOs\\RateVendorDto.cs",
+              "ToolTip": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Models\\DTOs\\RateVendorDto.cs",
+              "RelativeToolTip": "DecorMateBackend\\Models\\DTOs\\RateVendorDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-13T20:32:44.778Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "ProfessionalCategory.cs",
+              "DocumentMoniker": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Models\\Enums\\ProfessionalCategory.cs",
+              "RelativeDocumentMoniker": "DecorMateBackend\\Models\\Enums\\ProfessionalCategory.cs",
+              "ToolTip": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Models\\Enums\\ProfessionalCategory.cs",
+              "RelativeToolTip": "DecorMateBackend\\Models\\Enums\\ProfessionalCategory.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-13T20:48:29.255Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "RateVendorDto.cs",
-              "DocumentMoniker": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Models\\DTOs\\RateVendorDto.cs",
-              "RelativeDocumentMoniker": "DecorMateBackend\\Models\\DTOs\\RateVendorDto.cs",
-              "ToolTip": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Models\\DTOs\\RateVendorDto.cs",
-              "RelativeToolTip": "DecorMateBackend\\Models\\DTOs\\RateVendorDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAsAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-13T20:32:44.778Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ProfessionalCategory.cs",
-              "DocumentMoniker": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Models\\Enums\\ProfessionalCategory.cs",
-              "RelativeDocumentMoniker": "DecorMateBackend\\Models\\Enums\\ProfessionalCategory.cs",
-              "ToolTip": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Models\\Enums\\ProfessionalCategory.cs",
-              "RelativeToolTip": "DecorMateBackend\\Models\\Enums\\ProfessionalCategory.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAPAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-13T20:48:29.255Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
               "Title": "GeneratedImageDto.cs",
-              "DocumentMoniker": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Models\\DTOs\\GeneratedImageDto.cs",
+              "DocumentMoniker": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Models\\DTOs\\GeneratedImageDto.cs",
               "RelativeDocumentMoniker": "DecorMateBackend\\Models\\DTOs\\GeneratedImageDto.cs",
-              "ToolTip": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Models\\DTOs\\GeneratedImageDto.cs",
+              "ToolTip": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Models\\DTOs\\GeneratedImageDto.cs",
               "RelativeToolTip": "DecorMateBackend\\Models\\DTOs\\GeneratedImageDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-13T20:02:02.078Z"
+              "WhenOpened": "2025-09-13T20:02:02.078Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 6,
               "Title": "GenerateWithFileRequestDto.cs",
-              "DocumentMoniker": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Models\\DTOs\\GenerateWithFileRequestDto.cs",
+              "DocumentMoniker": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Models\\DTOs\\GenerateWithFileRequestDto.cs",
               "RelativeDocumentMoniker": "DecorMateBackend\\Models\\DTOs\\GenerateWithFileRequestDto.cs",
-              "ToolTip": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Models\\DTOs\\GenerateWithFileRequestDto.cs",
+              "ToolTip": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Models\\DTOs\\GenerateWithFileRequestDto.cs",
               "RelativeToolTip": "DecorMateBackend\\Models\\DTOs\\GenerateWithFileRequestDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-13T20:01:37.814Z"
+              "WhenOpened": "2025-09-13T20:01:37.814Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 15,
               "Title": "AuthController.cs",
-              "DocumentMoniker": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Controllers\\AuthController.cs",
+              "DocumentMoniker": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Controllers\\AuthController.cs",
               "RelativeDocumentMoniker": "DecorMateBackend\\Controllers\\AuthController.cs",
-              "ToolTip": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Controllers\\AuthController.cs",
+              "ToolTip": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Controllers\\AuthController.cs",
               "RelativeToolTip": "DecorMateBackend\\Controllers\\AuthController.cs",
               "ViewState": "AgIAAEcBAAAAAAAAAAAIwF8BAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -210,11 +269,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 14,
               "Title": "EmailService.cs",
-              "DocumentMoniker": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Services\\EmailService.cs",
+              "DocumentMoniker": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Services\\EmailService.cs",
               "RelativeDocumentMoniker": "DecorMateBackend\\Services\\EmailService.cs",
-              "ToolTip": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Services\\EmailService.cs",
+              "ToolTip": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Services\\EmailService.cs",
               "RelativeToolTip": "DecorMateBackend\\Services\\EmailService.cs",
               "ViewState": "AgIAAAsAAAAAAAAAAAAgwCYAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -222,37 +281,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 16,
               "Title": "Profile.cshtml",
-              "DocumentMoniker": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Views\\Auth\\Profile.cshtml",
+              "DocumentMoniker": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Views\\Auth\\Profile.cshtml",
               "RelativeDocumentMoniker": "DecorMateBackend\\Views\\Auth\\Profile.cshtml",
-              "ToolTip": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Views\\Auth\\Profile.cshtml",
+              "ToolTip": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Views\\Auth\\Profile.cshtml",
               "RelativeToolTip": "DecorMateBackend\\Views\\Auth\\Profile.cshtml",
               "ViewState": "AgIAAIwAAAAAAAAAAAAiwJUAAAA0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2025-09-13T19:16:14.095Z"
-            }
-          ]
-        },
-        {
-          "DockedWidth": 367,
-          "SelectedChildIndex": -1,
-          "Children": [
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{a80febb4-e7e0-4147-b476-21aaf2453969}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
             }
           ]
         }
