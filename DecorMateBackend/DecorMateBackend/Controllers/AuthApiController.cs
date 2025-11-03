@@ -20,6 +20,8 @@ using DecorMateBackend.Models.DTOs;
 using DecorMateBackend.Models;
 using System.Text.Json;
 using System.Net.Http.Headers;
+using DecorMateBackend.Repositories;
+using System.Runtime.Intrinsics.Arm;
 
 namespace DecorMateBackend.Controllers.Api
 {
@@ -27,8 +29,7 @@ namespace DecorMateBackend.Controllers.Api
     [Route("api/[controller]")]
     public class AuthApiController : ControllerBase
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly ApplicationDbContext _db;
         private readonly JwtService _jwtService;
         private readonly JwtSettings _jwtSettings;
@@ -39,8 +40,7 @@ namespace DecorMateBackend.Controllers.Api
         private readonly EmailService _emailService;
 
         public AuthApiController(
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
+            IUnitOfWork unitOfWork,
             ApplicationDbContext db,
             JwtService jwtService,
             IOptions<JwtSettings> jwtOptions,
@@ -50,9 +50,8 @@ namespace DecorMateBackend.Controllers.Api
             CloudinaryService cloudinaryService,
              EmailService emailService)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
             _db = db;
+            _unitOfWork = unitOfWork;
             _jwtService = jwtService;
             _jwtSettings = jwtOptions.Value;
             _logger = logger;
@@ -70,13 +69,13 @@ namespace DecorMateBackend.Controllers.Api
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var existing = await _userManager.FindByEmailAsync(dto.Email);
+            var existing = await _unitOfWork.Users.FindByEmailAsync(dto.Email);
             if (existing != null)
             {
                 if (existing.EmailConfirmed)
                     return BadRequest(new { message = "Email already in use" });
                 // user exists but not confirmed -> delete to allow re-register
-                var delRes = await _userManager.DeleteAsync(existing);
+                var delRes = await _unitOfWork.Users.DeleteAsync(existing);
                 if (!delRes.Succeeded)
                 {
                     _logger.LogWarning("Failed to delete existing unconfirmed user {Email}: {Errors}",
@@ -95,20 +94,20 @@ namespace DecorMateBackend.Controllers.Api
                 EmailConfirmed = false
             };
 
-            var createRes = await _userManager.CreateAsync(user, dto.Password);
+            var createRes = await _unitOfWork.Users.CreateAsync(user, dto.Password);
             if (!createRes.Succeeded)
             {
                 _logger.LogWarning("Create user failed for {Email}: {Errors}", dto.Email, string.Join(",", createRes.Errors.Select(e => e.Description)));
                 return BadRequest(createRes.Errors.Select(e => e.Description));
             }
 
-            await _userManager.AddToRoleAsync(user, "User");
+            await _unitOfWork.Users.AddToRoleAsync(user, "User");
 
             // Generate and persist OTP
             var otp = GenerateOtp(6);
             user.OtpCode = otp;
             user.OtpExpiry = DateTime.UtcNow.AddMinutes(10);
-            var upd = await _userManager.UpdateAsync(user);
+            var upd = await _unitOfWork.Users.UpdateAsync(user);
             if (!upd.Succeeded)
             {
                 _logger.LogWarning("Failed to update user with verification code for {Email}: {Errors}", user.Email, string.Join(",", upd.Errors.Select(e => e.Description)));
@@ -149,10 +148,11 @@ namespace DecorMateBackend.Controllers.Api
             if (string.IsNullOrEmpty(dto.Email) || string.IsNullOrEmpty(dto.Otp))
                 return BadRequest(new { message = "Email and verification code are required" });
 
-            var user = await _userManager.FindByEmailAsync(dto.Email);
+            var user = await _unitOfWork.Users.FindByEmailAsync(dto.Email);
             if (user == null) return BadRequest(new { message = "Invalid email" });
 
-            if (user.EmailConfirmed) return BadRequest(new { message = "Email already confirmed" });
+            if (user.EmailConfirmed) 
+                return BadRequest(new { message = "Email already confirmed" });
 
             if (user.OtpCode != dto.Otp || !user.OtpExpiry.HasValue || user.OtpExpiry.Value < DateTime.UtcNow)
                 return BadRequest(new { message = "Invalid or expired verification code" });
@@ -160,10 +160,11 @@ namespace DecorMateBackend.Controllers.Api
             user.EmailConfirmed = true;
             user.OtpCode = null;
             user.OtpExpiry = null;
-            await _userManager.UpdateAsync(user);
+
+            await _unitOfWork.Users.UpdateAsync(user);
 
             var tokens = await _jwtService.GenerateTokensAsync(user);
-            var roles = await _userManager.GetRolesAsync(user);
+            var roles = await _unitOfWork.Users.GetRolesAsync(user);
             tokens.User = new UserDto
             {
                 Email = user.Email,
@@ -181,8 +182,9 @@ namespace DecorMateBackend.Controllers.Api
                 CreatedByIp = HttpContext.Connection.RemoteIpAddress?.ToString(),
                 ApplicationUserId = user.Id
             };
-            _db.RefreshTokens.Add(refreshEntity);
-            await _db.SaveChangesAsync();
+         //   _logger.LogInformation($"this is the refresh Entity {refreshEntity}");
+            _unitOfWork.RefreshTokens.AddRefreshToken(refreshEntity);
+            await _unitOfWork.SaveChangesAsync();
 
             tokens.RefreshToken = refreshEntity.Token;
             return Ok(tokens);
@@ -198,15 +200,17 @@ namespace DecorMateBackend.Controllers.Api
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var user = await _userManager.FindByEmailAsync(dto.Email);
-            if (user == null) return Unauthorized(new { message = "Invalid credentials" });
+            var user = await _unitOfWork.Users.FindByEmailAsync(dto.Email);
+            if (user == null) 
+                return Unauthorized(new { message = "Invalid credentials" });
 
-            var check = await _signInManager.CheckPasswordSignInAsync(user, dto.Password, lockoutOnFailure: true);
-            if (!check.Succeeded) return Unauthorized(new { message = "Invalid credentials" });
+            var check = await _unitOfWork.Users.CheckPasswordSignInAsync(user, dto.Password, lockoutOnFailure: true);
+            if (!check.Succeeded) 
+                return Unauthorized(new { message = "Invalid credentials" });
 
-            if (!await _userManager.IsEmailConfirmedAsync(user))
+            if (!await _unitOfWork.Users.IsEmailConfirmedAsync(user))
                 return BadRequest(new { message = "Email not confirmed" });
-            var roles = await _userManager.GetRolesAsync(user);
+            var roles = await _unitOfWork.Users.GetRolesAsync(user);
             if (roles.FirstOrDefault("Company") == "Company")
                 return BadRequest(new { message = "Use the Dashboard" });
             var tokens = await _jwtService.GenerateTokensAsync(user);
@@ -228,8 +232,8 @@ namespace DecorMateBackend.Controllers.Api
                 ApplicationUserId = user.Id
             };
 
-            _db.RefreshTokens.Add(refreshEntity);
-            await _db.SaveChangesAsync();
+            _unitOfWork.RefreshTokens.AddRefreshToken(refreshEntity);   
+            await _unitOfWork.SaveChangesAsync();
 
             tokens.RefreshToken = refreshEntity.Token;
             return Ok(tokens);
@@ -244,12 +248,12 @@ namespace DecorMateBackend.Controllers.Api
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var user = await _userManager.FindByEmailAsync(dto.Email);
+            var user = await _unitOfWork.Users.FindByEmailAsync(dto.Email);
             // don't reveal whether user exists
             if (user == null)
                 return Ok(new { message = "If the account exists, an verification code has been sent to the email." });
 
-            var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var resetToken = await _unitOfWork.Users.GeneratePasswordResetTokenAsync(user); 
             user.PasswordResetToken = Convert.ToBase64String(Encoding.UTF8.GetBytes(resetToken));
             user.PasswordResetTokenExpiry = DateTime.UtcNow.AddHours(1);
 
@@ -257,8 +261,8 @@ namespace DecorMateBackend.Controllers.Api
             user.PasswordResetOtp = otp;
             user.PasswordResetOtpExpiry = DateTime.UtcNow.AddMinutes(10);
 
-            await _userManager.UpdateAsync(user);
-            await _db.SaveChangesAsync();
+            await _unitOfWork.Users.UpdateAsync(user);
+            await _unitOfWork.SaveChangesAsync();
             // send OTP email
             await _emailService.SendPasswordResetOtpAsync(user, otp);
 
@@ -273,8 +277,9 @@ namespace DecorMateBackend.Controllers.Api
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var user = await _userManager.FindByEmailAsync(dto.Email);
-            if (user == null) return BadRequest(new { message = "Invalid request" });
+            var user = await _unitOfWork.Users.FindByEmailAsync(dto.Email);
+            if (user == null)
+                return BadRequest(new { message = "Invalid request" });
 
             // validate OTP
             if (string.IsNullOrEmpty(user.PasswordResetOtp) ||
@@ -305,7 +310,7 @@ namespace DecorMateBackend.Controllers.Api
             }
 
             // reset password
-            var resetResult = await _userManager.ResetPasswordAsync(user, decodedToken, dto.NewPassword);
+            var resetResult = await _unitOfWork.Users.ResetPasswordAsync(user, decodedToken, dto.NewPassword);
             if (!resetResult.Succeeded)
             {
                 return BadRequest(new { errors = resetResult.Errors.Select(e => e.Description) });
@@ -316,17 +321,16 @@ namespace DecorMateBackend.Controllers.Api
             user.PasswordResetTokenExpiry = null;
             user.PasswordResetOtp = null;
             user.PasswordResetOtpExpiry = null;
-            await _userManager.UpdateAsync(user);
+            await _unitOfWork.Users.UpdateAsync(user);
 
             // mark email confirmed if not
-            if (!await _userManager.IsEmailConfirmedAsync(user))
+            if (!await _unitOfWork.Users.IsEmailConfirmedAsync(user))
             {
                 user.EmailConfirmed = true;
-                await _userManager.UpdateAsync(user);
+                await _unitOfWork.Users.UpdateAsync(user);
             }
 
-
-            await _db.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync();
 
 
             return Ok(new { message = "Password updated successfully, Please login again" });
@@ -337,28 +341,38 @@ namespace DecorMateBackend.Controllers.Api
         public async Task<IActionResult> UpdatePassword([FromBody] ResetPasswordDto dto)
         {
             if (!ModelState.IsValid)
+            {
+                _logger.LogError("A7a");
                 return BadRequest(ModelState);
 
+            }
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value
                          ?? User.FindFirst(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Sub)?.Value;
 
             if (string.IsNullOrEmpty(userId))
+            {
+                _logger.LogError("invalid token");
                 return Unauthorized(new { message = "Invalid token / user." });
-
-            var user = await _userManager.FindByIdAsync(userId);
+            }
+            var user = await _unitOfWork.Users.FindByIdAsync(userId);
             if (user == null)
+            {
+                _logger.LogError("User is not here ya 7omar");
                 return Unauthorized(new { message = "User not found." });
+            }
 
             if (dto.NewPassword != dto.ConfirmPassword)
                 return BadRequest(new { message = "New password and confirmation do not match." });
 
             // Reset password using token since we don't require CurrentPassword
-            var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
-            var resetRes = await _userManager.ResetPasswordAsync(user, resetToken, dto.NewPassword);
+            var resetToken = await _unitOfWork.Users.GeneratePasswordResetTokenAsync(user);
+            var resetRes = await _unitOfWork.Users.ResetPasswordAsync(user, resetToken, dto.NewPassword);
 
             if (!resetRes.Succeeded)
-                return BadRequest(new { errors = resetRes.Errors.Select(e => e.Description) });
-
+            {
+                _logger.LogError("The Error is in line 365");
+                return BadRequest(new { message = "aboooos", errors = resetRes.Errors.Select(e => e.Description) });
+            }
             return Ok(new { message = "Password updated successfully, Please login again" });
         }
 
@@ -372,8 +386,8 @@ namespace DecorMateBackend.Controllers.Api
             if (string.IsNullOrEmpty(token))
                 return BadRequest(new { message = "Refresh token required" });
 
-            var existing = await _db.RefreshTokens.Include(r => r.ApplicationUser)
-                .FirstOrDefaultAsync(r => r.Token == token);
+
+            var existing  = await _unitOfWork.RefreshTokens.GetRefreshTokenAsync(token , true);
 
             if (existing == null || !existing.IsActive)
                 return Unauthorized(new { message = "Invalid refresh token" });
@@ -398,8 +412,8 @@ namespace DecorMateBackend.Controllers.Api
             };
 
             existing.ReplacedByToken = newRefresh.Token;
-            _db.RefreshTokens.Add(newRefresh);
-            await _db.SaveChangesAsync();
+            _unitOfWork.RefreshTokens.AddRefreshToken(newRefresh);
+            await _unitOfWork.SaveChangesAsync();
 
             return Ok(tokens);
         }
@@ -415,12 +429,12 @@ namespace DecorMateBackend.Controllers.Api
             string? token = body?.RefreshToken ?? Request.Cookies["refreshToken"];
             if (string.IsNullOrEmpty(token)) return BadRequest(new { message = "Token required" });
 
-            var existing = await _db.RefreshTokens.FirstOrDefaultAsync(r => r.Token == token);
+            var existing = await _unitOfWork.RefreshTokens.GetRefreshTokenAsync(token , false);
             if (existing == null) return NotFound();    
 
             existing.Revoked = DateTime.UtcNow;
             existing.RevokedByIp = Request.HttpContext.Connection.RemoteIpAddress?.ToString();
-            await _db.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync();
             return Ok(new { message = "Revoked" });
         }
 
@@ -435,10 +449,10 @@ namespace DecorMateBackend.Controllers.Api
                          ?? User.FindFirst(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Sub)?.Value;
             if (userId == null) return Unauthorized();
 
-            var user = await _userManager.FindByIdAsync(userId);
+            var user = await _unitOfWork.Users.FindByIdAsync(userId);
             if (user == null) return Unauthorized();
 
-            var roles = await _userManager.GetRolesAsync(user);
+            var roles = await _unitOfWork.Users.GetRolesAsync(user);
             return Ok(new UserDto
             {
                 Email = user.Email,
@@ -459,21 +473,23 @@ namespace DecorMateBackend.Controllers.Api
         {
             var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value
                          ?? User.FindFirst(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Sub)?.Value;
-            if (string.IsNullOrEmpty(userId)) return Unauthorized();
+            if (string.IsNullOrEmpty(userId)) 
+                return Unauthorized();
 
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user == null) return NotFound();
+            var user = await _unitOfWork.Users.FindByIdAsync(userId);
+            if (user == null) 
+                return NotFound();
 
             var prevUrl = user.ProfilePictureUrl;
             var prevPublicId = user.ProfilePicturePublicId;
 
-            if (!string.IsNullOrEmpty(dto.CompanyName) && !await _userManager.IsInRoleAsync(user, "Company"))
+            if (!string.IsNullOrEmpty(dto.CompanyName) && !await _unitOfWork.Users.IsInRoleAsync(user, "Company"))
                 return Forbid("Only company accounts can update CompanyName.");
 
             if (!string.IsNullOrEmpty(dto.FirstName)) user.FirstName = dto.FirstName;
             if (!string.IsNullOrEmpty(dto.LastName)) user.LastName = dto.LastName;
             if (!string.IsNullOrEmpty(dto.PhoneNumber)) user.PhoneNumber = dto.PhoneNumber;
-            if (!string.IsNullOrEmpty(dto.CompanyName) && await _userManager.IsInRoleAsync(user, "Company"))
+            if (!string.IsNullOrEmpty(dto.CompanyName) && await _unitOfWork.Users.IsInRoleAsync(user, "Company"))
                 user.CompanyName = dto.CompanyName;
 
             string? newUrl = null;
@@ -486,7 +502,8 @@ namespace DecorMateBackend.Controllers.Api
                     return BadRequest(new { message = "Unsupported image type. Allowed: jpeg, png, webp." });
 
                 const long maxBytes = 5 * 1024 * 1024;
-                if (dto.ProfileImage.Length > maxBytes) return BadRequest(new { message = "Image too large. Max 5MB." });
+                if (dto.ProfileImage.Length > maxBytes) 
+                    return BadRequest(new { message = "Image too large. Max 5MB." });
 
                 try
                 {
@@ -506,7 +523,7 @@ namespace DecorMateBackend.Controllers.Api
                 }
             }
 
-            var upd = await _userManager.UpdateAsync(user);
+            var upd = await _unitOfWork.Users.UpdateAsync(user);
             if (!upd.Succeeded)
             {
                 if (!string.IsNullOrEmpty(newPublicId))
@@ -532,7 +549,7 @@ namespace DecorMateBackend.Controllers.Api
             }
             catch { /* ignore */ }
 
-            var roles = await _userManager.GetRolesAsync(user);
+            var roles = await _unitOfWork.Users.GetRolesAsync(user);
             return Ok(new
             {
                 Id = user.Id,
@@ -558,7 +575,8 @@ namespace DecorMateBackend.Controllers.Api
             // get user id from token
             var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value
                          ?? User.FindFirst(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Sub)?.Value;
-            if (string.IsNullOrEmpty(userId)) return Unauthorized();
+            if (string.IsNullOrEmpty(userId)) 
+                return Unauthorized();
 
             // read config
             var aiEndpoint = _configuration["AI1:Endpoint"];
@@ -690,7 +708,7 @@ namespace DecorMateBackend.Controllers.Api
                         Prompt = dto.Prompt,
                         CreatedAt = DateTime.UtcNow
                     };
-                    _db.GeneratedImages.Add(gi);
+                    _unitOfWork.Images.AddImage(gi);
                     await _db.SaveChangesAsync(ct);
 
                     var resultDto = new GeneratedImageDto
@@ -724,24 +742,8 @@ namespace DecorMateBackend.Controllers.Api
                          ?? User.FindFirst(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Sub)?.Value;
             if (string.IsNullOrEmpty(userId)) return Unauthorized();
 
-            var q = _db.GeneratedImages
-                       .Where(g => g.ApplicationUserId == userId)
-                       .OrderByDescending(g => g.CreatedAt);
-
-            var total = await q.CountAsync(ct);
-            var items = await q.Skip((page - 1) * pageSize).Take(pageSize)
-                               .Select(g => new GeneratedImageDto
-                               {
-                                   Id = g.Id,
-                                   Url = g.ImageUrl,
-                                   PublicId = g.CloudinaryPublicId,
-                                   Prompt = g.Prompt,
-                                   Title = g.ProjectTitle,
-                                   CreatedAt = g.CreatedAt
-                               })
-                               .ToListAsync(ct);
-
-            return Ok(new { total, page, pageSize, items });
+            var (ImagesHistory , PagenationMetaData) = await _unitOfWork.Images.GetImagesAsync(userId , page, pageSize);
+            return Ok(new {PagenationMetaData , ImagesHistory });
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
@@ -754,15 +756,15 @@ namespace DecorMateBackend.Controllers.Api
             if (string.IsNullOrEmpty(userId)) return Unauthorized();
 
             // 2. find record
-            var img = await _db.GeneratedImages
-                .FirstOrDefaultAsync(g => g.Id == id, ct);
+            
+            var img = await _unitOfWork.Images.GetImageById(id, ct);
             if (img == null) return NotFound(new { message = "Image not found" });
 
             // 3. authorize: owner or Admin
             if (img.ApplicationUserId != userId)
             {
-                var currentUser = await _userManager.FindByIdAsync(userId);
-                if (currentUser == null || !await _userManager.IsInRoleAsync(currentUser, "Admin"))
+                var currentUser = await _unitOfWork.Users.FindByIdAsync(userId);
+                if (currentUser == null || !await _unitOfWork.Users.IsInRoleAsync(currentUser, "Admin"))
                     return Forbid();
             }
 
@@ -782,8 +784,8 @@ namespace DecorMateBackend.Controllers.Api
             }
 
             // 5. remove DB record
-            _db.GeneratedImages.Remove(img);
-            await _db.SaveChangesAsync(ct);
+            _unitOfWork.Images.RemoveImage(img);
+            await _unitOfWork.SaveChangesAsync(ct);
 
             // 204 No Content is a common response for delete success
             return NoContent();
@@ -806,7 +808,8 @@ namespace DecorMateBackend.Controllers.Api
             var aiEndpoint = _configuration["AI2:Endpoint"] ?? throw new InvalidOperationException("AI:Endpoint missing in config");
             var aiApiKey = _configuration["AI2:ApiKey"];
             var client = _httpFactory.CreateClient();
-            if (!string.IsNullOrEmpty(aiApiKey)) client.DefaultRequestHeaders.Add("Authorization", $"Bearer {aiApiKey}");
+            if (!string.IsNullOrEmpty(aiApiKey))
+                client.DefaultRequestHeaders.Add("Authorization", $"Bearer {aiApiKey}");
 
             // Build multipart form data to send file + prompt to AI endpoint
             using var content = new MultipartFormDataContent();
@@ -919,8 +922,8 @@ namespace DecorMateBackend.Controllers.Api
                             CreatedAt = DateTime.UtcNow
                         };
 
-                        _db.GeneratedImages.Add(gi);
-                        await _db.SaveChangesAsync(ct);
+                        _unitOfWork.Images.AddImage(gi);
+                        await _unitOfWork.SaveChangesAsync(ct);
 
                         var resultDto = new GeneratedImageDto
                         {
@@ -951,21 +954,10 @@ namespace DecorMateBackend.Controllers.Api
             // We assume users with role "Company" or "Vendor" etc. Use role names your app uses.
             var vendorRoleNames = new[] { "Company", "Vendor", "Manufacturer", "Designer" }; // tune as needed
 
+            var users = await _unitOfWork.Users.GetUsersByRolesAsync(vendorRoleNames);
+            var usersQ = users.AsQueryable();
             // get role ids for these role names
-            var roleIds = await _db.Roles
-                .Where(r => vendorRoleNames.Contains(r.Name))
-                .Select(r => r.Id)
-                .ToListAsync();
-
-            // join AspNetUserRoles to filter users that have those roles
-            var vendorUserIdsQuery = _db.UserRoles
-                .Where(ur => roleIds.Contains(ur.RoleId))
-                .Select(ur => ur.UserId);
-
-            // base users query
-            var usersQ = _db.Users
-                .Where(u => vendorUserIdsQuery.Contains(u.Id))
-                .AsNoTracking();
+            
 
             if (!string.IsNullOrWhiteSpace(q.Location))
             {
@@ -1014,6 +1006,7 @@ namespace DecorMateBackend.Controllers.Api
                     Category = u.ProfessionalCategory,
                     IsSponsored = u.IsSponsored, // assumes field exists
                     // ratings aggregated (left join)
+                    
                     RatingsCount = _db.VendorRatings.Count(r => r.ApplicationUserId == u.Id),
                     RatingsAverage = _db.VendorRatings.Where(r => r.ApplicationUserId == u.Id).Select(r => (double?)r.Score).Average() ?? 0.0
                 })
@@ -1068,21 +1061,22 @@ namespace DecorMateBackend.Controllers.Api
                          ?? User.FindFirst(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Sub)?.Value;
             if (string.IsNullOrEmpty(userId)) return Unauthorized();
 
-            var vendor = await _db.Users.FirstOrDefaultAsync(u => u.Id == vendorId);
-            if (vendor == null) return NotFound(new { message = "Vendor not found" });
+            var vendor = await _unitOfWork.Users.FindByIdAsync(vendorId);
+            if (vendor == null)
+                return NotFound(new { message = "Vendor not found" });
 
             // check if rater is trying to rate self
-            if (vendorId == userId) return BadRequest(new { message = "You cannot rate yourself" });
+            if (vendorId == userId) 
+                return BadRequest(new { message = "You cannot rate yourself" });
 
             // See if an existing rating by this user exists — update it; otherwise create new
-            var existing = await _db.VendorRatings.FirstOrDefaultAsync(r => r.ApplicationUserId == vendorId && r.RatedByUserId == userId);
-
+            var existing = await _unitOfWork.Vendors.GetVendorRateByUserAsync(vendorId, userId);
             if (existing != null)
             {
                 existing.Score = dto.Score;
                 existing.Comment = dto.Comment;
                 existing.CreatedAt = DateTime.UtcNow;
-                _db.VendorRatings.Update(existing);
+                _unitOfWork.Vendors.UpdateRating(existing); 
             }
             else
             {
@@ -1094,16 +1088,15 @@ namespace DecorMateBackend.Controllers.Api
                     Comment = dto.Comment,
                     CreatedAt = DateTime.UtcNow
                 };
-                await _db.VendorRatings.AddAsync(r);
+                await _unitOfWork.Vendors.AddRatingAsync(r);
             }
 
-            await _db.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync();
 
             // return updated aggregated info
-            var avg = await _db.VendorRatings.Where(r => r.ApplicationUserId == vendorId).Select(r => (double?)r.Score).AverageAsync() ?? 0.0;
-            var cnt = await _db.VendorRatings.CountAsync(r => r.ApplicationUserId == vendorId);
+            var AverageAndTotalRating = await _unitOfWork.Vendors.GetAverageRatingAndTotalRatingsAsync(vendorId);
 
-            return Ok(new { AverageRating = Math.Round(avg, 2), RatingsCount = cnt });
+            return Ok(new { AverageAndTotalRating});
         }
         // -----------------------
         // Helpers
