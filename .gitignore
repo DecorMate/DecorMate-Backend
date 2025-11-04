@@ -1,54 +1,75 @@
-# Build results
-bin/
-obj/
-
-# User-specific files
+# Visual Studio
+.vs/
 *.user
 *.suo
 *.userosscache
 *.sln.docstates
-*.vs/
-.vscode/
-.idea/
 
-# Configuration folders
-.config/
+# Build results
+bin/
+obj/
+out/
+[Aa]pp_Data/
+[Bb]uild/
+[Ll]og/
+[Ll]ogs/
 
 # Web stuff
 wwwroot/lib/
-wwwroot/node_modules/
+wwwroot/dist/
 node_modules/
-npm-debug.log
-yarn-debug.log
-yarn-error.log
 
-# Logs
-*.log
+# Entity Framework Migrations temp files
+Migrations/obj/
+*.cache
+*.ide
 
-# Temporary files
+# User-specific files
+*.user
+*.rsuser
+*.userprefs
+
+# Visual Studio Code
+.vscode/
+.history/
+
+# Backup & Auto Generated Files
+*.bak
 *.tmp
-*.temp
+*.log
+*.vspscc
+*.vssscc
 
-# Publish output
-/PublishOutput/
-/App_Data/
-/AppPackages/
-/Properties/PublishProfiles/
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+.nuget/
+project.lock.json
+project.fragment.lock.json
 
-# Database and migrations cache
-Migrations/
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
 
-# Project evaluation files (optional)
-ProjectEvaluation/
+# Database
+*.mdf
+*.ldf
+*.sqlite
+*.db
+*.bak
 
-# System-specific files
-Thumbs.db
+# JetBrains Rider
+.idea/
+*.sln.iml
+
+# macOS
 .DS_Store
 
-# Environment files
-.env
-appsettings.Development.json
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
 
-# Ignore appsettings files
-appsettings.json
-appsettings.*.json
+# Others
+.env
+.env.*
