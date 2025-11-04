@@ -10,6 +10,7 @@ using System.Security.Claims;
 using DecorMate_Backend_Web_app.Services;
 using DecorMateBackend.Services;
 using DecorMateBackend.Models;
+using DecorMateBackend.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -24,7 +25,14 @@ services.Configure<JwtSettings>(configuration.GetSection("Jwt"));
 // DbContext
 services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+// ----------------------------
+// Register repository services
 
+services.AddScoped <IUnitOfWork , UnitOfWork>();
+services.AddScoped <IUserRepository, UserRepository>();
+services.AddScoped <IRefreshTokenRepository , RefreshTokenRepository>();
+services.AddScoped <IImageRepository , ImageRepository>();
+services.AddScoped <IVendorRepository , VendorRepository>();
 // ----------------------------
 // Identity
 services.AddIdentity<ApplicationUser, IdentityRole>(options =>
