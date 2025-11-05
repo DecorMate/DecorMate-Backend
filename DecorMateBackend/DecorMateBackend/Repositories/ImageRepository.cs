@@ -28,10 +28,7 @@ namespace DecorMateBackend.Repositories
                 .Take(pageSize)
                 .Select(img => new GeneratedImageDto
                 {
-                    Id = img.Id,
                     Url = img.ImageUrl,
-                    PublicId = img.CloudinaryPublicId,
-                    Prompt = img.Prompt,
                     Title = img.ProjectTitle,
                     CreatedAt = img.CreatedAt
                 })

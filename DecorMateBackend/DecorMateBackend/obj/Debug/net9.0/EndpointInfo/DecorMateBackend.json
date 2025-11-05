@@ -605,17 +605,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ResetPasswordDto"
+                "$ref": "#/components/schemas/UpdatePasswordDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/ResetPasswordDto"
+                "$ref": "#/components/schemas/UpdatePasswordDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/ResetPasswordDto"
+                "$ref": "#/components/schemas/UpdatePasswordDto"
               }
             }
           }
@@ -1281,36 +1281,6 @@
         },
         "additionalProperties": false
       },
-      "ResetPasswordDto": {
-        "required": [
-          "confirmPassword",
-          "email",
-          "newPassword",
-          "token"
-        ],
-        "type": "object",
-        "properties": {
-          "email": {
-            "minLength": 1,
-            "type": "string",
-            "format": "email"
-          },
-          "token": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "newPassword": {
-            "maxLength": 100,
-            "minLength": 6,
-            "type": "string"
-          },
-          "confirmPassword": {
-            "minLength": 1,
-            "type": "string"
-          }
-        },
-        "additionalProperties": false
-      },
       "ResetPasswordWithOtpDto": {
         "type": "object",
         "properties": {
@@ -1325,6 +1295,31 @@
           "newPassword": {
             "type": "string",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdatePasswordDto": {
+        "required": [
+          "confirmPassword",
+          "email",
+          "newPassword"
+        ],
+        "type": "object",
+        "properties": {
+          "email": {
+            "minLength": 1,
+            "type": "string",
+            "format": "email"
+          },
+          "newPassword": {
+            "maxLength": 100,
+            "minLength": 6,
+            "type": "string"
+          },
+          "confirmPassword": {
+            "minLength": 1,
+            "type": "string"
           }
         },
         "additionalProperties": false

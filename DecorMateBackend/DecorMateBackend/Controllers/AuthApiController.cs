@@ -338,11 +338,10 @@ namespace DecorMateBackend.Controllers.Api
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost("update-password")]
-        public async Task<IActionResult> UpdatePassword([FromBody] ResetPasswordDto dto)
+        public async Task<IActionResult> UpdatePassword([FromBody] UpdatePasswordDto dto)
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError("A7a");
                 return BadRequest(ModelState);
 
             }
@@ -357,7 +356,7 @@ namespace DecorMateBackend.Controllers.Api
             var user = await _unitOfWork.Users.FindByIdAsync(userId);
             if (user == null)
             {
-                _logger.LogError("User is not here ya 7omar");
+                _logger.LogError("User is not found");
                 return Unauthorized(new { message = "User not found." });
             }
 
