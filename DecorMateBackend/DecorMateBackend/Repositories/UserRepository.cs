@@ -83,18 +83,18 @@ namespace DecorMateBackend.Repositories
         public async Task<IEnumerable<ApplicationUser>> GetUsersByRolesAsync(string [] roleNames)
         {
             // Get IDs for roles matching the provided names
-            var roleIds = await _db.Roles
+            var roleIds = await _context.Roles
                 .Where(r => roleNames.Contains(r.Name))
                 .Select(r => r.Id)
                 .ToListAsync();
 
             // Get user IDs that belong to those roles
-            var userIds = _db.UserRoles
+            var userIds = _context.UserRoles
                 .Where(ur => roleIds.Contains(ur.RoleId))
                 .Select(ur => ur.UserId);
 
             // Return matching users
-            return await _db.Users
+            return await _context.Users
                 .Where(u => userIds.Contains(u.Id))
                 .AsNoTracking()
                 .ToListAsync();

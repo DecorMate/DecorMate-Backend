@@ -7,20 +7,32 @@
       "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\controllers\\authapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|d:\\graduation project\\decormate-backend\\decormatebackend\\decormatebackend\\repositories\\unitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\repositories\\unitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|d:\\graduation project\\decormate-backend\\decormatebackend\\decormatebackend\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|d:\\graduation project\\decormate-backend\\decormatebackend\\decormatebackend\\repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|d:\\graduation project\\decormate-backend\\decormatebackend\\decormatebackend\\controllers\\aiimagecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\controllers\\aiimagecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|d:\\graduation project\\decormate-backend\\decormatebackend\\decormatebackend\\repositories\\iuserrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\repositories\\iuserrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|d:\\graduation project\\decormate-backend\\decormatebackend\\decormatebackend\\repositories\\ivendorrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\repositories\\ivendorrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|d:\\graduation project\\decormate-backend\\decormatebackend\\decormatebackend\\repositories\\iunitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\repositories\\iunitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|d:\\graduation project\\decormate-backend\\decormatebackend\\decormatebackend\\repositories\\vendorrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\repositories\\vendorrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|d:\\graduation project\\decormate-backend\\decormatebackend\\decormatebackend\\controllers\\businesscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\controllers\\businesscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|d:\\graduation project\\decormate-backend\\decormatebackend\\decormatebackend\\controllers\\profilecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\controllers\\profilecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|d:\\graduation project\\decormate-backend\\decormatebackend\\decormatebackend\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|d:\\graduation project\\decormate-backend\\decormatebackend\\decormatebackend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -42,67 +54,67 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Program.cs",
-              "DocumentMoniker": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Program.cs",
-              "RelativeDocumentMoniker": "DecorMateBackend\\Program.cs",
-              "ToolTip": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Program.cs",
-              "RelativeToolTip": "DecorMateBackend\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAC0AAAAaAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Controllers\\AuthController.cs",
+              "RelativeDocumentMoniker": "DecorMateBackend\\Controllers\\AuthController.cs",
+              "ToolTip": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Controllers\\AuthController.cs",
+              "RelativeToolTip": "DecorMateBackend\\Controllers\\AuthController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-03T13:56:18.84Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "IUnitOfWork.cs",
-              "DocumentMoniker": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Repositories\\IUnitOfWork.cs",
-              "RelativeDocumentMoniker": "DecorMateBackend\\Repositories\\IUnitOfWork.cs",
-              "ToolTip": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Repositories\\IUnitOfWork.cs",
-              "RelativeToolTip": "DecorMateBackend\\Repositories\\IUnitOfWork.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-03T13:56:04.202Z",
+              "WhenOpened": "2025-11-06T14:44:14.75Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "IUserRepository.cs",
-              "DocumentMoniker": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Repositories\\IUserRepository.cs",
-              "RelativeDocumentMoniker": "DecorMateBackend\\Repositories\\IUserRepository.cs",
-              "ToolTip": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Repositories\\IUserRepository.cs",
-              "RelativeToolTip": "DecorMateBackend\\Repositories\\IUserRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAABUAAAAAAAAAA==",
+              "Title": "IVendorRepository.cs",
+              "DocumentMoniker": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Repositories\\IVendorRepository.cs",
+              "RelativeDocumentMoniker": "DecorMateBackend\\Repositories\\IVendorRepository.cs",
+              "ToolTip": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Repositories\\IVendorRepository.cs",
+              "RelativeToolTip": "DecorMateBackend\\Repositories\\IVendorRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-03T13:37:47.032Z",
+              "WhenOpened": "2025-11-06T14:22:32.253Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "VendorRepository.cs",
+              "DocumentMoniker": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Repositories\\VendorRepository.cs",
+              "RelativeDocumentMoniker": "DecorMateBackend\\Repositories\\VendorRepository.cs",
+              "ToolTip": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Repositories\\VendorRepository.cs",
+              "RelativeToolTip": "DecorMateBackend\\Repositories\\VendorRepository.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAQwDEAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-06T14:20:35.626Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "BusinessController.cs",
+              "DocumentMoniker": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Controllers\\BusinessController.cs",
+              "RelativeDocumentMoniker": "DecorMateBackend\\Controllers\\BusinessController.cs",
+              "ToolTip": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Controllers\\BusinessController.cs",
+              "RelativeToolTip": "DecorMateBackend\\Controllers\\BusinessController.cs",
+              "ViewState": "AgIAAF0AAAAAAAAAAAAQwF4AAABZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-06T14:18:59.615Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "UserRepository.cs",
-              "DocumentMoniker": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Repositories\\UserRepository.cs",
-              "RelativeDocumentMoniker": "DecorMateBackend\\Repositories\\UserRepository.cs",
-              "ToolTip": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Repositories\\UserRepository.cs",
-              "RelativeToolTip": "DecorMateBackend\\Repositories\\UserRepository.cs",
-              "ViewState": "AgIAABwAAAAAAAAAAAA1wFIAAABhAAAAAAAAAA==",
+              "Title": "AiImageController.cs",
+              "DocumentMoniker": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Controllers\\AiImageController.cs",
+              "RelativeDocumentMoniker": "DecorMateBackend\\Controllers\\AiImageController.cs",
+              "ToolTip": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Controllers\\AiImageController.cs",
+              "RelativeToolTip": "DecorMateBackend\\Controllers\\AiImageController.cs",
+              "ViewState": "AgIAABwAAAAAAAAAAAA/wBcAAAAxAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-03T13:37:18.973Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "UnitOfWork.cs",
-              "DocumentMoniker": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Repositories\\UnitOfWork.cs",
-              "RelativeDocumentMoniker": "DecorMateBackend\\Repositories\\UnitOfWork.cs",
-              "ToolTip": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Repositories\\UnitOfWork.cs",
-              "RelativeToolTip": "DecorMateBackend\\Repositories\\UnitOfWork.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAA1wBAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-03T13:37:15.114Z",
+              "WhenOpened": "2025-11-06T14:16:09.527Z",
               "EditorCaption": ""
             },
             {
@@ -113,10 +125,48 @@
               "RelativeDocumentMoniker": "DecorMateBackend\\Controllers\\AuthApiController.cs",
               "ToolTip": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Controllers\\AuthApiController.cs",
               "RelativeToolTip": "DecorMateBackend\\Controllers\\AuthApiController.cs",
-              "ViewState": "AgIAAKUDAAAAAAAAAADwv7YDAABVAAAAAAAAAA==",
+              "ViewState": "AgIAACkEAAAAAAAAAAAwwEcEAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-03T11:31:55.688Z",
+              "WhenOpened": "2025-11-06T13:40:49.231Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ProfileController.cs",
+              "DocumentMoniker": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Controllers\\ProfileController.cs",
+              "RelativeDocumentMoniker": "DecorMateBackend\\Controllers\\ProfileController.cs",
+              "ToolTip": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Controllers\\ProfileController.cs",
+              "RelativeToolTip": "DecorMateBackend\\Controllers\\ProfileController.cs",
+              "ViewState": "AgIAACQAAAAAAAAAAAAowCEAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-06T13:38:15.613Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "AccountController.cs",
+              "DocumentMoniker": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Controllers\\AccountController.cs",
+              "RelativeDocumentMoniker": "DecorMateBackend\\Controllers\\AccountController.cs",
+              "ToolTip": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Controllers\\AccountController.cs",
+              "RelativeToolTip": "DecorMateBackend\\Controllers\\AccountController.cs",
+              "ViewState": "AgIAANcAAAAAAAAAAAAqwDgBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-06T13:26:18.447Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Program.cs",
+              "RelativeDocumentMoniker": "DecorMateBackend\\Program.cs",
+              "ToolTip": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Program.cs",
+              "RelativeToolTip": "DecorMateBackend\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAC0AAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-03T13:56:18.84Z"
             }
           ]
         }

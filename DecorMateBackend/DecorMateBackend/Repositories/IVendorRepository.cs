@@ -11,5 +11,9 @@ namespace DecorMateBackend.Repositories
 
         void UpdateRating(VendorRating rating);
 
+        int CountRatings(string vendorId);
+
+        double GetAverageRatingsOfVendor(string vendorId);
+
     }
 }

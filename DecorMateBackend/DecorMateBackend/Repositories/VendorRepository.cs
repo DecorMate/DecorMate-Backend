@@ -41,5 +41,19 @@ namespace DecorMateBackend.Repositories
         {
             _context.VendorRatings.Update(rating);
         }
+
+        public int CountRatings(string vendorId)
+        {
+            return _context.VendorRatings.Count(r => r.ApplicationUserId == vendorId);
+        }
+
+        public double GetAverageRatingsOfVendor(string vendorId)
+        {
+            return _context.VendorRatings
+            .Where(r => r.ApplicationUserId == vendorId)
+            .Select(r => (double?)r.Score)
+            .Average() ?? 0.0;
+        }
+
     }
 }

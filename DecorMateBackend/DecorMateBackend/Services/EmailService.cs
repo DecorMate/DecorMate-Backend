@@ -21,7 +21,6 @@ namespace DecorMateBackend.Services
         public async Task SendConfirmationAsync(ApplicationUser user, string callbackBaseUrl, bool includeButton, string? otp = null, CancellationToken ct = default)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
-            if (string.IsNullOrEmpty(callbackBaseUrl)) throw new ArgumentNullException(nameof(callbackBaseUrl));
 
             // Generate token and URL-encode it
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
