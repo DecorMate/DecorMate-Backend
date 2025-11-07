@@ -19,6 +19,16 @@ namespace DecorMate_Backend_Web_app.Models.DTOs
         [Compare("NewPassword", ErrorMessage = "Passwords do not match.")]
         public string ConfirmPassword { get; set; } = null!;
     }
+    public class UpdatePasswordDto
+    {
+        [Required]
+        [StringLength(100, MinimumLength = 6)]
+        public string NewPassword { get; set; } = null!;
+
+        [Required]
+        [Compare("NewPassword", ErrorMessage = "Passwords do not match.")]
+        public string ConfirmPassword { get; set; } = null!;
+    }
     public class ResetPasswordWithOtpDto
     {
         public string Email { get; set; } = null!;

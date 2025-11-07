@@ -405,7 +405,7 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "DecorMate_Backend_Web_app.Models.DTOs.ResetPasswordDto",
+        "Type": "DecorMate_Backend_Web_app.Models.DTOs.UpdatePasswordDto",
         "IsRequired": true
       }
     ],

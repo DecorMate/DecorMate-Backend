@@ -1,8 +1,9 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\",
+  "WorkspaceRootPath": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\",
   "Documents": [
     {
+<<<<<<< HEAD
       "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|d:\\graduation project\\decormate-backend\\decormatebackend\\decormatebackend\\controllers\\profilecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\controllers\\profilecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -17,6 +18,22 @@
     {
       "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|d:\\graduation project\\decormate-backend\\decormatebackend\\decormatebackend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+=======
+      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|c:\\users\\a7med\\onedrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\decormate\\decormate backend\\decormate-backend\\decormatebackend\\decormatebackend\\controllers\\authapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\controllers\\authapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|c:\\users\\a7med\\onedrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\decormate\\decormate backend\\decormate-backend\\decormatebackend\\decormatebackend\\views\\auth\\resetpassword.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\views\\auth\\resetpassword.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|c:\\users\\a7med\\onedrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\decormate\\decormate backend\\decormate-backend\\decormatebackend\\decormatebackend\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|c:\\users\\a7med\\onedrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\decormate\\decormate backend\\decormate-backend\\decormatebackend\\decormatebackend\\models\\dtos\\logindto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\models\\dtos\\logindto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+>>>>>>> 2cadab4237444bb5c6e50d90409d973bb6942332
     }
   ],
   "DocumentGroupContainers": [
@@ -25,9 +42,18 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
+<<<<<<< HEAD
           "DockedHeight": 200,
           "SelectedChildIndex": 2,
+=======
+          "DockedHeight": 715,
+          "SelectedChildIndex": 5,
+>>>>>>> 2cadab4237444bb5c6e50d90409d973bb6942332
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
@@ -35,6 +61,7 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
+<<<<<<< HEAD
               "Title": "AuthApiController.cs",
               "DocumentMoniker": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Controllers\\AuthApiController.cs",
               "RelativeDocumentMoniker": "DecorMateBackend\\Controllers\\AuthApiController.cs",
@@ -56,11 +83,22 @@
               "ViewState": "AgIAAA4AAAAAAAAAAAAgwFQAAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-06T13:38:15.613Z",
+=======
+              "Title": "ResetPassword.cshtml",
+              "DocumentMoniker": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Views\\Auth\\ResetPassword.cshtml",
+              "RelativeDocumentMoniker": "DecorMateBackend\\Views\\Auth\\ResetPassword.cshtml",
+              "ToolTip": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Views\\Auth\\ResetPassword.cshtml",
+              "RelativeToolTip": "DecorMateBackend\\Views\\Auth\\ResetPassword.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-05T12:00:07.345Z",
+>>>>>>> 2cadab4237444bb5c6e50d90409d973bb6942332
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
+<<<<<<< HEAD
               "Title": "AccountController.cs",
               "DocumentMoniker": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Controllers\\AccountController.cs",
               "RelativeDocumentMoniker": "DecorMateBackend\\Controllers\\AccountController.cs",
@@ -82,6 +120,65 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAC0AAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-03T13:56:18.84Z"
+=======
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Controllers\\AuthController.cs",
+              "RelativeDocumentMoniker": "DecorMateBackend\\Controllers\\AuthController.cs",
+              "ToolTip": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Controllers\\AuthController.cs",
+              "RelativeToolTip": "DecorMateBackend\\Controllers\\AuthController.cs",
+              "ViewState": "AgIAAIwBAAAAAAAAAAASwJkBAAA1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-05T11:59:34.245Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "LoginDto.cs",
+              "DocumentMoniker": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Models\\DTOs\\LoginDto.cs",
+              "RelativeDocumentMoniker": "DecorMateBackend\\Models\\DTOs\\LoginDto.cs",
+              "ToolTip": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Models\\DTOs\\LoginDto.cs",
+              "RelativeToolTip": "DecorMateBackend\\Models\\DTOs\\LoginDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAA1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-05T11:48:16.354Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AuthApiController.cs",
+              "DocumentMoniker": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Controllers\\AuthApiController.cs",
+              "RelativeDocumentMoniker": "DecorMateBackend\\Controllers\\AuthApiController.cs",
+              "ToolTip": "C:\\Users\\a7med\\OneDrive\\\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628\\graduation project\\DecorMate\\DecorMate Backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Controllers\\AuthApiController.cs*",
+              "RelativeToolTip": "DecorMateBackend\\Controllers\\AuthApiController.cs*",
+              "ViewState": "AgIAAGgBAAAAAAAAAAAEwFkBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-05T11:27:06.398Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedHeight": 200,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{a80febb4-e7e0-4147-b476-21aaf2453969}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
+>>>>>>> 2cadab4237444bb5c6e50d90409d973bb6942332
             }
           ]
         }

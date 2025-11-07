@@ -1,6 +1,73 @@
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.min.css.map
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\js\bootstrap.esm.js.map
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap.css
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.min.css
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.css
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\jquery\dist\jquery.min.map
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\js\bootstrap.js
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.css
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\jquery\dist\jquery.min.js
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.css
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\jquery-validation\dist\additional-methods.js
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\js\bootstrap.esm.js
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css.map
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.min.css.map
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.css.map
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\js\bootstrap.esm.min.js
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\jquery-validation-unobtrusive\LICENSE.txt
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js.map
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js.map
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.min.css
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap.css.map
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\css\site.css
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\jquery-validation\dist\additional-methods.min.js
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.css
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.css
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.css.map
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\jquery-validation\dist\jquery.validate.js
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\js\bootstrap.js.map
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.css.map
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\js\bootstrap.esm.min.js.map
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\jquery-validation\LICENSE.md
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\jquery\LICENSE.txt
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.css.map
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\js\site.js
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.min.css
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\js\bootstrap.min.js
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.min.css.map
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.min.css
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.css.map
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\jquery-validation\dist\jquery.validate.min.js
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\jquery\dist\jquery.js
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css.map
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.min.css.map
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.min.css
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\js\bootstrap.min.js.map
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.min.css.map
+C:\Users\a7med\OneDrive\سطح المكتب\graduation project\DecorMate\DecorMate Backend\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\favicon.ico
 wwwroot\css\site.css
 wwwroot\favicon.ico
 wwwroot\js\site.js
+wwwroot\lib\bootstrap\dist\css\bootstrap.css
+wwwroot\lib\bootstrap\dist\css\bootstrap.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap.min.css
+wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.css
+wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.min.css
+wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.min.css.map
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css
@@ -25,14 +92,6 @@ wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.css
 wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.css.map
 wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.min.css
 wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.min.css.map
-wwwroot\lib\bootstrap\dist\css\bootstrap.css
-wwwroot\lib\bootstrap\dist\css\bootstrap.css.map
-wwwroot\lib\bootstrap\dist\css\bootstrap.min.css
-wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map
-wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.css
-wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.css.map
-wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.min.css
-wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.min.css.map
 wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js
 wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js.map
 wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js
@@ -46,74 +105,15 @@ wwwroot\lib\bootstrap\dist\js\bootstrap.js.map
 wwwroot\lib\bootstrap\dist\js\bootstrap.min.js
 wwwroot\lib\bootstrap\dist\js\bootstrap.min.js.map
 wwwroot\lib\bootstrap\LICENSE
-wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js
-wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js
-wwwroot\lib\jquery-validation-unobtrusive\LICENSE.txt
+wwwroot\lib\jquery\dist\jquery.js
+wwwroot\lib\jquery\dist\jquery.min.js
+wwwroot\lib\jquery\dist\jquery.min.map
+wwwroot\lib\jquery\LICENSE.txt
 wwwroot\lib\jquery-validation\dist\additional-methods.js
 wwwroot\lib\jquery-validation\dist\additional-methods.min.js
 wwwroot\lib\jquery-validation\dist\jquery.validate.js
 wwwroot\lib\jquery-validation\dist\jquery.validate.min.js
 wwwroot\lib\jquery-validation\LICENSE.md
-wwwroot\lib\jquery\dist\jquery.js
-wwwroot\lib\jquery\dist\jquery.min.js
-wwwroot\lib\jquery\dist\jquery.min.map
-wwwroot\lib\jquery\LICENSE.txt
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\css\site.css
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\favicon.ico
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\js\site.js
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.css
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.css.map
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.min.css
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.min.css.map
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css.map
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css.map
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.css
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.css.map
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.min.css
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.min.css.map
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.css
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.css.map
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.min.css
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.min.css.map
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.css
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.css.map
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.min.css
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.min.css.map
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap.css
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap.css.map
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.css
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.css.map
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.min.css
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.min.css.map
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js.map
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js.map
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\js\bootstrap.esm.js
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\js\bootstrap.esm.js.map
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\js\bootstrap.esm.min.js
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\js\bootstrap.esm.min.js.map
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\js\bootstrap.js
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\js\bootstrap.js.map
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\js\bootstrap.min.js
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\bootstrap\dist\js\bootstrap.min.js.map
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\jquery-validation-unobtrusive\LICENSE.txt
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\jquery-validation\dist\additional-methods.js
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\jquery-validation\dist\additional-methods.min.js
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\jquery-validation\dist\jquery.validate.js
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\jquery-validation\dist\jquery.validate.min.js
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\jquery-validation\LICENSE.md
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\jquery\dist\jquery.js
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\jquery\dist\jquery.min.js
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\jquery\dist\jquery.min.map
-D:\Graduation Project\DecorMate-Backend\DecorMateBackend\DecorMateBackend\wwwroot\lib\jquery\LICENSE.txt
+wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js
+wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js
+wwwroot\lib\jquery-validation-unobtrusive\LICENSE.txt
