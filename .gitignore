@@ -1,1 +1,44 @@
+## Build folders
+bin/
+obj/
+
+## User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Visual Studio cache
+.vs/
+
+## Rider / JetBrains
+.idea/
+*.sln.iml
+
+## Logs
+*.log
+
+## Temporary files
+*.tmp
+*.temp
+
+## ASP.NET Core
+wwwroot/**/*.map
+wwwroot/lib/
+
+## Entity Framework
+Migrations/ __EFMigrationsHistory
+*.dgml
+
+## Configuration files (keep appsettings.json, ignore local overrides)
+appsettings.Development.json
+appsettings.Local.json
+
+## Publish
+publish/
+out/
+
+## Others
+Thumbs.db
+*.DS_Store
 
