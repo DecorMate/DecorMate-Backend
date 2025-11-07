@@ -1,7 +1,6 @@
 ﻿using DecorMate_Backend_Web_app.Data;
 using DecorMate_Backend_Web_app.Models;
 using DecorMate_Backend_Web_app.Services;
-using DecorMateBackend.Controllers.Api;
 using DecorMateBackend.Models;
 using DecorMateBackend.Models.DTOs;
 using DecorMateBackend.Repositories;

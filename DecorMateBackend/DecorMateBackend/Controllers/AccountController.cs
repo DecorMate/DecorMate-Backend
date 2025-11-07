@@ -2,13 +2,13 @@
 using DecorMate_Backend_Web_app.Models;
 using DecorMate_Backend_Web_app.Models.DTOs;
 using DecorMate_Backend_Web_app.Services;
-using DecorMateBackend.Controllers.Api;
 using DecorMateBackend.Repositories;
 using DecorMateBackend.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using DecorMateBackend.Models.DTOs;
 using Microsoft.Extensions.Options;
 using System.Security.Claims;
 using System.Text;
@@ -21,13 +21,13 @@ namespace DecorMateBackend.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly JwtService _jwtService;
-        private readonly ILogger<AuthApiController> _logger;
+        private readonly ILogger<AccountController> _logger;
         private readonly EmailService _emailService;
 
         public AccountController(
             IUnitOfWork unitOfWork,
             JwtService jwtService,
-            ILogger<AuthApiController> logger,
+            ILogger<AccountController> logger,
              EmailService emailService)
         {
             _unitOfWork = unitOfWork;
@@ -158,12 +158,36 @@ namespace DecorMateBackend.Controllers
                 CreatedByIp = HttpContext.Connection.RemoteIpAddress?.ToString(),
                 ApplicationUserId = user.Id
             };
-            //   _logger.LogInformation($"this is the refresh Entity {refreshEntity}");
+            
             _unitOfWork.RefreshTokens.AddRefreshToken(refreshEntity);
             await _unitOfWork.SaveChangesAsync();
 
             tokens.RefreshToken = refreshEntity.Token;
             return Ok(tokens);
+        }
+
+        [HttpPost("resend-otp")]
+        public async Task<IActionResult> ResendOtp([FromBody] ResendOtpDto resendOtpDto)
+        {
+            if(string.IsNullOrEmpty(resendOtpDto.Email))
+                return BadRequest(new { message = "Email is required" });
+            
+            var user = await _unitOfWork.Users.FindByEmailAsync(resendOtpDto.Email);
+            if (user == null)
+                return BadRequest(new { message = "Invalid email" });
+            
+            if (user.EmailConfirmed)
+                return BadRequest(new { message = "Email already confirmed" });
+            
+            var otp = OTPService.GenerateOtp(6);
+            user.OtpCode = otp;
+            user.OtpExpiry = DateTime.UtcNow.AddMinutes(10);
+            
+            await _unitOfWork.Users.UpdateAsync(user);
+            await _unitOfWork.SaveChangesAsync();
+            
+            await _emailService.SendConfirmationAsync(user, null, includeButton: false, otp: otp, ct: CancellationToken.None);
+            return Ok("Verification code resent");
         }
 
         // -----------------------

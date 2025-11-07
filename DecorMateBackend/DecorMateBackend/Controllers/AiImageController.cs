@@ -1,16 +1,10 @@
-﻿using DecorMate_Backend_Web_app.Data;
-using DecorMate_Backend_Web_app.Models;
-using DecorMate_Backend_Web_app.Services;
-using DecorMateBackend.Controllers.Api;
+﻿using DecorMate_Backend_Web_app.Services;
 using DecorMateBackend.Models;
 using DecorMateBackend.Models.DTOs;
 using DecorMateBackend.Repositories;
-using DecorMateBackend.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
@@ -22,13 +16,13 @@ namespace DecorMateBackend.Controllers
     public class AiImageController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly ILogger<AuthApiController> _logger;
+        private readonly ILogger<AiImageController> _logger;
         private readonly IHttpClientFactory _httpFactory;
         private readonly IConfiguration _configuration;
         private readonly CloudinaryService _cloudinary;
         public AiImageController(
             IUnitOfWork unitOfWork,
-            ILogger<AuthApiController> logger,
+            ILogger<AiImageController> logger,
             IHttpClientFactory httpFactory,
             IConfiguration configuration,
             CloudinaryService cloudinaryService)

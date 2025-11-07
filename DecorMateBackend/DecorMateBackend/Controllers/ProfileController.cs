@@ -2,7 +2,6 @@
 using DecorMate_Backend_Web_app.Models;
 using DecorMate_Backend_Web_app.Models.DTOs;
 using DecorMate_Backend_Web_app.Services;
-using DecorMateBackend.Controllers.Api;
 using DecorMateBackend.Repositories;
 using DecorMateBackend.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -20,13 +19,13 @@ namespace DecorMateBackend.Controllers
     {
 
         private readonly IUnitOfWork _unitOfWork;
-        private readonly ILogger<AuthApiController> _logger;
+        private readonly ILogger<ProfileController> _logger;
         private readonly IConfiguration _configuration;
         private readonly CloudinaryService _cloudinary;
 
         public ProfileController(
             IUnitOfWork unitOfWork,
-            ILogger<AuthApiController> logger,
+            ILogger<ProfileController> logger,
             IHttpClientFactory httpFactory,
             IConfiguration configuration,
             CloudinaryService cloudinaryService)
