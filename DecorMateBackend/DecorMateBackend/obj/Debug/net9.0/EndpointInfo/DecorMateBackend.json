@@ -699,14 +699,7 @@
         ],
         "parameters": [
           {
-            "name": "userId",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "token",
+            "name": "guid",
             "in": "query",
             "schema": {
               "type": "string"

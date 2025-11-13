@@ -53,7 +53,6 @@ namespace DecorMateBackend.Services
 
         public Task SendTemplatedEmailAsync(string to, string subject, string htmlBody, string plainTextBody, string? embedLocalLogoPath = null, CancellationToken ct = default)
         {
-            // لو تريد تضمين لوجو محلي يمكن تعديله هنا
             return SendEmailAsync(to, subject, htmlBody, ct);
         }
     }

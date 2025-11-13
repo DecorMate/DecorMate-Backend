@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -9,6 +10,7 @@ using DecorMate_Backend_Web_app.Models.DTOs;
 using DecorMateBackend.Services;
 using DecorMate_Backend_Web_app.Services;
 using DecorMateBackend.Models.DTOs;
+using DecorMateBackend.Repositories;
 
 namespace DecorMateBackend.Controllers
 {
@@ -20,6 +22,7 @@ namespace DecorMateBackend.Controllers
         private readonly EmailService _emailService;
         private readonly CloudinaryService _cloudinary;
         private readonly ILogger<AuthController> _logger;
+        private readonly IUnitOfWork _unitOfWork;
 
         public AuthController(
             UserManager<ApplicationUser> userManager,
@@ -27,7 +30,8 @@ namespace DecorMateBackend.Controllers
             ApplicationDbContext db,
             EmailService emailService,
             CloudinaryService cloudinary,
-            ILogger<AuthController> logger)
+            ILogger<AuthController> logger,
+            IUnitOfWork unitOfWork)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -35,6 +39,7 @@ namespace DecorMateBackend.Controllers
             _emailService = emailService;
             _cloudinary = cloudinary;
             _logger = logger;
+            _unitOfWork = unitOfWork;
         }
 
         // ---------------------------
@@ -230,18 +235,14 @@ namespace DecorMateBackend.Controllers
             // assign Company role by default for MVC registrations
             await _userManager.AddToRoleAsync(user, "Company");
 
-            // generate OTP (optional) and send confirmation email with button (MVC)
-            var otp = GenerateOtp(6);
-            user.OtpCode = otp;
-            user.OtpExpiry = DateTime.UtcNow.AddMinutes(10);
-            await _userManager.UpdateAsync(user);
-
-            var callbackUrl = $"{Request.Scheme}://{Request.Host}/Auth/ConfirmEmail?userId={user.Id}";
+            // For companies: send confirmation email with button/link only (no OTP)
+            // Pass base URL without query parameters - EmailService will add them properly
+            var callbackUrl = $"{Request.Scheme}://{Request.Host}/Auth/ConfirmEmail";
             try
             {
-                // includeButton = true for MVC
-                await _emailService.SendConfirmationAsync(user, callbackUrl, includeButton: true, otp: otp, ct: ct);
-                _logger.LogInformation("Register: OTP email sent successfully to {Email}", user.Email);
+                // includeButton = true for MVC, otp = null for companies (button/link only)
+                await _emailService.SendConfirmationAsync(user, callbackUrl, includeButton: true, otp: null, ct: ct);
+                _logger.LogInformation("Register: Confirmation email sent successfully to {Email}", user.Email);
             }
             catch (Exception ex)
             {
@@ -333,21 +334,87 @@ namespace DecorMateBackend.Controllers
         // ---------------------------
         [HttpGet("/Auth/ConfirmEmail")]
         [AllowAnonymous]
-        public async Task<IActionResult> ConfirmEmail(string userId, string token)
+        public async Task<IActionResult> ConfirmEmail(string guid)
         {
-            if (userId == null || token == null) return RedirectToAction("Index", "Home");
+            if (string.IsNullOrEmpty(guid) || !Guid.TryParse(guid, out var confirmationGuid))
+            {
+                _logger.LogWarning("Invalid confirmation GUID provided");
+                return View("~/Views/Shared/Error.cshtml", new ErrorViewModel 
+                { 
+                    RequestId = HttpContext.TraceIdentifier, 
+                    Message = "Invalid confirmation link." 
+                });
+            }
 
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user == null) return NotFound();
+            // Retrieve the email confirmation record using GUID
+            var emailConfirmation = await _unitOfWork.EmailConfirmations.GetEmailConfirmationByGuidAsync(confirmationGuid, includeUser: true);
+            
+            if (emailConfirmation == null)
+            {
+                _logger.LogWarning("Email confirmation not found for GUID: {Guid}", confirmationGuid);
+                return View("~/Views/Shared/Error.cshtml", new ErrorViewModel 
+                { 
+                    RequestId = HttpContext.TraceIdentifier, 
+                    Message = "Confirmation link not found or has expired." 
+                });
+            }
 
-            // decode token (because we urlencoded it when sending)
-            var decodedToken = System.Web.HttpUtility.UrlDecode(token);
+            // Check if already used
+            if (emailConfirmation.IsUsed)
+            {
+                _logger.LogWarning("Email confirmation already used for GUID: {Guid}", confirmationGuid);
+                return View("~/Views/Shared/Error.cshtml", new ErrorViewModel 
+                { 
+                    RequestId = HttpContext.TraceIdentifier, 
+                    Message = "This confirmation link has already been used." 
+                });
+            }
 
-            var result = await _userManager.ConfirmEmailAsync(user, decodedToken);
-            if (result.Succeeded) return View("~/Views/Auth/ConfirmEmail.cshtml");
+            // Check if expired
+            if (emailConfirmation.IsExpired)
+            {
+                _logger.LogWarning("Email confirmation expired for GUID: {Guid}", confirmationGuid);
+                return View("~/Views/Shared/Error.cshtml", new ErrorViewModel 
+                { 
+                    RequestId = HttpContext.TraceIdentifier, 
+                    Message = "This confirmation link has expired. Please request a new one." 
+                });
+            }
 
-            // show error view with details (don't leak token)
-            return View("~/Views/Shared/Error.cshtml", new ErrorViewModel { RequestId = HttpContext.TraceIdentifier, Message = "Email confirmation failed." });
+            // Get the user
+            var user = emailConfirmation.ApplicationUser;
+            if (user == null)
+            {
+                _logger.LogError("User not found for email confirmation GUID: {Guid}", confirmationGuid);
+                return View("~/Views/Shared/Error.cshtml", new ErrorViewModel 
+                { 
+                    RequestId = HttpContext.TraceIdentifier, 
+                    Message = "User not found." 
+                });
+            }
+
+            // Confirm email using the stored token
+            var result = await _userManager.ConfirmEmailAsync(user, emailConfirmation.Token);
+            
+            if (result.Succeeded)
+            {
+                // Mark confirmation as used
+                await _unitOfWork.EmailConfirmations.MarkAsUsedAsync(emailConfirmation.Id);
+                await _unitOfWork.SaveChangesAsync();
+                
+                _logger.LogInformation("Email confirmed successfully for user: {Email}", user.Email);
+                return View("~/Views/Auth/ConfirmEmail.cshtml");
+            }
+
+            // Log errors
+            _logger.LogWarning("Email confirmation failed for user {Email}. Errors: {Errors}", 
+                user.Email, string.Join(", ", result.Errors.Select(e => e.Description)));
+            
+            return View("~/Views/Shared/Error.cshtml", new ErrorViewModel 
+            { 
+                RequestId = HttpContext.TraceIdentifier, 
+                Message = "Email confirmation failed. Please try again or request a new confirmation link." 
+            });
         }
 
 

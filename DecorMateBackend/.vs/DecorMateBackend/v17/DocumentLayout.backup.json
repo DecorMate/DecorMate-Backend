@@ -3,20 +3,8 @@
   "WorkspaceRootPath": "D:\\grad project\\backend\\DecorMate-Backend\\DecorMateBackend\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\grad project\\backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Migrations\\20251113194616_AddPasswordResetOtpVerifiedAtToUserTable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:DecorMateBackend\\Migrations\\20251113194616_AddPasswordResetOtpVerifiedAtToUserTable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|d:\\grad project\\backend\\decormate-backend\\decormatebackend\\decormatebackend\\models\\applicationuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\models\\applicationuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|d:\\grad project\\backend\\decormate-backend\\decormatebackend\\decormatebackend\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|d:\\grad project\\backend\\decormate-backend\\decormatebackend\\decormatebackend\\services\\accountservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\services\\accountservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|d:\\grad project\\backend\\decormate-backend\\decormatebackend\\decormatebackend\\migrations\\20251113220025_addemailconfirmation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\migrations\\20251113220025_addemailconfirmation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -35,53 +23,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "20251113194616_AddPasswordResetOtpVerifiedAtToUserTable.cs",
-              "DocumentMoniker": "D:\\grad project\\backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Migrations\\20251113194616_AddPasswordResetOtpVerifiedAtToUserTable.cs",
-              "RelativeDocumentMoniker": "DecorMateBackend\\Migrations\\20251113194616_AddPasswordResetOtpVerifiedAtToUserTable.cs",
-              "ToolTip": "D:\\grad project\\backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Migrations\\20251113194616_AddPasswordResetOtpVerifiedAtToUserTable.cs",
-              "RelativeToolTip": "DecorMateBackend\\Migrations\\20251113194616_AddPasswordResetOtpVerifiedAtToUserTable.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAAwAAAAAAAAAAAAAAAAA==",
+              "Title": "20251113220025_AddEmailConfirmation.cs",
+              "DocumentMoniker": "D:\\grad project\\backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Migrations\\20251113220025_AddEmailConfirmation.cs",
+              "RelativeDocumentMoniker": "DecorMateBackend\\Migrations\\20251113220025_AddEmailConfirmation.cs",
+              "ToolTip": "D:\\grad project\\backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Migrations\\20251113220025_AddEmailConfirmation.cs",
+              "RelativeToolTip": "DecorMateBackend\\Migrations\\20251113220025_AddEmailConfirmation.cs",
+              "ViewState": "AgIAAC4AAAAAAAAAAAAQwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-13T19:46:16.345Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ApplicationUser.cs",
-              "DocumentMoniker": "D:\\grad project\\backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Models\\ApplicationUser.cs",
-              "RelativeDocumentMoniker": "DecorMateBackend\\Models\\ApplicationUser.cs",
-              "ToolTip": "D:\\grad project\\backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Models\\ApplicationUser.cs",
-              "RelativeToolTip": "DecorMateBackend\\Models\\ApplicationUser.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAgAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-13T19:45:32.624Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "AccountController.cs",
-              "DocumentMoniker": "D:\\grad project\\backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Controllers\\AccountController.cs",
-              "RelativeDocumentMoniker": "DecorMateBackend\\Controllers\\AccountController.cs",
-              "ToolTip": "D:\\grad project\\backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Controllers\\AccountController.cs",
-              "RelativeToolTip": "DecorMateBackend\\Controllers\\AccountController.cs",
-              "ViewState": "AgIAAIUAAAAAAAAAAADwv5YAAAANAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-13T19:27:42.43Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "AccountService.cs",
-              "DocumentMoniker": "D:\\grad project\\backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Services\\AccountService.cs",
-              "RelativeDocumentMoniker": "DecorMateBackend\\Services\\AccountService.cs",
-              "ToolTip": "D:\\grad project\\backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Services\\AccountService.cs",
-              "RelativeToolTip": "DecorMateBackend\\Services\\AccountService.cs",
-              "ViewState": "AgIAANcBAAAAAAAAAIAwwJUBAABOAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-13T19:15:32.183Z",
+              "WhenOpened": "2025-11-13T22:00:25.582Z",
               "EditorCaption": ""
             }
           ]

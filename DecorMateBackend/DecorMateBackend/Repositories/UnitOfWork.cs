@@ -14,6 +14,7 @@ namespace DecorMateBackend.Repositories
         public IVendorRepository Vendors { get; }
 
         public IRefreshTokenRepository RefreshTokens { get; }
+        public IEmailConfirmationRepository EmailConfirmations { get; }
 
 
         public UnitOfWork(
@@ -29,6 +30,7 @@ namespace DecorMateBackend.Repositories
             Images = new ImageRepository(_context);
             Vendors = new VendorRepository(_context);
             RefreshTokens = new RefreshTokenRepository(_context);
+            EmailConfirmations = new EmailConfirmationRepository(_context);
 
         }
         public async Task<int> SaveChangesAsync()

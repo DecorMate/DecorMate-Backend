@@ -17,6 +17,7 @@ namespace DecorMate_Backend_Web_app.Data
         public DbSet<GeneratedImage> GeneratedImages { get; set; } = null!;
         public DbSet<PaymentRecord> PaymentRecords { get; set; } = null!;
         public DbSet<VendorRating> VendorRatings { get; set; }
+        public DbSet<EmailConfirmation> EmailConfirmations { get; set; } = null!;
 
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -32,6 +33,20 @@ namespace DecorMate_Backend_Web_app.Data
                 entity.HasOne(r => r.ApplicationUser)
                       .WithMany(u => u.RefreshTokens)
                       .HasForeignKey(r => r.ApplicationUserId)
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            builder.Entity<EmailConfirmation>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.HasIndex(e => e.ConfirmationGuid).IsUnique();
+                entity.Property(e => e.Token).IsRequired();
+                entity.Property(e => e.ApplicationUserId).IsRequired();
+                entity.Property(e => e.ConfirmationGuid).IsRequired();
+
+                entity.HasOne(e => e.ApplicationUser)
+                      .WithMany()
+                      .HasForeignKey(e => e.ApplicationUserId)
                       .OnDelete(DeleteBehavior.Cascade);
             });
         }
