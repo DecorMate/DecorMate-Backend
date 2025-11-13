@@ -67,6 +67,37 @@
         }
       }
     },
+    "/api/Account/resend-otp": {
+      "post": {
+        "tags": [
+          "Account"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResendOtpDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResendOtpDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResendOtpDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Account/login": {
       "post": {
         "tags": [
@@ -211,6 +242,136 @@
             "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/RefreshRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/AiImageController/generate-image": {
+      "post": {
+        "tags": [
+          "AiImage"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenerateImageRequestDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenerateImageRequestDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenerateImageRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/AiImageController/image-history": {
+      "get": {
+        "tags": [
+          "AiImage"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/AiImageController/generated/{id}": {
+      "delete": {
+        "tags": [
+          "AiImage"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/AiImageController/generate-from-file": {
+      "post": {
+        "tags": [
+          "AiImage"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "File": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "Prompt": {
+                    "type": "string"
+                  },
+                  "Title": {
+                    "type": "string"
+                  }
+                }
+              },
+              "encoding": {
+                "File": {
+                  "style": "form"
+                },
+                "Prompt": {
+                  "style": "form"
+                },
+                "Title": {
+                  "style": "form"
+                }
               }
             }
           }
@@ -658,457 +819,10 @@
         }
       }
     },
-    "/api/AuthApi/register": {
-      "post": {
-        "tags": [
-          "AuthApi"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RegisterDto"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RegisterDto"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/RegisterDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/AuthApi/register-confirmation": {
-      "post": {
-        "tags": [
-          "AuthApi"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ConfirmDto"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ConfirmDto"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ConfirmDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/AuthApi/login": {
-      "post": {
-        "tags": [
-          "AuthApi"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginDto"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginDto"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/AuthApi/forgot-password": {
-      "post": {
-        "tags": [
-          "AuthApi"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ForgotPasswordDto"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ForgotPasswordDto"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ForgotPasswordDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/AuthApi/reset-password": {
-      "post": {
-        "tags": [
-          "AuthApi"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ResetPasswordWithOtpDto"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ResetPasswordWithOtpDto"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ResetPasswordWithOtpDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/AuthApi/update-password": {
-      "post": {
-        "tags": [
-          "AuthApi"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdatePasswordDto"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdatePasswordDto"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdatePasswordDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/AuthApi/refresh-token": {
-      "post": {
-        "tags": [
-          "AuthApi"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RefreshRequestDto"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RefreshRequestDto"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/RefreshRequestDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/AuthApi/revoke": {
-      "post": {
-        "tags": [
-          "AuthApi"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RefreshRequestDto"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RefreshRequestDto"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/RefreshRequestDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/AuthApi/User": {
+    "/api/Business/filter": {
       "get": {
         "tags": [
-          "AuthApi"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/AuthApi/profile": {
-      "put": {
-        "tags": [
-          "AuthApi"
-        ],
-        "requestBody": {
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "FirstName": {
-                    "type": "string"
-                  },
-                  "LastName": {
-                    "type": "string"
-                  },
-                  "PhoneNumber": {
-                    "type": "string",
-                    "format": "tel"
-                  },
-                  "CompanyName": {
-                    "type": "string"
-                  },
-                  "ProfileImage": {
-                    "type": "string",
-                    "format": "binary"
-                  }
-                }
-              },
-              "encoding": {
-                "FirstName": {
-                  "style": "form"
-                },
-                "LastName": {
-                  "style": "form"
-                },
-                "PhoneNumber": {
-                  "style": "form"
-                },
-                "CompanyName": {
-                  "style": "form"
-                },
-                "ProfileImage": {
-                  "style": "form"
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/AuthApi/generate-image": {
-      "post": {
-        "tags": [
-          "AuthApi"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/GenerateImageRequestDto"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/GenerateImageRequestDto"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/GenerateImageRequestDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/AuthApi/image-history": {
-      "get": {
-        "tags": [
-          "AuthApi"
-        ],
-        "parameters": [
-          {
-            "name": "page",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 1
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 20
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/AuthApi/generated/{id}": {
-      "delete": {
-        "tags": [
-          "AuthApi"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/AuthApi/generate-from-file": {
-      "post": {
-        "tags": [
-          "AuthApi"
-        ],
-        "requestBody": {
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "File": {
-                    "type": "string",
-                    "format": "binary"
-                  },
-                  "Prompt": {
-                    "type": "string"
-                  },
-                  "Title": {
-                    "type": "string"
-                  }
-                }
-              },
-              "encoding": {
-                "File": {
-                  "style": "form"
-                },
-                "Prompt": {
-                  "style": "form"
-                },
-                "Title": {
-                  "style": "form"
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/AuthApi/filter": {
-      "get": {
-        "tags": [
-          "AuthApi"
+          "Business"
         ],
         "parameters": [
           {
@@ -1156,10 +870,10 @@
         }
       }
     },
-    "/api/AuthApi/{vendorId}/rate": {
+    "/api/Business/{vendorId}/rate": {
       "post": {
         "tags": [
-          "AuthApi"
+          "Business"
         ],
         "parameters": [
           {
@@ -1396,10 +1110,6 @@
                   },
                   "CompanyName": {
                     "type": "string"
-                  },
-                  "ProfileImage": {
-                    "type": "string",
-                    "format": "binary"
                   }
                 }
               },
@@ -1415,7 +1125,36 @@
                 },
                 "CompanyName": {
                   "style": "form"
-                },
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Profile/update-profile-picture": {
+      "put": {
+        "tags": [
+          "Profile"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "ProfileImage": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
                 "ProfileImage": {
                   "style": "form"
                 }
@@ -1598,6 +1337,46 @@
         },
         "additionalProperties": false
       },
+      "ResendOtpDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ResetPasswordDto": {
+        "required": [
+          "confirmPassword",
+          "email",
+          "newPassword",
+          "token"
+        ],
+        "type": "object",
+        "properties": {
+          "email": {
+            "minLength": 1,
+            "type": "string",
+            "format": "email"
+          },
+          "token": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "newPassword": {
+            "maxLength": 100,
+            "minLength": 6,
+            "type": "string"
+          },
+          "confirmPassword": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
       "ResetPasswordWithOtpDto": {
         "type": "object",
         "properties": {
@@ -1612,31 +1391,6 @@
           "newPassword": {
             "type": "string",
             "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "UpdatePasswordDto": {
-        "required": [
-          "confirmPassword",
-          "email",
-          "newPassword"
-        ],
-        "type": "object",
-        "properties": {
-          "email": {
-            "minLength": 1,
-            "type": "string",
-            "format": "email"
-          },
-          "newPassword": {
-            "maxLength": 100,
-            "minLength": 6,
-            "type": "string"
-          },
-          "confirmPassword": {
-            "minLength": 1,
-            "type": "string"
           }
         },
         "additionalProperties": false

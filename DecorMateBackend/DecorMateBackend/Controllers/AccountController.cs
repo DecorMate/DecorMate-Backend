@@ -1,4 +1,5 @@
-﻿using DecorMate_Backend_Web_app.Data;
+﻿using AutoMapper;
+using DecorMate_Backend_Web_app.Data;
 using DecorMate_Backend_Web_app.Models;
 using DecorMate_Backend_Web_app.Models.DTOs;
 using DecorMate_Backend_Web_app.Services;
@@ -23,17 +24,20 @@ namespace DecorMateBackend.Controllers
         private readonly JwtService _jwtService;
         private readonly ILogger<AccountController> _logger;
         private readonly EmailService _emailService;
+        private readonly IMapper _mapper;
 
         public AccountController(
             IUnitOfWork unitOfWork,
             JwtService jwtService,
             ILogger<AccountController> logger,
-             EmailService emailService)
+            EmailService emailService,
+            IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _jwtService = jwtService;
             _logger = logger;
             _emailService = emailService;
+            _mapper = mapper;
         }
 
 
@@ -61,15 +65,7 @@ namespace DecorMateBackend.Controllers
                 }
             }
 
-            var user = new ApplicationUser
-            {
-                UserName = dto.Email,
-                Email = dto.Email,
-                FirstName = dto.FirstName,
-                LastName = dto.LastName,
-                Provider = AuthProvider.Local,
-                EmailConfirmed = false
-            };
+            var user = _mapper.Map<ApplicationUser>(dto);
 
             var createRes = await _unitOfWork.Users.CreateAsync(user, dto.Password);
             if (!createRes.Succeeded)
@@ -81,7 +77,7 @@ namespace DecorMateBackend.Controllers
             await _unitOfWork.Users.AddToRoleAsync(user, "User");
 
             // Generate and persist OTP
-            var otp = OTPService.GenerateOtp(6);
+            var otp = OTPCodeGenerator.Generate(6);
             user.OtpCode = otp;
             user.OtpExpiry = DateTime.UtcNow.AddMinutes(10);
             var upd = await _unitOfWork.Users.UpdateAsync(user);
@@ -141,15 +137,9 @@ namespace DecorMateBackend.Controllers
 
             var tokens = await _jwtService.GenerateTokensAsync(user);
             var roles = await _unitOfWork.Users.GetRolesAsync(user);
-            tokens.User = new UserDto
-            {
-                Email = user.Email,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                ProfilePictureUrl = user.ProfilePictureUrl,
-                PhoneNumber = user.PhoneNumber,
-                Roles = roles.ToArray()
-            };
+            var userDto = _mapper.Map<UserDto>(user);
+            userDto.Roles = roles.ToArray();
+            tokens.User = userDto;
             var refreshEntity = new RefreshToken
             {
                 Token = tokens.RefreshToken,
@@ -179,7 +169,7 @@ namespace DecorMateBackend.Controllers
             if (user.EmailConfirmed)
                 return BadRequest(new { message = "Email already confirmed" });
             
-            var otp = OTPService.GenerateOtp(6);
+            var otp = OTPCodeGenerator.Generate(6);
             user.OtpCode = otp;
             user.OtpExpiry = DateTime.UtcNow.AddMinutes(10);
             
@@ -213,15 +203,9 @@ namespace DecorMateBackend.Controllers
             if (roles.FirstOrDefault("Company") == "Company")
                 return BadRequest(new { message = "Use the Dashboard" });
             var tokens = await _jwtService.GenerateTokensAsync(user);
-            tokens.User = new UserDto
-            {
-                Email = user.Email,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                ProfilePictureUrl = user.ProfilePictureUrl,
-                PhoneNumber = user.PhoneNumber,
-                Roles = roles.ToArray()
-            };
+            var userDto = _mapper.Map<UserDto>(user);
+            userDto.Roles = roles.ToArray();
+            tokens.User = userDto;
             var refreshEntity = new RefreshToken
             {
                 Token = tokens.RefreshToken,
@@ -256,7 +240,7 @@ namespace DecorMateBackend.Controllers
             user.PasswordResetToken = Convert.ToBase64String(Encoding.UTF8.GetBytes(resetToken));
             user.PasswordResetTokenExpiry = DateTime.UtcNow.AddHours(1);
 
-            var otp = OTPService.GenerateOtp(6);
+            var otp = OTPCodeGenerator.Generate(6);
             user.PasswordResetOtp = otp;
             user.PasswordResetOtpExpiry = DateTime.UtcNow.AddMinutes(10);
 

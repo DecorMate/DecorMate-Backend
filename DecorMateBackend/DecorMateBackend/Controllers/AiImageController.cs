@@ -1,4 +1,5 @@
-﻿using DecorMate_Backend_Web_app.Services;
+﻿using AutoMapper;
+using DecorMate_Backend_Web_app.Services;
 using DecorMateBackend.Models;
 using DecorMateBackend.Models.DTOs;
 using DecorMateBackend.Repositories;
@@ -20,18 +21,21 @@ namespace DecorMateBackend.Controllers
         private readonly IHttpClientFactory _httpFactory;
         private readonly IConfiguration _configuration;
         private readonly CloudinaryService _cloudinary;
+        private readonly IMapper _mapper;
         public AiImageController(
             IUnitOfWork unitOfWork,
             ILogger<AiImageController> logger,
             IHttpClientFactory httpFactory,
             IConfiguration configuration,
-            CloudinaryService cloudinaryService)
+            CloudinaryService cloudinaryService,
+            IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _logger = logger;
             _httpFactory = httpFactory;
             _configuration = configuration;
             _cloudinary = cloudinaryService;
+            _mapper = mapper;
         }
 
         // ----------------------
@@ -183,17 +187,7 @@ namespace DecorMateBackend.Controllers
                     _unitOfWork.Images.AddImage(gi);
                     await _unitOfWork.SaveChangesAsync(ct);
 
-                    var resultDto = new GeneratedImageDto
-                    {
-                        Id = gi.Id,
-                        Url = gi.ImageUrl,
-                        PublicId = gi.CloudinaryPublicId,
-                        Title = gi.ProjectTitle,
-                        Prompt = gi.Prompt,
-                        CreatedAt = gi.CreatedAt
-                    };
-
-                    return Ok(resultDto);
+                    return Ok(_mapper.Map<GeneratedImageDto>(gi));
                 }
             }
             catch (Exception ex)
@@ -397,17 +391,7 @@ namespace DecorMateBackend.Controllers
                         _unitOfWork.Images.AddImage(gi);
                         await _unitOfWork.SaveChangesAsync(ct);
 
-                        var resultDto = new GeneratedImageDto
-                        {
-                            Id = gi.Id,
-                            Url = gi.ImageUrl,
-                            PublicId = gi.CloudinaryPublicId,
-                            Title = gi.ProjectTitle,
-                            Prompt = gi.Prompt,
-                            CreatedAt = gi.CreatedAt
-                        };
-
-                        return Ok(resultDto);
+                        return Ok(_mapper.Map<GeneratedImageDto>(gi));
                     }
                 }
                 catch (Exception ex)

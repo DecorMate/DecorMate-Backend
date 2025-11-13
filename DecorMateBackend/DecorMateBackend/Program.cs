@@ -127,6 +127,7 @@ builder.Services.AddTransient<DecorMateBackend.Services.SmtpEmailSender>();
 builder.Services.AddTransient<DecorMateBackend.Models.IEmailSenderO>(sp => sp.GetRequiredService<DecorMateBackend.Services.SmtpEmailSender>());
 builder.Services.AddScoped<DecorMateBackend.Services.EmailService>();
 services.AddSingleton<CloudinaryService>();
+services.AddAutoMapper(typeof(Program));
 services.AddControllersWithViews();
 services.AddRazorPages();
 services.AddEndpointsApiExplorer();

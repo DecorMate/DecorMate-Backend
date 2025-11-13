@@ -1,4 +1,5 @@
-﻿using DecorMate_Backend_Web_app.Data;
+﻿using AutoMapper;
+using DecorMate_Backend_Web_app.Data;
 using DecorMate_Backend_Web_app.Models;
 using DecorMate_Backend_Web_app.Models.DTOs;
 using DecorMate_Backend_Web_app.Services;
@@ -23,18 +24,21 @@ namespace DecorMateBackend.Controllers
         private readonly ILogger<ProfileController> _logger;
         private readonly IConfiguration _configuration;
         private readonly CloudinaryService _cloudinary;
+        private readonly IMapper _mapper;
 
         public ProfileController(
             IUnitOfWork unitOfWork,
             ILogger<ProfileController> logger,
             IHttpClientFactory httpFactory,
             IConfiguration configuration,
-            CloudinaryService cloudinaryService)
+            CloudinaryService cloudinaryService,
+            IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _logger = logger;
             _configuration = configuration;
             _cloudinary = cloudinaryService;
+            _mapper = mapper;
         }
 
         // -----------------------
@@ -52,15 +56,9 @@ namespace DecorMateBackend.Controllers
             if (user == null) return Unauthorized();
 
             var roles = await _unitOfWork.Users.GetRolesAsync(user);
-            return Ok(new UserDto
-            {
-                Email = user.Email,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                ProfilePictureUrl = user.ProfilePictureUrl,
-                PhoneNumber = user.PhoneNumber,
-                Roles = roles.ToArray()
-            });
+            var dto = _mapper.Map<UserDto>(user);
+            dto.Roles = roles.ToArray();
+            return Ok(dto);
         }
 
         // -----------------------

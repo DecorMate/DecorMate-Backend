@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\DecorMateBackend.csproj": {}
+    "D:\\grad project\\backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\DecorMateBackend.csproj": {}
   },
   "projects": {
-    "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\DecorMateBackend.csproj": {
+    "D:\\grad project\\backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\DecorMateBackend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\DecorMateBackend.csproj",
+        "projectUniqueName": "D:\\grad project\\backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\DecorMateBackend.csproj",
         "projectName": "DecorMateBackend",
-        "projectPath": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\DecorMateBackend.csproj",
-        "packagesPath": "C:\\Users\\Lenovo\\.nuget\\packages\\",
-        "outputPath": "D:\\Graduation Project\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\obj\\",
+        "projectPath": "D:\\grad project\\backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\DecorMateBackend.csproj",
+        "packagesPath": "C:\\Users\\Ahmed\\.nuget\\packages\\",
+        "outputPath": "D:\\grad project\\backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Lenovo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Ahmed\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -44,12 +44,16 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "10.0.100"
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
           "dependencies": {
+            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[12.0.1, )"
+            },
             "Azure.Storage.Blobs": {
               "target": "Package",
               "version": "[12.26.0, )"
@@ -150,7 +154,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.100-rc.1.25451.107/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

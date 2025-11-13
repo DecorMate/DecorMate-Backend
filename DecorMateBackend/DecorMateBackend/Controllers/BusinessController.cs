@@ -1,4 +1,5 @@
-﻿using DecorMate_Backend_Web_app.Data;
+﻿using AutoMapper;
+using DecorMate_Backend_Web_app.Data;
 using DecorMate_Backend_Web_app.Models;
 using DecorMate_Backend_Web_app.Services;
 using DecorMateBackend.Models;
@@ -11,6 +12,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using System.Linq;
 
 namespace DecorMateBackend.Controllers
 {
@@ -19,10 +21,12 @@ namespace DecorMateBackend.Controllers
     public class BusinessController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
         
-        public BusinessController( IUnitOfWork unitOfWork)
+        public BusinessController(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
@@ -71,51 +75,26 @@ namespace DecorMateBackend.Controllers
             var page = Math.Max(1, q.Page);
             var pageSize = Math.Clamp(q.PageSize, 1, 100);
 
-            var baseList = await usersQ
-                .Select(u => new
-                {
-                    u.Id,
-                    u.Email,
-                    u.FirstName,
-                    u.LastName,
-                    u.CompanyName,
-                    u.ProfilePictureUrl,
-                    u.PhoneNumber,
-                    Location = u.Location,
-                    Category = u.ProfessionalCategory,
-                    IsSponsored = u.IsSponsored, // assumes field exists
-                                                 // ratings aggregated (left join)
-
-                    RatingsCount = _unitOfWork.Vendors.CountRatings(u.Id),
-                    RatingsAverage = _unitOfWork.Vendors.GetAverageRatingsOfVendor(u.Id)
-                })
-                .ToListAsync();
+            var baseList = usersQ.ToList();
 
             // sort: sponsored first, then by avg rating desc, then by ratings count desc
-            var ordered = baseList
+            var vendorDtos = baseList.Select(u =>
+            {
+                var dto = _mapper.Map<VendorDto>(u);
+                var ratingsAverage = _unitOfWork.Vendors.GetAverageRatingsOfVendor(u.Id);
+                dto.AverageRating = Math.Round(ratingsAverage, 2);
+                dto.RatingsCount = _unitOfWork.Vendors.CountRatings(u.Id);
+                return dto;
+            }).ToList();
+
+            var ordered = vendorDtos
                 .OrderByDescending(x => x.IsSponsored ? 1 : 0)
-                .ThenByDescending(x => x.RatingsAverage)
+                .ThenByDescending(x => x.AverageRating)
                 .ThenByDescending(x => x.RatingsCount)
                 .ToList();
 
             var total = ordered.Count;
-            var paged = ordered.Skip((page - 1) * pageSize).Take(pageSize)
-                .Select(x => new VendorDto
-                {
-                    Id = x.Id,
-                    Email = x.Email,
-                    FirstName = x.FirstName,
-                    LastName = x.LastName,
-                    CompanyName = x.CompanyName,
-                    ProfilePictureUrl = x.ProfilePictureUrl,
-                    PhoneNumber = x.PhoneNumber,
-                    Location = x.Location,
-                    Category = x.Category.ToString(),
-                    IsSponsored = x.IsSponsored,
-                    AverageRating = Math.Round(x.RatingsAverage, 2),
-                    RatingsCount = x.RatingsCount
-                })
-                .ToList();
+            var paged = ordered.Skip((page - 1) * pageSize).Take(pageSize).ToList();
 
             var resp = new
             {
