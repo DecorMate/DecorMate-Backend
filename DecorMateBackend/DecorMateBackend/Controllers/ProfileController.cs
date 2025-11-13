@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System.Security.Claims;
+using DecorMateBackend.Models.DTOs;
 
 namespace DecorMateBackend.Controllers
 {
@@ -77,10 +78,7 @@ namespace DecorMateBackend.Controllers
             var user = await _unitOfWork.Users.FindByIdAsync(userId);
             if (user == null)
                 return NotFound();
-
-            var prevUrl = user.ProfilePictureUrl;
-            var prevPublicId = user.ProfilePicturePublicId;
-
+            
             if (!string.IsNullOrEmpty(dto.CompanyName) && !await _unitOfWork.Users.IsInRoleAsync(user, "Company"))
                 return Forbid("Only company accounts can update CompanyName.");
 
@@ -89,7 +87,35 @@ namespace DecorMateBackend.Controllers
             if (!string.IsNullOrEmpty(dto.PhoneNumber)) user.PhoneNumber = dto.PhoneNumber;
             if (!string.IsNullOrEmpty(dto.CompanyName) && await _unitOfWork.Users.IsInRoleAsync(user, "Company"))
                 user.CompanyName = dto.CompanyName;
+            
+            var roles = await _unitOfWork.Users.GetRolesAsync(user);
+            return Ok(new
+            {
+                Id = user.Id,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                PhoneNumber = user.PhoneNumber,
+                Roles = roles.ToArray()
+            });
+        }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPut("update-profile-picture")]
+        public async Task<IActionResult> UpdateProfilePicture([FromForm] ProfilePictureDto dto, CancellationToken ct)
+        {
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value
+                         ?? User.FindFirst(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Sub)?.Value;
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized();
+
+            var user = await _unitOfWork.Users.FindByIdAsync(userId);
+            if (user == null)
+                return NotFound();
+
+            var prevUrl = user.ProfilePictureUrl;
+            var prevPublicId = user.ProfilePicturePublicId;
+            
             string? newUrl = null;
             string? newPublicId = null;
 
@@ -105,7 +131,7 @@ namespace DecorMateBackend.Controllers
 
                 try
                 {
-                    await using var ms = new MemoryStream();
+                    using var ms = new MemoryStream();
                     await dto.ProfileImage.CopyToAsync(ms, ct);
                     ms.Position = 0;
 
@@ -131,7 +157,6 @@ namespace DecorMateBackend.Controllers
                 return BadRequest(new { errors = upd.Errors.Select(e => e.Description) });
             }
 
-            // delete previous image if different
             try
             {
                 if (!string.IsNullOrEmpty(prevPublicId) && prevPublicId != user.ProfilePicturePublicId)
@@ -147,17 +172,7 @@ namespace DecorMateBackend.Controllers
             }
             catch { /* ignore */ }
 
-            var roles = await _unitOfWork.Users.GetRolesAsync(user);
-            return Ok(new
-            {
-                Id = user.Id,
-                Email = user.Email,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                PhoneNumber = user.PhoneNumber,
-                ProfilePictureUrl = user.ProfilePictureUrl,
-                Roles = roles.ToArray()
-            });
+            return Ok(new {ProfilePictureUrl = user.ProfilePictureUrl});
         }
 
 

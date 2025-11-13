@@ -9,5 +9,4 @@ public class ProfileUpdateDto
     [Phone]
     public string? PhoneNumber { get; set; }
     public string? CompanyName { get; set; }
-    public IFormFile? ProfileImage { get; set; }
 }
