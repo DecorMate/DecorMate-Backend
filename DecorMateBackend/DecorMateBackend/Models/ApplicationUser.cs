@@ -20,6 +20,7 @@ namespace DecorMate_Backend_Web_app.Models
 
         public string? PasswordResetOtp { get; set; }
         public DateTime? PasswordResetOtpExpiry { get; set; }
+        public DateTime? PasswordResetOtpVerifiedAt { get; set; }
 
         public string? ProfilePictureUrl { get; set; }
 

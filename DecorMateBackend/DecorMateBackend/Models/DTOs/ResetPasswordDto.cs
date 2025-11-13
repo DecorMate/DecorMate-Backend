@@ -31,8 +31,38 @@ namespace DecorMate_Backend_Web_app.Models.DTOs
     }
     public class ResetPasswordWithOtpDto
     {
+        [Required]
+        [EmailAddress]
         public string Email { get; set; } = null!;
+
+        [Required]
+        [StringLength(6, MinimumLength = 6, ErrorMessage = "Verification code must be 6 characters")]
         public string Otp { get; set; } = null!;
+
+        [Required]
+        [StringLength(100, MinimumLength = 6, ErrorMessage = "Password must be at least 6 characters long")]
+        public string NewPassword { get; set; } = null!;
+    }
+
+    public class VerifyResetOtpDto
+    {
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; } = null!;
+
+        [Required]
+        [StringLength(6, MinimumLength = 6, ErrorMessage = "Verification code must be 6 characters")]
+        public string Otp { get; set; } = null!;
+    }
+
+    public class SetNewPasswordDto
+    {
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; } = null!;
+
+        [Required]
+        [StringLength(100, MinimumLength = 6, ErrorMessage = "Password must be at least 6 characters long")]
         public string NewPassword { get; set; } = null!;
     }
 }

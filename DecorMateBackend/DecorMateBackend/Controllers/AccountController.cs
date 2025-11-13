@@ -1,18 +1,9 @@
-﻿using AutoMapper;
-using DecorMate_Backend_Web_app.Data;
-using DecorMate_Backend_Web_app.Models;
-using DecorMate_Backend_Web_app.Models.DTOs;
-using DecorMate_Backend_Web_app.Services;
-using DecorMateBackend.Repositories;
-using DecorMateBackend.Services;
+﻿using DecorMate_Backend_Web_app.Models.DTOs;
+using DecorMateBackend.Models.DTOs;
+using DecorMateBackend.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using DecorMateBackend.Models.DTOs;
-using Microsoft.Extensions.Options;
-using System.Security.Claims;
-using System.Text;
 
 namespace DecorMateBackend.Controllers
 {
@@ -20,95 +11,36 @@ namespace DecorMateBackend.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly JwtService _jwtService;
+        private readonly IAccountService _accountService;
         private readonly ILogger<AccountController> _logger;
-        private readonly EmailService _emailService;
-        private readonly IMapper _mapper;
 
         public AccountController(
-            IUnitOfWork unitOfWork,
-            JwtService jwtService,
-            ILogger<AccountController> logger,
-            EmailService emailService,
-            IMapper mapper)
+            IAccountService accountService,
+            ILogger<AccountController> logger)
         {
-            _unitOfWork = unitOfWork;
-            _jwtService = jwtService;
+            _accountService = accountService;
             _logger = logger;
-            _emailService = emailService;
-            _mapper = mapper;
         }
 
 
         // -----------------------
         // Register (creates user + sends OTP by email)
         // -----------------------
-
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto dto)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var existing = await _unitOfWork.Users.FindByEmailAsync(dto.Email);
-            if (existing != null)
+            var (success, errorMessage) = await _accountService.RegisterAsync(dto, null, CancellationToken.None);
+
+            if (!success)
             {
-                if (existing.EmailConfirmed)
-                    return BadRequest(new { message = "Email already in use" });
-                // user exists but not confirmed -> delete to allow re-register
-                var delRes = await _unitOfWork.Users.DeleteAsync(existing);
-                if (!delRes.Succeeded)
-                {
-                    _logger.LogWarning("Failed to delete existing unconfirmed user {Email}: {Errors}",
-                        dto.Email, string.Join(",", delRes.Errors.Select(e => e.Description)));
-                    // continue, but inform client
-                }
+                if (errorMessage?.Contains("failed to send confirmation email") == true)
+                    return StatusCode(StatusCodes.Status502BadGateway, new { message = errorMessage });
+                return BadRequest(new { message = errorMessage });
             }
 
-            var user = _mapper.Map<ApplicationUser>(dto);
-
-            var createRes = await _unitOfWork.Users.CreateAsync(user, dto.Password);
-            if (!createRes.Succeeded)
-            {
-                _logger.LogWarning("Create user failed for {Email}: {Errors}", dto.Email, string.Join(",", createRes.Errors.Select(e => e.Description)));
-                return BadRequest(createRes.Errors.Select(e => e.Description));
-            }
-
-            await _unitOfWork.Users.AddToRoleAsync(user, "User");
-
-            // Generate and persist OTP
-            var otp = OTPCodeGenerator.Generate(6);
-            user.OtpCode = otp;
-            user.OtpExpiry = DateTime.UtcNow.AddMinutes(10);
-            var upd = await _unitOfWork.Users.UpdateAsync(user);
-            if (!upd.Succeeded)
-            {
-                _logger.LogWarning("Failed to update user with verification code for {Email}: {Errors}", user.Email, string.Join(",", upd.Errors.Select(e => e.Description)));
-                // still attempt to send email, but record the failure
-            }
-
-            // TRY TO SEND EMAIL — do NOT swallow exceptions silently
-            try
-            {
-                // Decide callback only if you want a link; for mobile we used OTP only
-                string? callback = null; // or $"{Request.Scheme}://{Request.Host}/Auth/ConfirmEmail?userId={user.Id}"
-                await _emailService.SendConfirmationAsync(user, callback, includeButton: false, otp: otp, ct: CancellationToken.None);
-
-                _logger.LogInformation("Register: verification code email sent successfully to {Email}", user.Email);
-                return Ok(new { message = "Registered. Please check your email for the verification code." });
-            }
-            catch (Exception ex)
-            {
-                // Log full exception (stack trace) for diagnosis
-                _logger.LogError(ex, "Register: Failed to send verification code email for {Email}", user.Email);
-
-                // Return helpful response to client (in production you may hide details)
-                return StatusCode(StatusCodes.Status502BadGateway, new
-                {
-                    message = "Registered but failed to send confirmation email.",
-                    error = ex.Message
-                });
-            }
+            return Ok(new { message = "Registered. Please check your email for the verification code." });
         }
 
         // -----------------------
@@ -117,108 +49,44 @@ namespace DecorMateBackend.Controllers
         [HttpPost("register-confirmation")]
         public async Task<IActionResult> RegisterConfirmation([FromBody] ConfirmDto dto)
         {
-            if (string.IsNullOrEmpty(dto.Email) || string.IsNullOrEmpty(dto.Otp))
-                return BadRequest(new { message = "Email and verification code are required" });
+            var clientIp = HttpContext.Connection.RemoteIpAddress?.ToString();
+            var (success, tokens, errorMessage) = await _accountService.ConfirmRegistrationAsync(dto, clientIp, CancellationToken.None);
 
-            var user = await _unitOfWork.Users.FindByEmailAsync(dto.Email);
-            if (user == null) return BadRequest(new { message = "Invalid email" });
+            if (!success)
+                return BadRequest(new { message = errorMessage });
 
-            if (user.EmailConfirmed)
-                return BadRequest(new { message = "Email already confirmed" });
-
-            if (user.OtpCode != dto.Otp || !user.OtpExpiry.HasValue || user.OtpExpiry.Value < DateTime.UtcNow)
-                return BadRequest(new { message = "Invalid or expired verification code" });
-
-            user.EmailConfirmed = true;
-            user.OtpCode = null;
-            user.OtpExpiry = null;
-
-            await _unitOfWork.Users.UpdateAsync(user);
-
-            var tokens = await _jwtService.GenerateTokensAsync(user);
-            var roles = await _unitOfWork.Users.GetRolesAsync(user);
-            var userDto = _mapper.Map<UserDto>(user);
-            userDto.Roles = roles.ToArray();
-            tokens.User = userDto;
-            var refreshEntity = new RefreshToken
-            {
-                Token = tokens.RefreshToken,
-                Expires = tokens.RefreshTokenExpiresAt,
-                Created = DateTime.UtcNow,
-                CreatedByIp = HttpContext.Connection.RemoteIpAddress?.ToString(),
-                ApplicationUserId = user.Id
-            };
-            
-            _unitOfWork.RefreshTokens.AddRefreshToken(refreshEntity);
-            await _unitOfWork.SaveChangesAsync();
-
-            tokens.RefreshToken = refreshEntity.Token;
             return Ok(tokens);
         }
 
         [HttpPost("resend-otp")]
         public async Task<IActionResult> ResendOtp([FromBody] ResendOtpDto resendOtpDto)
         {
-            if(string.IsNullOrEmpty(resendOtpDto.Email))
-                return BadRequest(new { message = "Email is required" });
-            
-            var user = await _unitOfWork.Users.FindByEmailAsync(resendOtpDto.Email);
-            if (user == null)
-                return BadRequest(new { message = "Invalid email" });
-            
-            if (user.EmailConfirmed)
-                return BadRequest(new { message = "Email already confirmed" });
-            
-            var otp = OTPCodeGenerator.Generate(6);
-            user.OtpCode = otp;
-            user.OtpExpiry = DateTime.UtcNow.AddMinutes(10);
-            
-            await _unitOfWork.Users.UpdateAsync(user);
-            await _unitOfWork.SaveChangesAsync();
-            
-            await _emailService.SendConfirmationAsync(user, null, includeButton: false, otp: otp, ct: CancellationToken.None);
-            return Ok("Verification code resent");
+            var (success, errorMessage) = await _accountService.ResendOtpAsync(resendOtpDto, CancellationToken.None);
+
+            if (!success)
+                return BadRequest(new { message = errorMessage });
+
+            return Ok(new { message = "Verification code resent" });
         }
 
         // -----------------------
         // Login (returns access + refresh)
         // -----------------------
-        // POST api/auth/login
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto dto)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var user = await _unitOfWork.Users.FindByEmailAsync(dto.Email);
-            if (user == null)
-                return Unauthorized(new { message = "Invalid credentials" });
+            var clientIp = HttpContext.Connection.RemoteIpAddress?.ToString();
+            var (success, tokens, errorMessage) = await _accountService.LoginAsync(dto, clientIp, CancellationToken.None);
 
-            var check = await _unitOfWork.Users.CheckPasswordSignInAsync(user, dto.Password, lockoutOnFailure: true);
-            if (!check.Succeeded)
-                return Unauthorized(new { message = "Invalid credentials" });
-
-            if (!await _unitOfWork.Users.IsEmailConfirmedAsync(user))
-                return BadRequest(new { message = "Email not confirmed" });
-            var roles = await _unitOfWork.Users.GetRolesAsync(user);
-            if (roles.FirstOrDefault("Company") == "Company")
-                return BadRequest(new { message = "Use the Dashboard" });
-            var tokens = await _jwtService.GenerateTokensAsync(user);
-            var userDto = _mapper.Map<UserDto>(user);
-            userDto.Roles = roles.ToArray();
-            tokens.User = userDto;
-            var refreshEntity = new RefreshToken
+            if (!success)
             {
-                Token = tokens.RefreshToken,
-                Expires = tokens.RefreshTokenExpiresAt,
-                Created = DateTime.UtcNow,
-                CreatedByIp = HttpContext.Connection.RemoteIpAddress?.ToString(),
-                ApplicationUserId = user.Id
-            };
+                if (errorMessage == "Invalid credentials")
+                    return Unauthorized(new { message = errorMessage });
+                return BadRequest(new { message = errorMessage });
+            }
 
-            _unitOfWork.RefreshTokens.AddRefreshToken(refreshEntity);
-            await _unitOfWork.SaveChangesAsync();
-
-            tokens.RefreshToken = refreshEntity.Token;
             return Ok(tokens);
         }
 
@@ -231,94 +99,42 @@ namespace DecorMateBackend.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var user = await _unitOfWork.Users.FindByEmailAsync(dto.Email);
-            // don't reveal whether user exists
-            if (user == null)
-                return Ok(new { message = "If the account exists, an verification code has been sent to the email." });
-
-            var resetToken = await _unitOfWork.Users.GeneratePasswordResetTokenAsync(user);
-            user.PasswordResetToken = Convert.ToBase64String(Encoding.UTF8.GetBytes(resetToken));
-            user.PasswordResetTokenExpiry = DateTime.UtcNow.AddHours(1);
-
-            var otp = OTPCodeGenerator.Generate(6);
-            user.PasswordResetOtp = otp;
-            user.PasswordResetOtpExpiry = DateTime.UtcNow.AddMinutes(10);
-
-            await _unitOfWork.Users.UpdateAsync(user);
-            await _unitOfWork.SaveChangesAsync();
-            // send OTP email
-            await _emailService.SendPasswordResetOtpAsync(user, otp);
-
+            await _accountService.ForgotPasswordAsync(dto, CancellationToken.None);
+            // Always return success to prevent email enumeration
             return Ok(new { message = "If the account exists, an verification code has been sent to the email." });
         }
 
         // -----------------------
-        // Reset password using OTP (mobile)
+        // Step 1: Verify OTP for password reset
         // -----------------------
-        [HttpPost("reset-password")]
-        public async Task<IActionResult> ResetPasswordWithOtp([FromBody] ResetPasswordWithOtpDto dto)
+        [HttpPost("verify-reset-otp")]
+        public async Task<IActionResult> VerifyResetOtp([FromBody] VerifyResetOtpDto dto)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var user = await _unitOfWork.Users.FindByEmailAsync(dto.Email);
-            if (user == null)
-                return BadRequest(new { message = "Invalid request" });
+            var (success, errorMessage) = await _accountService.VerifyResetOtpAsync(dto, CancellationToken.None);
 
-            // validate OTP
-            if (string.IsNullOrEmpty(user.PasswordResetOtp) ||
-                !user.PasswordResetOtp.Equals(dto.Otp, StringComparison.OrdinalIgnoreCase) ||
-                !user.PasswordResetOtpExpiry.HasValue ||
-                user.PasswordResetOtpExpiry.Value < DateTime.UtcNow)
-            {
-                return BadRequest(new { message = "Invalid or expired verification code" });
-            }
+            if (!success)
+                return BadRequest(new { message = errorMessage });
 
-            // validate stored token
-            if (string.IsNullOrEmpty(user.PasswordResetToken) ||
-                !user.PasswordResetTokenExpiry.HasValue ||
-                user.PasswordResetTokenExpiry.Value < DateTime.UtcNow)
-            {
-                return BadRequest(new { message = "Reset token expired or missing. Please request a new verification code." });
-            }
-
-            // decode token
-            string decodedToken;
-            try
-            {
-                decodedToken = Encoding.UTF8.GetString(Convert.FromBase64String(user.PasswordResetToken));
-            }
-            catch
-            {
-                return BadRequest(new { message = "Invalid reset token stored. Please request a new verification code." });
-            }
-
-            // reset password
-            var resetResult = await _unitOfWork.Users.ResetPasswordAsync(user, decodedToken, dto.NewPassword);
-            if (!resetResult.Succeeded)
-            {
-                return BadRequest(new { errors = resetResult.Errors.Select(e => e.Description) });
-            }
-
-            // clear stored token & otp
-            user.PasswordResetToken = null;
-            user.PasswordResetTokenExpiry = null;
-            user.PasswordResetOtp = null;
-            user.PasswordResetOtpExpiry = null;
-            await _unitOfWork.Users.UpdateAsync(user);
-
-            // mark email confirmed if not
-            if (!await _unitOfWork.Users.IsEmailConfirmedAsync(user))
-            {
-                user.EmailConfirmed = true;
-                await _unitOfWork.Users.UpdateAsync(user);
-            }
-
-            await _unitOfWork.SaveChangesAsync();
-
-
-            return Ok(new { message = "Password updated successfully, Please login again" });
+            return Ok(new { message = "Verification code verified successfully. You can now set a new password." });
         }
 
+        // -----------------------
+        // Step 2: Set new password after OTP verification
+        // -----------------------
+        [HttpPost("set-new-password")]
+        public async Task<IActionResult> SetNewPassword([FromBody] SetNewPasswordDto dto)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var (success, errorMessage) = await _accountService.SetNewPasswordAsync(dto, CancellationToken.None);
+
+            if (!success)
+                return BadRequest(new { message = errorMessage });
+
+            return Ok(new { message = "Password updated successfully. Please login again." });
+        }
 
         // -----------------------
         // Refresh token (rotate)
@@ -327,37 +143,16 @@ namespace DecorMateBackend.Controllers
         public async Task<IActionResult> RefreshToken([FromBody] RefreshRequestDto body)
         {
             string? token = body?.RefreshToken ?? Request.Cookies["refreshToken"];
-            if (string.IsNullOrEmpty(token))
-                return BadRequest(new { message = "Refresh token required" });
+            var clientIp = HttpContext.Connection.RemoteIpAddress?.ToString();
 
+            var (success, tokens, errorMessage) = await _accountService.RefreshTokenAsync(token, clientIp, CancellationToken.None);
 
-            var existing = await _unitOfWork.RefreshTokens.GetRefreshTokenAsync(token, true);
-
-            if (existing == null || !existing.IsActive)
-                return Unauthorized(new { message = "Invalid refresh token" });
-
-            // revoke old
-            existing.Revoked = DateTime.UtcNow;
-            existing.RevokedByIp = HttpContext.Connection.RemoteIpAddress?.ToString();
-
-            // generate new tokens (access + new refresh string)
-            var user = existing.ApplicationUser!;
-            var tokens = await _jwtService.GenerateTokensAsync(user);
-
-            // persist new refresh token
-            var newRefresh = new RefreshToken
+            if (!success)
             {
-                Token = tokens.RefreshToken,
-                Expires = tokens.RefreshTokenExpiresAt,
-                Created = DateTime.UtcNow,
-                CreatedByIp = HttpContext.Connection.RemoteIpAddress?.ToString(),
-                ApplicationUserId = user.Id,
-                ReplacedByToken = null
-            };
-
-            existing.ReplacedByToken = newRefresh.Token;
-            _unitOfWork.RefreshTokens.AddRefreshToken(newRefresh);
-            await _unitOfWork.SaveChangesAsync();
+                if (errorMessage == "Invalid refresh token")
+                    return Unauthorized(new { message = errorMessage });
+                return BadRequest(new { message = errorMessage });
+            }
 
             return Ok(tokens);
         }
@@ -371,14 +166,17 @@ namespace DecorMateBackend.Controllers
         public async Task<IActionResult> Revoke([FromBody] RefreshRequestDto body)
         {
             string? token = body?.RefreshToken ?? Request.Cookies["refreshToken"];
-            if (string.IsNullOrEmpty(token)) return BadRequest(new { message = "Token required" });
+            var clientIp = HttpContext.Connection.RemoteIpAddress?.ToString();
 
-            var existing = await _unitOfWork.RefreshTokens.GetRefreshTokenAsync(token, false);
-            if (existing == null) return NotFound();
+            var (success, errorMessage) = await _accountService.RevokeTokenAsync(token, clientIp, CancellationToken.None);
 
-            existing.Revoked = DateTime.UtcNow;
-            existing.RevokedByIp = Request.HttpContext.Connection.RemoteIpAddress?.ToString();
-            await _unitOfWork.SaveChangesAsync();
+            if (!success)
+            {
+                if (errorMessage == "Token not found")
+                    return NotFound(new { message = errorMessage });
+                return BadRequest(new { message = errorMessage });
+            }
+
             return Ok(new { message = "Revoked" });
         }
 

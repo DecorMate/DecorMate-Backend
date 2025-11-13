@@ -1,16 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "D:\\grad project\\backend\\DecorMate-Backend\\DecorMateBackend\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|d:\\grad project\\backend\\decormate-backend\\decormatebackend\\decormatebackend\\services\\otpcodegenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\services\\otpcodegenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|d:\\grad project\\backend\\decormate-backend\\decormatebackend\\decormatebackend\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8C0CE469-D237-4FC3-B459-C5C3DFE01023}|DecorMateBackend\\DecorMateBackend.csproj|solutionrelative:decormatebackend\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 1,
@@ -18,37 +9,11 @@
       "DocumentGroups": [
         {
           "DockedHeight": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "OTPCodeGenerator.cs",
-              "DocumentMoniker": "D:\\grad project\\backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Services\\OTPCodeGenerator.cs",
-              "RelativeDocumentMoniker": "DecorMateBackend\\Services\\OTPCodeGenerator.cs",
-              "ToolTip": "D:\\grad project\\backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Services\\OTPCodeGenerator.cs",
-              "RelativeToolTip": "DecorMateBackend\\Services\\OTPCodeGenerator.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-13T14:32:14.651Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "AccountController.cs",
-              "DocumentMoniker": "D:\\grad project\\backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Controllers\\AccountController.cs",
-              "RelativeDocumentMoniker": "DecorMateBackend\\Controllers\\AccountController.cs",
-              "ToolTip": "D:\\grad project\\backend\\DecorMate-Backend\\DecorMateBackend\\DecorMateBackend\\Controllers\\AccountController.cs",
-              "RelativeToolTip": "DecorMateBackend\\Controllers\\AccountController.cs",
-              "ViewState": "AgIAAPEAAAAAAAAAAAAQwAIBAAAmAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-13T14:30:46.612Z",
-              "EditorCaption": ""
             }
           ]
         }

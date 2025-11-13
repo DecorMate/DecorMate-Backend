@@ -97,22 +97,6 @@
   },
   {
     "ContainingType": "DecorMateBackend.Controllers.AccountController",
-    "Method": "ResetPasswordWithOtp",
-    "RelativePath": "api/Account/reset-password",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "dto",
-        "Type": "DecorMate_Backend_Web_app.Models.DTOs.ResetPasswordWithOtpDto",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "DecorMateBackend.Controllers.AccountController",
     "Method": "Revoke",
     "RelativePath": "api/Account/revoke",
     "HttpMethod": "POST",
@@ -122,6 +106,38 @@
       {
         "Name": "body",
         "Type": "DecorMate_Backend_Web_app.Models.DTOs.RefreshRequestDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DecorMateBackend.Controllers.AccountController",
+    "Method": "SetNewPassword",
+    "RelativePath": "api/Account/set-new-password",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "DecorMate_Backend_Web_app.Models.DTOs.SetNewPasswordDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DecorMateBackend.Controllers.AccountController",
+    "Method": "VerifyResetOtp",
+    "RelativePath": "api/Account/verify-reset-otp",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "DecorMate_Backend_Web_app.Models.DTOs.VerifyResetOtpDto",
         "IsRequired": true
       }
     ],

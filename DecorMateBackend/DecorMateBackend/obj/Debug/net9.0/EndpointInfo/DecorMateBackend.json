@@ -160,7 +160,7 @@
         }
       }
     },
-    "/api/Account/reset-password": {
+    "/api/Account/verify-reset-otp": {
       "post": {
         "tags": [
           "Account"
@@ -169,17 +169,48 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ResetPasswordWithOtpDto"
+                "$ref": "#/components/schemas/VerifyResetOtpDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/ResetPasswordWithOtpDto"
+                "$ref": "#/components/schemas/VerifyResetOtpDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/ResetPasswordWithOtpDto"
+                "$ref": "#/components/schemas/VerifyResetOtpDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Account/set-new-password": {
+      "post": {
+        "tags": [
+          "Account"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetNewPasswordDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetNewPasswordDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetNewPasswordDto"
               }
             }
           }
@@ -1377,20 +1408,42 @@
         },
         "additionalProperties": false
       },
-      "ResetPasswordWithOtpDto": {
+      "SetNewPasswordDto": {
+        "required": [
+          "email",
+          "newPassword"
+        ],
         "type": "object",
         "properties": {
           "email": {
+            "minLength": 1,
             "type": "string",
-            "nullable": true
-          },
-          "otp": {
-            "type": "string",
-            "nullable": true
+            "format": "email"
           },
           "newPassword": {
+            "maxLength": 100,
+            "minLength": 6,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "VerifyResetOtpDto": {
+        "required": [
+          "email",
+          "otp"
+        ],
+        "type": "object",
+        "properties": {
+          "email": {
+            "minLength": 1,
             "type": "string",
-            "nullable": true
+            "format": "email"
+          },
+          "otp": {
+            "maxLength": 6,
+            "minLength": 6,
+            "type": "string"
           }
         },
         "additionalProperties": false

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace DecorMate_Backend_Web_app.Models
@@ -14,6 +15,7 @@ namespace DecorMate_Backend_Web_app.Models
         public string Plan { get; set; } = null!; // "Standard" or "Premium"
 
         [Required]
+        [Precision(18, 4)]
         public decimal Amount { get; set; }
 
         [Required]
