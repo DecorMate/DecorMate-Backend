@@ -1,31 +1,262 @@
 ﻿@{
-    ViewData["Title"] = "Home";
+    ViewData["Title"] = "DecorMate - Design Your Dream Home";
+    Layout = null;
 }
-
-<div class="py-5 text-center">
-    <h1 class="display-5">Welcome to DecorMate</h1>
-    <p class="lead">Platform for companies and mobile users.</p>
-
-    <div class="mt-4">
-        @if (User?.Identity?.IsAuthenticated ?? false)
-        {
-            <a class="btn btn-primary me-2" href="@Url.Action("Profile","Auth")">My Profile</a>
-            <form method="post" action="@Url.Action("Logout","Auth")" style="display:inline;">
-                @Html.AntiForgeryToken()
-                <button class="btn btn-outline-secondary">Logout</button>
-            </form>
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>@ViewData["Title"]</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#19e64d",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#112115",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
         }
-        else
-        {
-            <a class="btn btn-primary me-2" href="@Url.Action("Register","Auth")">Register</a>
-            <a class="btn btn-outline-primary" href="@Url.Action("Login","Auth")">Login</a>
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24
         }
+    </style>
+</head>
+<body>
+    <div class="relative flex h-auto min-h-screen w-full flex-col bg-background-light dark:bg-background-dark font-display group/design-root overflow-x-hidden" style='font-family: Manrope, "Noto Sans", sans-serif;'>
+        <div class="layout-container flex h-full grow flex-col">
+            <div class="flex flex-1 justify-center py-5">
+                <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+                    <!-- TopNavBar -->
+                    <header class="sticky top-5 z-50 flex items-center justify-between whitespace-nowrap border border-solid border-black/10 dark:border-white/10 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm rounded-xl px-10 py-3">
+                        <div class="flex items-center gap-4 text-[#0e1b11] dark:text-white">
+                            <div class="size-5">
+                                <svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M24 4C25.7818 14.2173 33.7827 22.2182 44 24C33.7827 25.7818 25.7818 33.7827 24 44C22.2182 33.7827 14.2173 25.7818 4 24C14.2173 22.2182 22.2182 14.2173 24 4Z" fill="currentColor"></path>
+                                </svg>
+                            </div>
+                            <h2 class="text-[#0e1b11] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">DecorMate</h2>
+                        </div>
+                        <div class="flex flex-1 justify-end gap-8">
+                            <div class="hidden md:flex items-center gap-9">
+                                <a class="text-[#0e1b11] dark:text-white text-sm font-medium leading-normal" href="#features">Features</a>
+                                <a class="text-[#0e1b11] dark:text-white text-sm font-medium leading-normal" href="#gallery">Gallery</a>
+                                <a class="text-[#0e1b11] dark:text-white text-sm font-medium leading-normal" href="#pricing">Pricing</a>
+                                <a class="text-[#0e1b11] dark:text-white text-sm font-medium leading-normal" href="#blog">Blog</a>
+                            </div>
+                            <div class="flex gap-2">
+                                @if (User?.Identity?.IsAuthenticated ?? false)
+                                {
+                                    <a href="@Url.Action("Profile", "Auth")" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-primary text-[#0e1b11] text-sm font-bold leading-normal tracking-[0.015em]">
+                                        <span class="truncate">Profile</span>
+                                    </a>
+                                    <form method="post" action="@Url.Action("Logout", "Auth")" class="inline">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-primary/20 text-[#0e1b11] dark:text-white dark:bg-primary/30 text-sm font-bold leading-normal tracking-[0.015em]">
+                                            <span class="truncate">Log Out</span>
+                                        </button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <a href="@Url.Action("Register", "Auth")" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-primary text-[#0e1b11] text-sm font-bold leading-normal tracking-[0.015em]">
+                                        <span class="truncate">Sign Up</span>
+                                    </a>
+                                    <a href="@Url.Action("Login", "Auth")" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-primary/20 text-[#0e1b11] dark:text-white dark:bg-primary/30 text-sm font-bold leading-normal tracking-[0.015em]">
+                                        <span class="truncate">Log In</span>
+                                    </a>
+                                }
+                            </div>
+                        </div>
+                    </header>
+                    <main class="flex flex-col gap-16 md:gap-24 mt-10">
+                        <!-- HeroSection -->
+                        <div class="@@container">
+                            <div class="@@[480px]:p-0">
+                                <div class="flex min-h-[480px] flex-col gap-6 bg-cover bg-center bg-no-repeat @@[480px]:gap-8 @@[480px]:rounded-xl items-center justify-center p-4 text-center" data-alt="A beautifully designed modern living room with a large window and stylish furniture." style='background-image: linear-gradient(rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.5) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuCBsxrcsiqPp51In9ZZQdOzYYsMfO6azIbENCLSbeuwqec1BACwCZFwLeTd4xxQEfTDZWjKZcTAdpKgk4yUzppUEhYpTWNjsdkQ051qmGaP3UcZV0atIzEM5wk56hsM8xrJd5O_FAmtFZQH2pF9zvHSiMfvtulsvdItgRLKY0pkmfxe3HCDiBfsjfMQX6w_-ybGt0huOS8vAl4trEHxR9pFqVYV3QvzKatQuX348jpFo_YiO4LolPLIWBcsoIPKPCpZmQQDl6j9ssY");'>
+                                    <div class="flex flex-col gap-4">
+                                        <h1 class="text-white text-4xl font-black leading-tight tracking-[-0.033em] @@[480px]:text-5xl @@[480px]:font-black @@[480px]:leading-tight @@[480px]:tracking-[-0.033em]">
+                                            Transform Your Living Space, Effortlessly
+                                        </h1>
+                                        <h2 class="text-white/90 text-sm font-normal leading-normal @@[480px]:text-base @@[480px]:font-normal @@[480px]:leading-normal max-w-xl mx-auto">
+                                            Design your dream home with the power of AI and virtual tools. See your vision come to life before you buy.
+                                        </h2>
+                                    </div>
+                                    @if (User?.Identity?.IsAuthenticated ?? false)
+                                    {
+                                        <a href="@Url.Action("Plan", "Payments")" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 @@[480px]:h-12 @@[480px]:px-5 bg-primary text-[#0e1b11] text-sm font-bold leading-normal tracking-[0.015em] @@[480px]:text-base @@[480px]:font-bold @@[480px]:leading-normal @@[480px]:tracking-[0.015em]">
+                                            <span class="truncate">Start Your Design</span>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a href="@Url.Action("Register", "Auth")" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 @@[480px]:h-12 @@[480px]:px-5 bg-primary text-[#0e1b11] text-sm font-bold leading-normal tracking-[0.015em] @@[480px]:text-base @@[480px]:font-bold @@[480px]:leading-normal @@[480px]:tracking-[0.015em]">
+                                            <span class="truncate">Start Your Design</span>
+                                        </a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <!-- How It Works Section -->
+                        <section class="flex flex-col gap-6">
+                            <h4 class="text-[#0e1b11] dark:text-white/80 text-sm font-bold leading-normal tracking-[0.015em] px-4 py-2 text-center">HOW IT WORKS</h4>
+                            <div class="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4 p-4">
+                                <div class="flex flex-1 gap-4 rounded-lg border border-black/10 dark:border-white/10 bg-background-light dark:bg-background-dark p-4 flex-col text-center items-center">
+                                    <span class="material-symbols-outlined text-primary text-4xl">upload_file</span>
+                                    <div class="flex flex-col gap-1">
+                                        <h2 class="text-[#0e1b11] dark:text-white text-base font-bold leading-tight">1. Upload Your Space</h2>
+                                        <p class="text-black/60 dark:text-white/60 text-sm font-normal leading-normal">Simply upload photos or a floor plan of your room to get started.</p>
+                                    </div>
+                                </div>
+                                <div class="flex flex-1 gap-4 rounded-lg border border-black/10 dark:border-white/10 bg-background-light dark:bg-background-dark p-4 flex-col text-center items-center">
+                                    <span class="material-symbols-outlined text-primary text-4xl">auto_awesome</span>
+                                    <div class="flex flex-col gap-1">
+                                        <h2 class="text-[#0e1b11] dark:text-white text-base font-bold leading-tight">2. Design with AI</h2>
+                                        <p class="text-black/60 dark:text-white/60 text-sm font-normal leading-normal">Our smart tools provide personalized suggestions and layouts.</p>
+                                    </div>
+                                </div>
+                                <div class="flex flex-1 gap-4 rounded-lg border border-black/10 dark:border-white/10 bg-background-light dark:bg-background-dark p-4 flex-col text-center items-center">
+                                    <span class="material-symbols-outlined text-primary text-4xl">view_in_ar</span>
+                                    <div class="flex flex-col gap-1">
+                                        <h2 class="text-[#0e1b11] dark:text-white text-base font-bold leading-tight">3. Visualize &amp; Shop</h2>
+                                        <p class="text-black/60 dark:text-white/60 text-sm font-normal leading-normal">See products in your space and purchase with confidence.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <!-- Features Showcase Section -->
+                        <section class="flex flex-col gap-10 px-4 py-10 @@container" id="features">
+                            <div class="flex flex-col gap-4 text-center items-center">
+                                <h1 class="text-[#0e1b11] dark:text-white tracking-light text-[32px] font-bold leading-tight @@[480px]:text-4xl @@[480px]:font-black @@[480px]:leading-tight @@[480px]:tracking-[-0.033em] max-w-[720px]">
+                                    All The Tools You Need
+                                </h1>
+                                <p class="text-[#0e1b11]/80 dark:text-white/80 text-base font-normal leading-normal max-w-[720px]">
+                                    From AI-powered suggestions to a vast product catalog, we provide everything you need to create a home you love.
+                                </p>
+                            </div>
+                            <div class="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-6">
+                                <div class="flex flex-col gap-4 pb-3">
+                                    <div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl" data-alt="A person using a tablet to view AI-generated interior design options for their room." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC7bwYbO0SWSf8a5TKjc0TAKArBToF-8Hl921bPb_DqcFr1S3wPDopTUBYa6SgM_8q-bjBhPVQUSdnHjHRYvq152qwsNoCJ1Tm5CuHUP4yNxDQy1HnJnb6vVNhOjwdnHesu6gs-zT0tnnShD1zBTRkC3uGcO_g5y_OVr6Dldi9kxsf-I3jByWNr5bleIsE9vPUWzDElbTh-WMBl7gUnS3tVAPYBPWTBZiXhlLnJwPC2BqpUT_ygG4ZyNmmQaEGj_wjEFpwF2Jdmq-0");'></div>
+                                    <div>
+                                        <p class="text-[#0e1b11] dark:text-white text-base font-medium leading-normal">AI-Powered Suggestions</p>
+                                        <p class="text-black/60 dark:text-white/60 text-sm font-normal leading-normal">Get instant inspiration and smart recommendations tailored to your style and space.</p>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col gap-4 pb-3">
+                                    <div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl" data-alt="Smartphone screen showing a virtual chair placed in a real living room through augmented reality." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuALxcTz00kXNuVTLlfmx0ZvIIcUDVCDi2c67nv4oi_VZCglhXbAqgdQfqp5nerULnrURF9uThmIPKa9IzTXm-Q8vGTAAAWWOveAULx85L04N7Q6DhmkaqDNLmydV_y0-cD7A3QIG1GeWd7l1D3F6cygTsHaVFsh1Kw5BPJtCz3K5LfSKRgDPvZS1pATwPZh8Nm-DDWRMqvn0SwDApVkVLTvZDIIeawzT3k6WGzGtjoIB7X1wzj7_cAXrbZPwe0DtgIpwX1m80oGZNw");'></div>
+                                    <div>
+                                        <p class="text-[#0e1b11] dark:text-white text-base font-medium leading-normal">Virtual Staging</p>
+                                        <p class="text-black/60 dark:text-white/60 text-sm font-normal leading-normal">Visualize furniture and decor in your actual room using augmented reality.</p>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col gap-4 pb-3">
+                                    <div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl" data-alt="A collage of various home decor items like vases, lamps, and cushions." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCb2PYSibB8lli2MsFTU-tiTcuZQ5gVOoBw_11Tiy3fNn6vwxg9H1IKudsHLrckMnaCxzd7sNsQLcIDUB5fAvpj5mJWG0GGE7kuJyQM6yVFeqXrFLb1Qq32Q9C_4kBVmd4VNFPZv_hwY7jlOB2x1rU13qKN-dglj6PnhKWqWox1vAe8okhVdbBaT-HHN82m0SA7TkXnvsa92v_3fTTK5-umA1hYpFLVJ4s7M_7DE3-upA-6an9pnMAfBXjXWTFTKM8fRk3MIp2S8q4");'></div>
+                                    <div>
+                                        <p class="text-[#0e1b11] dark:text-white text-base font-medium leading-normal">Vast Product Catalog</p>
+                                        <p class="text-black/60 dark:text-white/60 text-sm font-normal leading-normal">Shop from thousands of products from your favorite brands, all in one place.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <!-- Testimonial Section -->
+                        <section class="flex flex-col gap-10 px-4 py-10 bg-primary/10 dark:bg-primary/20 rounded-xl">
+                            <div class="flex flex-col gap-4 text-center items-center">
+                                <h1 class="text-[#0e1b11] dark:text-white tracking-light text-[32px] font-bold leading-tight @@[480px]:text-4xl @@[480px]:font-black @@[480px]:leading-tight @@[480px]:tracking-[-0.033em] max-w-[720px]">
+                                    Loved by Designers and Homeowners
+                                </h1>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div class="flex flex-col gap-4 rounded-lg bg-background-light dark:bg-background-dark p-6">
+                                    <p class="text-black/80 dark:text-white/80 italic">"DecorMate made redecorating my apartment so easy and fun! Seeing the furniture in my actual room before buying was a game-changer. I finally have a space I truly love."</p>
+                                    <div class="flex items-center gap-4 mt-2">
+                                        <img class="w-12 h-12 rounded-full object-cover" data-alt="Portrait of Sarah J." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8quqrrlbkjNF4jOhkl6uq6kuISv303ZFGWHiSC-O99kKPS8B9lTJQJvbN57BkTYsnwKMdXps_zacXK5A7gNM_6oy6zkhY5bfNoVCeiL6zf6ybScbgWwmA_BurPxlWGL-BmCk19FpHt5qqtFI-bV5rLc1WV8EO7O9ALFGwDsyJ9zElsEEchi89fJrilBI8csumFG-4f5X3m5eSWTxB6kb1ZHtLUMW0ERo0KTNeP1oYV7UwxdB33EifYhwZ77Ah-_O_WkOfb84Q9Oc" />
+                                        <div>
+                                            <p class="font-bold text-[#0e1b11] dark:text-white">Sarah J.</p>
+                                            <p class="text-sm text-black/60 dark:text-white/60">Homeowner</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col gap-4 rounded-lg bg-background-light dark:bg-background-dark p-6">
+                                    <p class="text-black/80 dark:text-white/80 italic">"As an interior designer, this tool is invaluable. It helps me communicate my vision to clients effectively and speeds up the decision-making process. Highly recommended!"</p>
+                                    <div class="flex items-center gap-4 mt-2">
+                                        <img class="w-12 h-12 rounded-full object-cover" data-alt="Portrait of Michael Chen." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVucA7-_nWjz_DGoAln6RstUTcc10Oe-oeE3YFtryg1D-HAHF8ZnOZ0RIFyuqm5S3fYjI10POnXCdabSNTM8CRa7Es9d-1nCZNFWqJNWUupIV3qQuJyKshaR-jWYIMAGAR76Uk35bSgfdOkBFHNOm6-vVWoVMG5frVsoLOZlnJeQJAcKCgjjxNxDfqUa3wHPoy7mPvGUzlm76mBI4TfgpwLb_QpCCP-cLGybanpZ8pQy08NNSQbgY3VsrLzJR8rdtk73tYaxBiMpI" />
+                                        <div>
+                                            <p class="font-bold text-[#0e1b11] dark:text-white">Michael Chen</p>
+                                            <p class="text-sm text-black/60 dark:text-white/60">Interior Designer</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <!-- Final CTA Section -->
+                        <section class="flex flex-col items-center justify-center gap-6 text-center p-10 md:p-16 rounded-xl bg-cover bg-center" data-alt="A bright, minimalist room with a comfortable armchair and a plant." style='background-image: linear-gradient(rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.5) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuA6mHHSfAhIS49BFCa1n0iTsE743yXtd_YEBrmWbYb9RzfKajDJ3j76kin_PqqqxNuExKN1b2nB-eNO8I9ylvi0BrwvTyaEpmBDKxgGyM7MhDJcKffZmYB6kxWMHUOhVv_WrtwDT9aJqoh0AqbX0eRmeP8iBKvZcgVMcEM_PR90abvVqSE8KDQmjPQPdD7QvnFKf6sPh8SVu0SH46KOSn1LfDpEMEaYbiltJHSvI4E7kXmPfHQPkjzGqP_ibjOCVf4dM8LDy4Yj_D0");'>
+                            <h2 class="text-3xl md:text-4xl font-bold text-white max-w-lg">Ready to Design Your Dream Home?</h2>
+                            <p class="text-white/90 max-w-md">Join thousands of users transforming their spaces. Sign up for free and start designing today.</p>
+                            @if (User?.Identity?.IsAuthenticated ?? false)
+                            {
+                                <a href="@Url.Action("Plan", "Payments")" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-5 bg-primary text-[#0e1b11] text-base font-bold leading-normal tracking-[0.015em]">
+                                    <span class="truncate">Get Started for Free</span>
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("Register", "Auth")" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-5 bg-primary text-[#0e1b11] text-base font-bold leading-normal tracking-[0.015em]">
+                                    <span class="truncate">Get Started for Free</span>
+                                </a>
+                            }
+                        </section>
+                    </main>
+                    <!-- Footer -->
+                    <footer class="mt-24 border-t border-black/10 dark:border-white/10 pt-10 pb-5 px-4 text-sm">
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                            <div class="flex flex-col gap-4">
+                                <h3 class="font-bold text-[#0e1b11] dark:text-white">DecorMate</h3>
+                                <p class="text-black/60 dark:text-white/60">Design your dream home with the power of AI.</p>
+                            </div>
+                            <div class="flex flex-col gap-4">
+                                <h4 class="font-semibold text-[#0e1b11] dark:text-white">Product</h4>
+                                <a class="text-black/60 dark:text-white/60 hover:text-primary" href="#features">Features</a>
+                                <a class="text-black/60 dark:text-white/60 hover:text-primary" href="@Url.Action("Plan", "Payments")">Pricing</a>
+                                <a class="text-black/60 dark:text-white/60 hover:text-primary" href="#gallery">Gallery</a>
+                                <a class="text-black/60 dark:text-white/60 hover:text-primary" href="#blog">Blog</a>
+                            </div>
+                            <div class="flex flex-col gap-4">
+                                <h4 class="font-semibold text-[#0e1b11] dark:text-white">Company</h4>
+                                <a class="text-black/60 dark:text-white/60 hover:text-primary" href="@Url.Action("Privacy", "Home")">About Us</a>
+                                <a class="text-black/60 dark:text-white/60 hover:text-primary" href="#careers">Careers</a>
+                                <a class="text-black/60 dark:text-white/60 hover:text-primary" href="#contact">Contact</a>
+                            </div>
+                            <div class="flex flex-col gap-4">
+                                <h4 class="font-semibold text-[#0e1b11] dark:text-white">Legal</h4>
+                                <a class="text-black/60 dark:text-white/60 hover:text-primary" href="#terms">Terms of Service</a>
+                                <a class="text-black/60 dark:text-white/60 hover:text-primary" href="#privacy">Privacy Policy</a>
+                            </div>
+                        </div>
+                        <div class="mt-12 pt-5 border-t border-black/10 dark:border-white/10 text-center text-black/50 dark:text-white/50">
+                            <p>© @DateTime.UtcNow.Year DecorMate. All rights reserved.</p>
+                        </div>
+                    </footer>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
-
-<div class="card mt-4">
-    <div class="card-body">
-        <h5>Quick info</h5>
-        <p>Use the navigation to login or register.</p>
-    </div>
-</div>
+</body>
+</html>

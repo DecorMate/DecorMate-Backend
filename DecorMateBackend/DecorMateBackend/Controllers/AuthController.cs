@@ -11,6 +11,7 @@ using DecorMateBackend.Services;
 using DecorMate_Backend_Web_app.Services;
 using DecorMateBackend.Models.DTOs;
 using DecorMateBackend.Repositories;
+using System.Security.Claims;
 
 namespace DecorMateBackend.Controllers
 {
@@ -314,6 +315,127 @@ namespace DecorMateBackend.Controllers
 
             ModelState.AddModelError(string.Empty, "Invalid login attempt.");
             return View("~/Views/Auth/Login.cshtml", model);
+        }
+
+        // ---------------------------
+        // External Login (Google/Facebook)
+        // POST: /Auth/ExternalLogin
+        // ---------------------------
+        [HttpPost("/Auth/ExternalLogin")]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public IActionResult ExternalLogin(string provider, string? returnUrl = null)
+        {
+            var redirectUrl = Url.Action("ExternalLoginCallback", "Auth", new { returnUrl });
+            var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+            return Challenge(properties, provider);
+        }
+
+        // ---------------------------
+        // External Login Callback
+        // GET: /Auth/ExternalLoginCallback
+        // ---------------------------
+        [HttpGet("/Auth/ExternalLoginCallback")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ExternalLoginCallback(string? returnUrl = null, string? remoteError = null)
+        {
+            returnUrl = returnUrl ?? Url.Action("Index", "Home");
+
+            if (remoteError != null)
+            {
+                ModelState.AddModelError(string.Empty, $"Error from external provider: {remoteError}");
+                return View("~/Views/Auth/Login.cshtml");
+            }
+
+            var info = await _signInManager.GetExternalLoginInfoAsync();
+            if (info == null)
+            {
+                ModelState.AddModelError(string.Empty, "Error loading external login information.");
+                return View("~/Views/Auth/Login.cshtml");
+            }
+
+            // Sign in the user with this external login provider if the user already has a login
+            var signInResult = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
+
+            if (signInResult.Succeeded)
+            {
+                return LocalRedirect(returnUrl);
+            }
+
+            if (signInResult.IsLockedOut)
+            {
+                ModelState.AddModelError(string.Empty, "Account locked.");
+                return View("~/Views/Auth/Login.cshtml");
+            }
+
+            // If the user does not have an account, then create one
+            var email = info.Principal.FindFirstValue(System.Security.Claims.ClaimTypes.Email);
+            var firstName = info.Principal.FindFirstValue(System.Security.Claims.ClaimTypes.GivenName) ?? "";
+            var lastName = info.Principal.FindFirstValue(System.Security.Claims.ClaimTypes.Surname) ?? "";
+
+            if (string.IsNullOrEmpty(email))
+            {
+                ModelState.AddModelError(string.Empty, "Email not provided by external provider.");
+                return View("~/Views/Auth/Login.cshtml");
+            }
+
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+            {
+                // Create new user
+                user = new ApplicationUser
+                {
+                    UserName = email,
+                    Email = email,
+                    EmailConfirmed = true,
+                    FirstName = firstName,
+                    LastName = lastName,
+                    Provider = info.LoginProvider == "Google" ? AuthProvider.Google : AuthProvider.Facebook
+                };
+
+                var createResult = await _userManager.CreateAsync(user);
+                if (!createResult.Succeeded)
+                {
+                    foreach (var error in createResult.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                    return View("~/Views/Auth/Login.cshtml");
+                }
+
+                // Assign Company role by default
+                await _userManager.AddToRoleAsync(user, "Company");
+            }
+            else
+            {
+                // Check if user has Company role
+                if (!await _userManager.IsInRoleAsync(user, "Company"))
+                {
+                    ModelState.AddModelError(string.Empty, "Only company accounts can login from here.");
+                    return View("~/Views/Auth/Login.cshtml");
+                }
+            }
+
+            // Add external login to user if it doesn't exist
+            var existingLogins = await _userManager.GetLoginsAsync(user);
+            var hasExternalLogin = existingLogins.Any(l => l.LoginProvider == info.LoginProvider && l.ProviderKey == info.ProviderKey);
+            
+            if (!hasExternalLogin)
+            {
+                var addLoginResult = await _userManager.AddLoginAsync(user, info);
+                if (!addLoginResult.Succeeded)
+                {
+                    foreach (var error in addLoginResult.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                    return View("~/Views/Auth/Login.cshtml");
+                }
+            }
+
+            // Sign in the user
+            await _signInManager.SignInAsync(user, isPersistent: false);
+            return LocalRedirect(returnUrl);
         }
 
         // ---------------------------

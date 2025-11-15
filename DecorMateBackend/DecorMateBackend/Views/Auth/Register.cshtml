@@ -1,57 +1,193 @@
 ﻿@model DecorMateBackend.Models.DTOs.MvcRegisterViewModel
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "DecorMate - Create Account";
+    Layout = null;
 }
-<div class="row justify-content-center">
-    <div class="col-md-7 col-lg-6">
-        <div class="card card-brand p-4">
-            <div class="card-body">
-                <h3 class="mb-3">Create your account</h3>
-                <p class="text-muted">Register as a Company to offer manufacturing / design services</p>
-                <form asp-action="RegisterPost" asp-controller="Auth" method="post">
-                    @Html.AntiForgeryToken()
-                    <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
-
-                    <div class="mb-2">
-                        <label class="form-label">First name</label>
-                        <input asp-for="FirstName" class="form-control" />
-                        <span asp-validation-for="FirstName" class="text-danger"></span>
-                    </div>
-
-                    <div class="mb-2">
-                        <label class="form-label">Last name</label>
-                        <input asp-for="LastName" class="form-control" />
-                        <span asp-validation-for="LastName" class="text-danger"></span>
-                    </div>
-
-                    <div class="mb-2">
-                        <label class="form-label">Email</label>
-                        <input asp-for="Email" class="form-control" />
-                        <span asp-validation-for="Email" class="text-danger"></span>
-                    </div>
-
-                    <div class="mb-2">
-                        <label class="form-label">Password</label>
-                        <input asp-for="Password" type="password" class="form-control" />
-                        <span asp-validation-for="Password" class="text-danger"></span>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Confirm password</label>
-                        <input asp-for="ConfirmPassword" type="password" class="form-control" />
-                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                    </div>
-
-                    <div class="d-flex justify-content-between align-items-center">
-                        <a class="text-decoration-none" href="@Url.Action("Login","Auth")">Already have an account?</a>
-                        <button type="submit" class="btn brand-btn">Register</button>
-                    </div>
-                </form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>@ViewData["Title"]</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Agbalumo&family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#60a972",
+                        "background-light": "#f6f7f7",
+                        "background-dark": "#161c17",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans"],
+                        "agbalumo": ["Agbalumo", "cursive"],
+                        "poppins": ["Poppins", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-[#EDEDED]">
+    <div class="relative flex h-auto min-h-screen w-full flex-col items-center justify-center bg-[#EDEDED] p-4 group/design-root overflow-hidden">
+        <!-- Decorative Elements -->
+        <div class="absolute -top-24 -left-24 w-72 h-72 bg-primary/20 rounded-full opacity-50" data-alt="Abstract green circle shape for decoration"></div>
+        <div class="absolute -bottom-20 -right-20 w-80 h-80 bg-primary/20 rounded-full opacity-40" data-alt="Abstract green circle shape for decoration"></div>
+        
+        <div class="relative z-10 w-full max-w-md bg-white/50 backdrop-blur-sm p-8 md:p-10 rounded-xl shadow-lg border border-white/30">
+            <div class="flex flex-col items-center text-center">
+                <h3 class="text-[#675D50] text-2xl font-agbalumo tracking-wide">DecorMate</h3>
+                <h1 class="text-[#000000] text-[22px] font-agbalumo mt-4 mb-8">Create Account</h1>
             </div>
+
+            <!-- Validation Summary -->
+            <div asp-validation-summary="ModelOnly" class="text-red-600 text-sm mb-4"></div>
+
+            <form asp-action="RegisterPost" asp-controller="Auth" method="post" class="flex flex-col gap-5" enctype="multipart/form-data">
+                @Html.AntiForgeryToken()
+
+                <div class="flex flex-col md:flex-row gap-5">
+                    <div class="flex flex-col flex-1">
+                        <label class="text-sm font-medium text-[#675D50] sr-only" for="FirstName">First Name</label>
+                        <input asp-for="FirstName" 
+                               class="w-full h-12 rounded-xl border border-[#9EA484] bg-white px-4 text-sm font-poppins placeholder:text-[#A3A0A0] focus:outline-none focus:ring-2 focus:ring-[#61AA73]/50 focus:border-[#61AA73]" 
+                               id="FirstName" 
+                               name="FirstName" 
+                               placeholder="Enter your first name" 
+                               type="text" />
+                        <span asp-validation-for="FirstName" class="text-red-600 text-xs mt-1"></span>
+                    </div>
+
+                    <div class="flex flex-col flex-1">
+                        <label class="text-sm font-medium text-[#675D50] sr-only" for="LastName">Last Name</label>
+                        <input asp-for="LastName" 
+                               class="w-full h-12 rounded-xl border border-[#9EA484] bg-white px-4 text-sm font-poppins placeholder:text-[#A3A0A0] focus:outline-none focus:ring-2 focus:ring-[#61AA73]/50 focus:border-[#61AA73]" 
+                               id="LastName" 
+                               name="LastName" 
+                               placeholder="Enter your last name" 
+                               type="text" />
+                        <span asp-validation-for="LastName" class="text-red-600 text-xs mt-1"></span>
+                    </div>
+                </div>
+
+                <div class="flex flex-col">
+                    <label class="text-sm font-medium text-[#675D50] sr-only" for="Email">Email</label>
+                    <input asp-for="Email" 
+                           class="w-full h-12 rounded-xl border border-[#9EA484] bg-white px-4 text-sm font-poppins placeholder:text-[#A3A0A0] focus:outline-none focus:ring-2 focus:ring-[#61AA73]/50 focus:border-[#61AA73]" 
+                           id="Email" 
+                           name="Email" 
+                           placeholder="Enter your email address" 
+                           type="email" />
+                    <span asp-validation-for="Email" class="text-red-600 text-xs mt-1"></span>
+                </div>
+
+                <div class="flex flex-col">
+                    <div class="relative flex items-center">
+                        <label class="text-sm font-medium text-[#675D50] sr-only" for="Password">Password</label>
+                        <input asp-for="Password" 
+                               class="w-full h-12 rounded-xl border border-[#9EA484] bg-white px-4 pr-10 text-sm font-poppins placeholder:text-[#A3A0A0] focus:outline-none focus:ring-2 focus:ring-[#61AA73]/50 focus:border-[#61AA73]" 
+                               id="Password" 
+                               name="Password" 
+                               placeholder="Create a password" 
+                               type="password" />
+                        <button type="button" 
+                                class="absolute right-3 text-[#A3A0A0] hover:text-[#675D50] focus:outline-none" 
+                                onclick="togglePasswordVisibility('Password', 'passwordToggleIcon')">
+                            <span class="material-symbols-outlined text-xl" id="passwordToggleIcon">visibility_off</span>
+                        </button>
+                    </div>
+                    <span asp-validation-for="Password" class="text-red-600 text-xs mt-1"></span>
+                </div>
+
+                <div class="flex flex-col">
+                    <div class="relative flex items-center">
+                        <label class="text-sm font-medium text-[#675D50] sr-only" for="ConfirmPassword">Confirm Password</label>
+                        <input asp-for="ConfirmPassword" 
+                               class="w-full h-12 rounded-xl border border-[#9EA484] bg-white px-4 pr-10 text-sm font-poppins placeholder:text-[#A3A0A0] focus:outline-none focus:ring-2 focus:ring-[#61AA73]/50 focus:border-[#61AA73]" 
+                               id="ConfirmPassword" 
+                               name="ConfirmPassword" 
+                               placeholder="Confirm your password" 
+                               type="password" />
+                        <button type="button" 
+                                class="absolute right-3 text-[#A3A0A0] hover:text-[#675D50] focus:outline-none" 
+                                onclick="togglePasswordVisibility('ConfirmPassword', 'confirmPasswordToggleIcon')">
+                            <span class="material-symbols-outlined text-xl" id="confirmPasswordToggleIcon">visibility_off</span>
+                        </button>
+                    </div>
+                    <span asp-validation-for="ConfirmPassword" class="text-red-600 text-xs mt-1"></span>
+                </div>
+
+                <button type="submit" class="w-full h-12 flex items-center justify-center rounded-xl bg-[#61AA73] text-white font-poppins text-[15px] font-semibold tracking-wide shadow-md hover:bg-[#529362] transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#61AA73]">
+                    Sign Up
+                </button>
+
+                <div class="relative my-4 flex items-center">
+                    <div class="flex-grow border-t border-[#D1D1D1]"></div>
+                    <span class="mx-4 flex-shrink text-sm text-[#A3A0A0]">Or sign up with</span>
+                    <div class="flex-grow border-t border-[#D1D1D1]"></div>
+                </div>
+
+                <div class="flex flex-col md:flex-row gap-4">
+                    <form asp-action="ExternalLogin" asp-controller="Auth" method="post" class="flex-1 w-full">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="provider" value="Google" />
+                        <button type="submit" class="w-full h-12 flex items-center justify-center gap-2 rounded-xl border border-[#D1D1D1] bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#61AA73]">
+                            <img alt="Google logo" class="h-5 w-5" data-alt="Google logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcYDRyAQ4OUg-vO3YGE2z1ueikjculriAAkSX5K6u4Xz595JA_pzJOi_nMNzHMwO5Q2eeTZzPIRT9Wjj7_zMvx7g8nZQ_kYsOL7MT1fsVfH0hr5zhzOXvQM95oJh1L3TXWjktI5KS0GCBJYrikmxtLkZJMO9KPU6gofEge86c3UtvLMqm0tgItVYGr90YtPUGrMnezOrBX_fSm0FzmTqLYfm3WHm73_P78N7BD4Y3ZTlvmHXhdGVoFxDnUILJoDMmIECIJNGLNvQ0" />
+                            <span>Google</span>
+                        </button>
+                    </form>
+                    <form asp-action="ExternalLogin" asp-controller="Auth" method="post" class="flex-1 w-full">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="provider" value="Facebook" />
+                        <button type="submit" class="w-full h-12 flex items-center justify-center gap-2 rounded-xl border border-[#D1D1D1] bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#61AA73]">
+                            <img alt="Facebook logo" class="h-5 w-5" data-alt="Facebook logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpOBXDAdNaHXMoa3EDN06dv2pGIZQnEcjL6lOaT-PcsCNuzabuKJrQeMdktmLZ2Y37rk2ssLy-pppGA0tndEJcBHYTXh3-DfJs_8vC-hmGBUYETGO5uiSo2JXiPCt9AWwTZ6bAvC8yW98bPe3arqODjOSI3JcvAI9moGsg7-whN8zf4eVfHKNBmpVUj07gBhW1gFaULsOZITPckoEyQFw7CtRoMjxyqn2Pkt80HyNEUbNiwjJfeLzQpFYUvTo8t3Mog1GxYtBlQ7Y" />
+                            <span>Facebook</span>
+                        </button>
+                    </form>
+                </div>
+
+                <p class="text-center text-sm text-gray-600 mt-6">
+                    Already have an account? 
+                    <a class="font-semibold text-[#61AA73] hover:underline" href="@Url.Action("Login", "Auth")">Sign in</a>
+                </p>
+            </form>
         </div>
     </div>
-</div>
 
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}
+    <script>
+        function togglePasswordVisibility(fieldId, iconId) {
+            const passwordInput = document.getElementById(fieldId);
+            const toggleIcon = document.getElementById(iconId);
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.textContent = 'visibility';
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.textContent = 'visibility_off';
+            }
+        }
+    </script>
+
+    <!-- jQuery + Unobtrusive validation (CDN) -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-..." crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation-unobtrusive@3.2.12/dist/jquery.validate.unobtrusive.min.js"></script>
+</body>
+</html>

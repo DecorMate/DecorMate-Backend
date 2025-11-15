@@ -1,54 +1,314 @@
-﻿@{
-    ViewData["Title"] = "Plans";
-    Layout = "_Layout";
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<DecorMate_Backend_Web_app.Models.ApplicationUser> SignInManager
+@{
+    ViewData["Title"] = "DecorMate Pricing Plans";
+    Layout = null;
 }
-<div class="container py-4">
-    <h2 class="mb-3">Choose a plan</h2>
-    <p class="text-muted">Upgrade to Premium to get featured listings and higher visibility.</p>
-
-    <div class="row gy-3">
-        <div class="col-md-6">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Standard</h5>
-                    <p class="card-text">Standard — free listing</p>
-                    <p class="h4">0 EGP</p>
-
-                    <form method="post" action="/Payments/Start">
-                        @Html.AntiForgeryToken()
-                        <input type="hidden" name="Plan" value="Standard" />
-                        <div class="mb-2">
-                            <label class="form-label">Phone (Vodafone Cash)</label>
-                            <input name="PhoneNumber" class="form-control" placeholder="01xxxxxxxxx" />
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>@ViewData["Title"]</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#4A90E2",
+                        "secondary": "#F5A623",
+                        "background-light": "#FFFFFF",
+                        "background-dark": "#102215",
+                        "card-light": "#F9F9F9",
+                        "card-dark": "#1A2C1F",
+                        "text-primary-light": "#333333",
+                        "text-primary-dark": "#E0E0E0",
+                        "text-secondary-light": "#777777",
+                        "text-secondary-dark": "#A0A0A0",
+                        "border-light": "#EAEAEA",
+                        "border-dark": "#334A3C",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-text-primary-light dark:text-text-primary-dark">
+    <div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+        <div class="layout-container flex h-full grow flex-col">
+            <div class="px-4 md:px-10 lg:px-20 xl:px-40 flex flex-1 justify-center py-5">
+                <div class="layout-content-container flex flex-col max-w-5xl flex-1 gap-10">
+                    <!-- TopNavBar -->
+                    <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-border-light dark:border-border-dark px-4 py-3">
+                        <div class="flex items-center gap-4">
+                            <div class="size-6 text-primary">
+                                <svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M24 4C25.7818 14.2173 33.7827 22.2182 44 24C33.7827 25.7818 25.7818 33.7827 24 44C22.2182 33.7827 14.2173 25.7818 4 24C14.2173 22.2182 22.2182 14.2173 24 4Z" fill="currentColor"></path>
+                                </svg>
+                            </div>
+                            <a href="@Url.Action("Index", "Home")" class="text-xl font-bold tracking-[-0.015em] text-text-primary-light dark:text-text-primary-dark">DecorMate</a>
                         </div>
-                        <button class="btn btn-outline-secondary">Select standard</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Premium</h5>
-                    <p class="card-text">Premium — featured/sponsored (monthly)</p>
-                    <p class="h4">50 EGP / month</p>
-
-                    <form method="post" action="/Payments/Start">
-                        @Html.AntiForgeryToken()
-                        <input type="hidden" name="Plan" value="Premium" />
-                        <div class="mb-2">
-                            <label class="form-label">Phone (Vodafone Cash)</label>
-                            <input name="PhoneNumber" class="form-control" placeholder="01xxxxxxxxx" />
+                        <div class="hidden md:flex flex-1 justify-end gap-8">
+                            <div class="flex items-center gap-9">
+                                <a class="text-sm font-medium hover:text-primary dark:hover:text-primary" href="@Url.Action("Index", "Home")">Home</a>
+                                <a class="text-sm font-medium hover:text-primary dark:hover:text-primary" href="#features">Features</a>
+                                <a class="text-sm font-medium text-primary dark:text-primary" href="@Url.Action("Plan", "Payments")">Pricing</a>
+                                <a class="text-sm font-medium hover:text-primary dark:hover:text-primary" href="#blog">Blog</a>
+                            </div>
+                            <div class="flex gap-2">
+                                @if (SignInManager.IsSignedIn(User))
+                                {
+                                    <a href="@Url.Action("Profile", "Auth")" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em]">
+                                        <span class="truncate">Profile</span>
+                                    </a>
+                                    <form method="post" action="@Url.Action("Logout", "Auth")" class="inline">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-gray-100 dark:bg-card-dark text-text-primary-light dark:text-text-primary-dark text-sm font-bold leading-normal tracking-[0.015em]">
+                                            <span class="truncate">Logout</span>
+                                        </button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <a href="@Url.Action("Register", "Auth")" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em]">
+                                        <span class="truncate">Sign Up</span>
+                                    </a>
+                                    <a href="@Url.Action("Login", "Auth")" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-gray-100 dark:bg-card-dark text-text-primary-light dark:text-text-primary-dark text-sm font-bold leading-normal tracking-[0.015em]">
+                                        <span class="truncate">Login</span>
+                                    </a>
+                                }
+                            </div>
                         </div>
-                        <div class="mb-2">
-                            <label class="form-label">Notes (optional)</label>
-                            <input name="Notes" class="form-control" />
+                    </header>
+
+                    <!-- PageHeading -->
+                    <div class="flex flex-wrap justify-center text-center gap-3 p-4">
+                        <div class="flex min-w-72 flex-col gap-3">
+                            <p class="text-5xl font-black leading-tight tracking-[-0.033em]">Unlock Your Dream Home Design</p>
+                            <p class="text-base font-normal leading-normal text-text-secondary-light dark:text-text-secondary-dark">Choose the plan that best fits your creative journey.</p>
                         </div>
-                        <button class="btn" style="background:#FEB47B;color:#111;border:none;">Pay via Vodafone Cash</button>
-                    </form>
+                    </div>
+
+                    <!-- PricingCards -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4 py-3">
+                        <!-- Basic Plan -->
+                        <div class="flex flex-1 flex-col gap-6 rounded-xl border border-solid border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark p-6 transition-transform hover:scale-105">
+                            <div class="flex flex-col gap-2">
+                                <h1 class="text-lg font-bold">Basic</h1>
+                                <p class="flex items-baseline gap-1">
+                                    <span class="text-4xl font-black tracking-[-0.033em]">$19</span>
+                                    <span class="font-bold text-text-secondary-light dark:text-text-secondary-dark">/ month</span>
+                                </p>
+                            </div>
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                <form method="post" action="/Payments/Start" class="w-full">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="Plan" value="Basic" />
+                                    <button type="submit" class="flex w-full min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 ring-1 ring-primary text-primary text-sm font-bold leading-normal tracking-[0.015em]">
+                                        <span class="truncate">Choose Plan</span>
+                                    </button>
+                                </form>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("Register", "Auth")" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 ring-1 ring-primary text-primary text-sm font-bold leading-normal tracking-[0.015em]">
+                                    <span class="truncate">Choose Plan</span>
+                                </a>
+                            }
+                            <div class="flex flex-col gap-3">
+                                <div class="flex gap-3 text-sm font-normal"><span class="material-symbols-outlined text-primary">check</span> 5 Projects per month</div>
+                                <div class="flex gap-3 text-sm font-normal"><span class="material-symbols-outlined text-primary">check</span> Standard 3D Library Access</div>
+                                <div class="flex gap-3 text-sm font-normal"><span class="material-symbols-outlined text-primary">check</span> HD Renders</div>
+                                <div class="flex gap-3 text-sm font-normal"><span class="material-symbols-outlined text-primary">check</span> Email Support</div>
+                            </div>
+                        </div>
+
+                        <!-- Premium Plan -->
+                        <div class="flex flex-1 flex-col gap-6 rounded-xl border-2 border-solid border-primary bg-card-light dark:bg-card-dark p-6 relative scale-105">
+                            <div class="flex flex-col gap-2">
+                                <div class="flex items-center justify-between">
+                                    <h1 class="text-lg font-bold">Premium</h1>
+                                    <p class="text-xs font-bold leading-normal tracking-[0.015em] rounded-full bg-secondary px-3 py-1 text-center text-white">Most Popular</p>
+                                </div>
+                                <p class="flex items-baseline gap-1">
+                                    <span class="text-4xl font-black tracking-[-0.033em]">$49</span>
+                                    <span class="font-bold text-text-secondary-light dark:text-text-secondary-dark">/ month</span>
+                                </p>
+                            </div>
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                <form method="post" action="/Payments/Start" class="w-full">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="Plan" value="Premium" />
+                                    <button type="submit" class="flex w-full min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em]">
+                                        <span class="truncate">Start Free Trial</span>
+                                    </button>
+                                </form>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("Register", "Auth")" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em]">
+                                    <span class="truncate">Start Free Trial</span>
+                                </a>
+                            }
+                            <div class="flex flex-col gap-3">
+                                <div class="flex gap-3 text-sm font-normal"><span class="material-symbols-outlined text-primary">check</span> 50 Projects per month</div>
+                                <div class="flex gap-3 text-sm font-normal"><span class="material-symbols-outlined text-primary">check</span> Advanced 3D Library Access</div>
+                                <div class="flex gap-3 text-sm font-normal"><span class="material-symbols-outlined text-primary">check</span> AI Design Assistant</div>
+                                <div class="flex gap-3 text-sm font-normal"><span class="material-symbols-outlined text-primary">check</span> 4K Renders</div>
+                                <div class="flex gap-3 text-sm font-normal"><span class="material-symbols-outlined text-primary">check</span> Priority Support</div>
+                            </div>
+                        </div>
+
+                        <!-- Pro Plan -->
+                        <div class="flex flex-1 flex-col gap-6 rounded-xl border border-solid border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark p-6 transition-transform hover:scale-105">
+                            <div class="flex flex-col gap-2">
+                                <h1 class="text-lg font-bold">Pro</h1>
+                                <p class="flex items-baseline gap-1">
+                                    <span class="text-4xl font-black tracking-[-0.033em]">$99</span>
+                                    <span class="font-bold text-text-secondary-light dark:text-text-secondary-dark">/ month</span>
+                                </p>
+                            </div>
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                <form method="post" action="/Payments/Start" class="w-full">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="Plan" value="Pro" />
+                                    <button type="submit" class="flex w-full min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 ring-1 ring-primary text-primary text-sm font-bold leading-normal tracking-[0.015em]">
+                                        <span class="truncate">Contact Sales</span>
+                                    </button>
+                                </form>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("Register", "Auth")" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 ring-1 ring-primary text-primary text-sm font-bold leading-normal tracking-[0.015em]">
+                                    <span class="truncate">Contact Sales</span>
+                                </a>
+                            }
+                            <div class="flex flex-col gap-3">
+                                <div class="flex gap-3 text-sm font-normal"><span class="material-symbols-outlined text-primary">check</span> Unlimited Projects</div>
+                                <div class="flex gap-3 text-sm font-normal"><span class="material-symbols-outlined text-primary">check</span> Full 3D Library Access</div>
+                                <div class="flex gap-3 text-sm font-normal"><span class="material-symbols-outlined text-primary">check</span> Team Collaboration Features</div>
+                                <div class="flex gap-3 text-sm font-normal"><span class="material-symbols-outlined text-primary">check</span> Client Management Tools</div>
+                                <div class="flex gap-3 text-sm font-normal"><span class="material-symbols-outlined text-primary">check</span> Dedicated Support</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SectionHeader -->
+                    <div class="mt-12">
+                        <h4 class="text-primary text-sm font-bold leading-normal tracking-[0.015em] px-4 py-2 text-center">Compare All Features</h4>
+                    </div>
+
+                    <!-- Table -->
+                    <div class="px-4 py-3">
+                        <div class="flex overflow-hidden rounded-xl border border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark">
+                            <table class="w-full text-left">
+                                <thead>
+                                    <tr class="bg-card-light dark:bg-card-dark">
+                                        <th class="w-2/5 px-4 py-3 text-sm font-bold">Feature</th>
+                                        <th class="w-1/5 px-4 py-3 text-center text-sm font-bold">Basic</th>
+                                        <th class="w-1/5 px-4 py-3 text-center text-sm font-bold">Premium</th>
+                                        <th class="w-1/5 px-4 py-3 text-center text-sm font-bold">Pro</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-t border-t-border-light dark:border-t-border-dark">
+                                        <td class="h-[72px] px-4 py-2 text-sm">Number of Projects</td>
+                                        <td class="h-[72px] px-4 py-2 text-center text-sm">5 per month</td>
+                                        <td class="h-[72px] px-4 py-2 text-center text-sm">50 per month</td>
+                                        <td class="h-[72px] px-4 py-2 text-center text-sm">Unlimited</td>
+                                    </tr>
+                                    <tr class="border-t border-t-border-light dark:border-t-border-dark">
+                                        <td class="h-[72px] px-4 py-2 text-sm">AI Design Assistant</td>
+                                        <td class="h-[72px] px-4 py-2 text-center"><span class="material-symbols-outlined text-text-secondary-light dark:text-text-secondary-dark">remove</span></td>
+                                        <td class="h-[72px] px-4 py-2 text-center"><span class="material-symbols-outlined text-primary">check_circle</span></td>
+                                        <td class="h-[72px] px-4 py-2 text-center"><span class="material-symbols-outlined text-primary">check_circle</span></td>
+                                    </tr>
+                                    <tr class="border-t border-t-border-light dark:border-t-border-dark">
+                                        <td class="h-[72px] px-4 py-2 text-sm">4K Renders</td>
+                                        <td class="h-[72px] px-4 py-2 text-center"><span class="material-symbols-outlined text-text-secondary-light dark:text-text-secondary-dark">remove</span></td>
+                                        <td class="h-[72px] px-4 py-2 text-center"><span class="material-symbols-outlined text-primary">check_circle</span></td>
+                                        <td class="h-[72px] px-4 py-2 text-center"><span class="material-symbols-outlined text-primary">check_circle</span></td>
+                                    </tr>
+                                    <tr class="border-t border-t-border-light dark:border-t-border-dark">
+                                        <td class="h-[72px] px-4 py-2 text-sm">Team Collaboration</td>
+                                        <td class="h-[72px] px-4 py-2 text-center"><span class="material-symbols-outlined text-text-secondary-light dark:text-text-secondary-dark">remove</span></td>
+                                        <td class="h-[72px] px-4 py-2 text-center"><span class="material-symbols-outlined text-text-secondary-light dark:text-text-secondary-dark">remove</span></td>
+                                        <td class="h-[72px] px-4 py-2 text-center"><span class="material-symbols-outlined text-primary">check_circle</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Section -->
+                    <div class="w-full max-w-3xl mx-auto px-4 py-12">
+                        <h2 class="text-3xl font-bold text-center mb-8">Frequently Asked Questions</h2>
+                        <div class="space-y-4">
+                            <details class="group rounded-lg bg-card-light dark:bg-card-dark p-6 [&_summary::-webkit-details-marker]:hidden border border-border-light dark:border-border-dark">
+                                <summary class="flex cursor-pointer items-center justify-between gap-1.5">
+                                    <h3 class="font-medium">Can I cancel anytime?</h3>
+                                    <span class="relative size-5 shrink-0">
+                                        <span class="material-symbols-outlined absolute inset-0 opacity-100 group-open:opacity-0">add</span>
+                                        <span class="material-symbols-outlined absolute inset-0 opacity-0 group-open:opacity-100">remove</span>
+                                    </span>
+                                </summary>
+                                <p class="mt-4 leading-relaxed text-text-secondary-light dark:text-text-secondary-dark">Yes, you can cancel your subscription at any time from your account settings. Your plan will remain active until the end of the current billing period.</p>
+                            </details>
+
+                            <details class="group rounded-lg bg-card-light dark:bg-card-dark p-6 [&_summary::-webkit-details-marker]:hidden border border-border-light dark:border-border-dark">
+                                <summary class="flex cursor-pointer items-center justify-between gap-1.5">
+                                    <h3 class="font-medium">What payment methods do you accept?</h3>
+                                    <span class="relative size-5 shrink-0">
+                                        <span class="material-symbols-outlined absolute inset-0 opacity-100 group-open:opacity-0">add</span>
+                                        <span class="material-symbols-outlined absolute inset-0 opacity-0 group-open:opacity-100">remove</span>
+                                    </span>
+                                </summary>
+                                <p class="mt-4 leading-relaxed text-text-secondary-light dark:text-text-secondary-dark">We accept all major credit cards, including Visa, Mastercard, and American Express. We also support payments through PayPal for your convenience.</p>
+                            </details>
+
+                            <details class="group rounded-lg bg-card-light dark:bg-card-dark p-6 [&_summary::-webkit-details-marker]:hidden border border-border-light dark:border-border-dark">
+                                <summary class="flex cursor-pointer items-center justify-between gap-1.5">
+                                    <h3 class="font-medium">What is the difference between Premium and Pro?</h3>
+                                    <span class="relative size-5 shrink-0">
+                                        <span class="material-symbols-outlined absolute inset-0 opacity-100 group-open:opacity-0">add</span>
+                                        <span class="material-symbols-outlined absolute inset-0 opacity-0 group-open:opacity-100">remove</span>
+                                    </span>
+                                </summary>
+                                <p class="mt-4 leading-relaxed text-text-secondary-light dark:text-text-secondary-dark">The Premium plan is perfect for design enthusiasts who want access to advanced tools and high-quality renders. The Pro plan is designed for professionals and includes unlimited projects, team collaboration features, and client management tools to streamline your workflow.</p>
+                            </details>
+                        </div>
+                    </div>
+
+                    <!-- Footer -->
+                    <footer class="text-center py-10 border-t border-border-light dark:border-border-dark mt-10">
+                        <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                            <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark">© @DateTime.UtcNow.Year DecorMate. All rights reserved.</p>
+                            <div class="flex gap-6 text-sm">
+                                <a class="hover:text-primary" href="#">Support</a>
+                                <a class="hover:text-primary" href="#">Terms of Service</a>
+                                <a class="hover:text-primary" href="#">Privacy Policy</a>
+                            </div>
+                        </div>
+                    </footer>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</body>
+</html>

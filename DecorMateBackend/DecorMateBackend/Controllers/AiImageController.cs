@@ -39,7 +39,7 @@ namespace DecorMateBackend.Controllers
         }
 
         // ----------------------
-        // Generate image using external AI service, upload to Cloudinary and store history
+        // Generate image using external AI service and return response directly
         // ----------------------
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost("generate-image")]
@@ -48,37 +48,29 @@ namespace DecorMateBackend.Controllers
             if (dto == null || string.IsNullOrWhiteSpace(dto.Prompt))
                 return BadRequest(new { message = "Prompt required" });
 
-            // get user id from token
-            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value
-                         ?? User.FindFirst(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Sub)?.Value;
-            if (string.IsNullOrEmpty(userId))
-                return Unauthorized();
-
             // read config
             var aiEndpoint = _configuration["AI1:Endpoint"];
             if (string.IsNullOrWhiteSpace(aiEndpoint))
-                return StatusCode(500, new { message = "AI:Endpoint missing in config" });
+                return StatusCode(500, new { message = "AI1:Endpoint missing in config" });
 
             var aiApiKey = _configuration["AI1:ApiKey"]; // optional
 
-            var client = _httpFactory.CreateClient(); // you can use CreateClient("ai") if configured
+            var client = _httpFactory.CreateClient();
             if (!string.IsNullOrEmpty(aiApiKey))
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", aiApiKey);
 
-            // *** IMPORTANT: the AI expects { "description": "..." } according to your note ***
+            // Call AI1 endpoint with { "description": "..." }
             var payload = new
             {
                 description = dto.Prompt
             };
 
             HttpResponseMessage aiResponse;
-            string aiBody = "";
             try
             {
                 var json = JsonSerializer.Serialize(payload);
                 using var content = new StringContent(json, Encoding.UTF8, "application/json");
                 aiResponse = await client.PostAsync(aiEndpoint, content, ct);
-                aiBody = await aiResponse.Content.ReadAsStringAsync(ct);
             }
             catch (OperationCanceledException)
             {
@@ -93,108 +85,41 @@ namespace DecorMateBackend.Controllers
 
             if (!aiResponse.IsSuccessStatusCode)
             {
-                _logger.LogWarning("AI returned {Status}: {Body}", aiResponse.StatusCode, aiBody);
-                return StatusCode(502, new { message = "AI service error", detail = aiBody });
+                var errorBody = await aiResponse.Content.ReadAsStringAsync(ct);
+                _logger.LogWarning("AI returned {Status}: {Body}", aiResponse.StatusCode, errorBody);
+                return StatusCode((int)aiResponse.StatusCode, new { message = "AI service error", detail = errorBody });
             }
 
-            // Determine what the AI returned:
-            Stream imageStream = null!;
-            string contentType = aiResponse.Content.Headers.ContentType?.MediaType ?? "";
-
-            try
+            // Return the AI response directly
+            var contentType = aiResponse.Content.Headers.ContentType?.MediaType ?? "application/json";
+            
+            // If it's an image, return the image stream directly
+            if (contentType.StartsWith("image", StringComparison.OrdinalIgnoreCase))
             {
-                if (contentType.StartsWith("image", StringComparison.OrdinalIgnoreCase))
-                {
-                    imageStream = await aiResponse.Content.ReadAsStreamAsync(ct);
-                }
-                else
-                {
-                    // try parse JSON
-                    JsonDocument? doc = null;
-                    try
-                    {
-                        doc = JsonDocument.Parse(aiBody);
-                    }
-                    catch
-                    {
-                        doc = null;
-                    }
-
-                    if (doc != null)
-                    {
-                        var root = doc.RootElement;
-
-                        // common: { "image_url": "https://..." }
-                        if (root.TryGetProperty("image_url", out var urlEl) && urlEl.ValueKind == JsonValueKind.String)
-                        {
-                            var url = urlEl.GetString();
-                            if (string.IsNullOrEmpty(url)) return StatusCode(502, new { message = "AI returned empty image_url" });
-
-                            // download image bytes (from AI URL)
-                            var download = await client.GetAsync(url, ct);
-                            if (!download.IsSuccessStatusCode)
-                                return StatusCode(502, new { message = "Failed to download image from AI URL", detail = await download.Content.ReadAsStringAsync(ct) });
-
-                            imageStream = await download.Content.ReadAsStreamAsync(ct);
-                            contentType = download.Content.Headers.ContentType?.MediaType ?? "application/octet-stream";
-                        }
-                        // alternative: { "image_base64": "..." }
-                        else if (root.TryGetProperty("image_base64", out var b64El) && b64El.ValueKind == JsonValueKind.String)
-                        {
-                            var b64 = b64El.GetString() ?? "";
-                            var bytes = Convert.FromBase64String(b64);
-                            imageStream = new MemoryStream(bytes);
-                            contentType = "image/png";
-                        }
-                        // maybe nested: { "data": { "image_base64": "..." } }
-                        else if (root.TryGetProperty("data", out var dataEl) && dataEl.ValueKind == JsonValueKind.Object &&
-                                 dataEl.TryGetProperty("image_base64", out var nestedB64))
-                        {
-                            var b64 = nestedB64.GetString() ?? "";
-                            var bytes = Convert.FromBase64String(b64);
-                            imageStream = new MemoryStream(bytes);
-                            contentType = "image/png";
-                        }
-                        else
-                        {
-                            // unknown json -> return raw for debugging
-                            return StatusCode(502, new { message = "Unexpected AI response", detail = aiBody });
-                        }
-                    }
-                    else
-                    {
-                        // not json, not image: unexpected
-                        return StatusCode(502, new { message = "Unexpected AI response", detail = aiBody });
-                    }
-                }
-
-                // upload to Cloudinary (assumes _cloudinary.UploadImageAsync(Stream, fileName, folder, ct) returns (Url, PublicId))
-                await using (imageStream)
-                {
-                    var fileName = $"{(string.IsNullOrWhiteSpace(dto.Title) ? "generated" : dto.Title)}-{Guid.NewGuid():N}.png";
-                    var (url, publicId) = await _cloudinary.UploadImageAsync(imageStream, fileName, "generated", ct);
-
-                    // save history to DB
-                    var gi = new GeneratedImage
-                    {
-                        ApplicationUserId = userId,
-                        ImageUrl = url,
-                        CloudinaryPublicId = publicId,
-                        ProjectTitle = string.IsNullOrWhiteSpace(dto.Title) ? null : dto.Title,
-                        Prompt = dto.Prompt,
-                        CreatedAt = DateTime.UtcNow
-                    };
-                    _unitOfWork.Images.AddImage(gi);
-                    await _unitOfWork.SaveChangesAsync(ct);
-
-                    return Ok(_mapper.Map<GeneratedImageDto>(gi));
-                }
+                var imageStream = await aiResponse.Content.ReadAsStreamAsync(ct);
+                return File(imageStream, contentType);
             }
-            catch (Exception ex)
+            
+            // For JSON or other text content, read as string
+            var aiBody = await aiResponse.Content.ReadAsStringAsync(ct);
+            
+            // If it's JSON, parse and return as JSON
+            if (contentType.Contains("json", StringComparison.OrdinalIgnoreCase))
             {
-                _logger.LogError(ex, "Error while processing AI response / uploading image");
-                return StatusCode(500, new { message = "Failed to store generated image", detail = ex.Message });
+                try
+                {
+                    var jsonDoc = JsonDocument.Parse(aiBody);
+                    return Ok(jsonDoc.RootElement);
+                }
+                catch
+                {
+                    // If parsing fails, return as string
+                    return Ok(new { response = aiBody });
+                }
             }
+            
+            // For any other content type, return as string
+            return Ok(new { response = aiBody });
         }
 
         // ----------------------
