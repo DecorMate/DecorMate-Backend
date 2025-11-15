@@ -66,7 +66,7 @@ namespace DecorMateBackend.Controllers
         // -----------------------
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPut("Update-profile")]
-        public async Task<IActionResult> UpdateProfile([FromForm] ProfileUpdateDto dto, CancellationToken ct)
+        public async Task<IActionResult> UpdateProfile(ProfileUpdateDto dto, CancellationToken ct)
         {
             var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value
                          ?? User.FindFirst(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Sub)?.Value;
@@ -87,6 +87,7 @@ namespace DecorMateBackend.Controllers
                 user.CompanyName = dto.CompanyName;
             
             var roles = await _unitOfWork.Users.GetRolesAsync(user);
+            await _unitOfWork.Users.UpdateAsync(user);
             return Ok(new
             {
                 Id = user.Id,
