@@ -272,18 +272,13 @@ namespace DecorMateBackend.Controllers
 
             // prepare http client for AI
             var aiEndpoint = _configuration["AI2:Endpoint"] ?? throw new InvalidOperationException("AI:Endpoint missing in config");
-            var aiApiKey = _configuration["AI2:ApiKey"];
             var client = _httpFactory.CreateClient();
-            if (!string.IsNullOrEmpty(aiApiKey))
-                client.DefaultRequestHeaders.Add("Authorization", $"Bearer {aiApiKey}");
 
             // Build multipart form data to send file + prompt to AI endpoint
             using var content = new MultipartFormDataContent();
 
             // add prompt/title fields
             content.Add(new StringContent(dto.Prompt), "prompt");
-            if (!string.IsNullOrEmpty(dto.Title))
-                content.Add(new StringContent(dto.Title), "title");
 
             // add file stream
             await using (var ms = new MemoryStream())
@@ -294,7 +289,7 @@ namespace DecorMateBackend.Controllers
                 fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(dto.File.ContentType ?? "application/octet-stream");
 
                 // "file" is the form field name expected by the AI endpoint (as in screenshot)
-                content.Add(fileContent, "file", dto.File.FileName);
+                content.Add(fileContent, "image_url", dto.File.FileName);
 
                 HttpResponseMessage aiResponse;
                 try
