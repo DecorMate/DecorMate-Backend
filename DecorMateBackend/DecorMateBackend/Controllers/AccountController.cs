@@ -90,6 +90,27 @@ namespace DecorMateBackend.Controllers
             return Ok(tokens);
         }
 
+        // -----------------------
+        // Google Sign-In (mobile)
+        // -----------------------
+        [HttpPost("google-signin")]
+        public async Task<IActionResult> GoogleSignIn([FromBody] ExternalAuthDto dto)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var clientIp = HttpContext.Connection.RemoteIpAddress?.ToString();
+            var (success, tokens, errorMessage) = await _accountService.GoogleSignInAsync(dto, clientIp, CancellationToken.None);
+
+            if (!success)
+            {
+                if (errorMessage?.Contains("Invalid") == true)
+                    return Unauthorized(new { message = errorMessage });
+                return BadRequest(new { message = errorMessage });
+            }
+
+            return Ok(tokens);
+        }
+
 
         // -----------------------
         // Forgot password (mobile) => sends OTP and stores encoded reset token server-side

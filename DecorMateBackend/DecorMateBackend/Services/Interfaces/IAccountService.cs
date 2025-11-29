@@ -15,6 +15,7 @@ namespace DecorMateBackend.Services.Interfaces
 
         // Authentication
         Task<(bool Success, AuthResponseDto? Tokens, string? ErrorMessage)> LoginAsync(LoginDto dto, string? clientIpAddress, CancellationToken ct = default);
+        Task<(bool Success, AuthResponseDto? Tokens, string? ErrorMessage)> GoogleSignInAsync(ExternalAuthDto dto, string? clientIpAddress, CancellationToken ct = default);
         Task<(bool Success, AuthResponseDto? Tokens, string? ErrorMessage)> RefreshTokenAsync(string? refreshToken, string? clientIpAddress, CancellationToken ct = default);
         Task<(bool Success, string? ErrorMessage)> RevokeTokenAsync(string? refreshToken, string? clientIpAddress, CancellationToken ct = default);
 

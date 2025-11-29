@@ -9,6 +9,7 @@ using DecorMateBackend.Repositories;
 using DecorMateBackend.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using System.Text;
+using Google.Apis.Auth;
 
 namespace DecorMateBackend.Services
 {
@@ -19,19 +20,22 @@ namespace DecorMateBackend.Services
         private readonly EmailService _emailService;
         private readonly IMapper _mapper;
         private readonly ILogger<AccountService> _logger;
+        private readonly IConfiguration _configuration;
 
         public AccountService(
             IUnitOfWork unitOfWork,
             JwtService jwtService,
             EmailService emailService,
             IMapper mapper,
-            ILogger<AccountService> logger)
+            ILogger<AccountService> logger,
+            IConfiguration configuration)
         {
             _unitOfWork = unitOfWork;
             _jwtService = jwtService;
             _emailService = emailService;
             _mapper = mapper;
             _logger = logger;
+            _configuration = configuration;
         }
 
         public async Task<(bool Success, string? ErrorMessage)> RegisterAsync(RegisterDto dto, string? callbackUrl = null, CancellationToken ct = default)
@@ -234,6 +238,136 @@ namespace DecorMateBackend.Services
                 _logger.LogError(ex, "Error during login for {Email}", dto.Email);
                 return (false, null, "An error occurred during login");
             }
+        }
+
+        public async Task<(bool Success, AuthResponseDto? Tokens, string? ErrorMessage)> GoogleSignInAsync(
+            ExternalAuthDto dto, string? clientIpAddress, CancellationToken ct = default)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(dto.IdToken))
+                    return (false, null, "ID token is required");
+
+                // Verify Google ID token
+                var googleClientId = _configuration["Authentication:Google:ClientId"];
+                if (string.IsNullOrEmpty(googleClientId))
+                {
+                    _logger.LogError("Google Client ID not configured");
+                    return (false, null, "Google authentication not configured");
+                }
+
+                GoogleJsonWebSignature.Payload payload;
+                try
+                {
+                    var settings = new GoogleJsonWebSignature.ValidationSettings
+                    {
+                        Audience = new[] { googleClientId }
+                    };
+                    payload = await GoogleJsonWebSignature.ValidateAsync(dto.IdToken, settings);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogWarning(ex, "Invalid Google ID token");
+                    return (false, null, "Invalid Google token");
+                }
+
+                // Extract user information from Google token
+                var email = payload.Email;
+                var firstName = payload.GivenName ?? "";
+                var lastName = payload.FamilyName ?? "";
+                var profilePictureUrl = payload.Picture;
+
+                if (string.IsNullOrEmpty(email))
+                {
+                    _logger.LogWarning("Google token missing email");
+                    return (false, null, "Email not provided by Google");
+                }
+
+                // Check if user exists
+                var user = await _unitOfWork.Users.FindByEmailAsync(email);
+                
+                if (user == null)
+                {
+                    // Create new user
+                    user = new ApplicationUser
+                    {
+                        UserName = email,
+                        Email = email,
+                        EmailConfirmed = true, // Google already verified the email
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Provider = AuthProvider.Google,
+                        ProfilePictureUrl = profilePictureUrl
+                    };
+
+                    var createResult = await _unitOfWork.Users.CreateAsync(user, GenerateRandomPassword());
+                    if (!createResult.Succeeded)
+                    {
+                        _logger.LogError("Failed to create Google user {Email}: {Errors}", 
+                            email, string.Join(", ", createResult.Errors.Select(e => e.Description)));
+                        return (false, null, "Failed to create user account");
+                    }
+
+                    // Assign User role for mobile users
+                    await _unitOfWork.Users.AddToRoleAsync(user, "User");
+                    _logger.LogInformation("Created new Google user {Email}", email);
+                }
+                else
+                {
+                    // User exists - verify they can use mobile app
+                    var userRoles = await _unitOfWork.Users.GetRolesAsync(user);
+                    if (userRoles.Contains("Company"))
+                    {
+                        return (false, null, "Company accounts cannot sign in via mobile app");
+                    }
+
+                    // Update profile picture if changed
+                    if (!string.IsNullOrEmpty(profilePictureUrl) && user.ProfilePictureUrl != profilePictureUrl)
+                    {
+                        user.ProfilePictureUrl = profilePictureUrl;
+                        await _unitOfWork.Users.UpdateAsync(user);
+                    }
+                }
+
+                // Generate JWT tokens
+                var tokens = await _jwtService.GenerateTokensAsync(user);
+                var roles = await _unitOfWork.Users.GetRolesAsync(user);
+                var userDto = _mapper.Map<UserDto>(user);
+                userDto.Roles = roles.ToArray();
+                tokens.User = userDto;
+
+                // Create refresh token
+                var refreshEntity = new RefreshToken
+                {
+                    Token = tokens.RefreshToken,
+                    Expires = tokens.RefreshTokenExpiresAt,
+                    Created = DateTime.UtcNow,
+                    CreatedByIp = clientIpAddress,
+                    ApplicationUserId = user.Id
+                };
+
+                _unitOfWork.RefreshTokens.AddRefreshToken(refreshEntity);
+                await _unitOfWork.SaveChangesAsync(ct);
+
+                tokens.RefreshToken = refreshEntity.Token;
+                _logger.LogInformation("Google sign-in successful for {Email}", email);
+                return (true, tokens, null);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error during Google sign-in");
+                return (false, null, "An error occurred during Google sign-in");
+            }
+        }
+
+        private static string GenerateRandomPassword()
+        {
+            // Generate a secure random password for Google users (they won't use it)
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*";
+            var random = new System.Security.Cryptography.RNGCryptoServiceProvider();
+            var bytes = new byte[32];
+            random.GetBytes(bytes);
+            return new string(bytes.Select(b => chars[b % chars.Length]).ToArray());
         }
 
         public async Task<(bool Success, AuthResponseDto? Tokens, string? ErrorMessage)> RefreshTokenAsync(
