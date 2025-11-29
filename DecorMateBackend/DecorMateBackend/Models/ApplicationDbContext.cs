@@ -19,6 +19,10 @@ namespace DecorMate_Backend_Web_app.Data
         public DbSet<VendorRating> VendorRatings { get; set; }
         public DbSet<EmailConfirmation> EmailConfirmations { get; set; } = null!;
 
+        public DbSet<Conversation> Conversations { get; set; } = null!;
+        public DbSet<ConversationParticipant> ConversationParticipants { get; set; } = null!;
+        public DbSet<ChatMessage> ChatMessages { get; set; } = null!;
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

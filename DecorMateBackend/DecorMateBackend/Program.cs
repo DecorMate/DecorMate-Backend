@@ -11,6 +11,7 @@ using DecorMate_Backend_Web_app.Services;
 using DecorMateBackend.Services;
 using DecorMateBackend.Models;
 using DecorMateBackend.Repositories;
+using DecorMateBackend.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -127,6 +128,9 @@ builder.Services.AddTransient<DecorMateBackend.Services.SmtpEmailSender>();
 builder.Services.AddTransient<DecorMateBackend.Models.IEmailSenderO>(sp => sp.GetRequiredService<DecorMateBackend.Services.SmtpEmailSender>());
 builder.Services.AddScoped<DecorMateBackend.Services.EmailService>();
 builder.Services.AddScoped<DecorMateBackend.Services.Interfaces.IAccountService, DecorMateBackend.Services.AccountService>();
+services.AddScoped<EncryptionService>();
+services.AddScoped<ChatService>();
+services.AddSignalR();
 services.AddSingleton<CloudinaryService>();
 services.AddAutoMapper(typeof(Program));
 services.AddControllersWithViews();
@@ -206,9 +210,10 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseCors(policy => policy
-    .AllowAnyOrigin()
+    .WithOrigins("http://localhost:5018", "https://localhost:7247")
     .AllowAnyHeader()
-    .AllowAnyMethod());
+    .AllowAnyMethod()
+    .AllowCredentials());
 
 app.UseAuthentication();
 app.UseAuthorization();
@@ -222,5 +227,6 @@ app.MapControllerRoute(
 
 app.MapRazorPages();
 app.MapControllers();
+app.MapHub<ChatHub>("/chatHub");
 
 app.Run();
