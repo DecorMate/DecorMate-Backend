@@ -82,7 +82,7 @@ namespace DecorMateBackend.Controllers
         {
             if (!ModelState.IsValid) return View("~/Views/Auth/Profile.cshtml", model);
 
-            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(userId)) return Challenge();
 
             var user = await _userManager.FindByIdAsync(userId);
