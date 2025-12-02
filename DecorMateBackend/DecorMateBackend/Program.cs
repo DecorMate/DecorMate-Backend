@@ -61,9 +61,8 @@ var jwtAudience = jwtSection.GetValue<string>("Audience") ?? "DecorMateClients";
 // Authentication
 services.AddAuthentication(options =>
 {
-    options.DefaultScheme = IdentityConstants.ApplicationScheme;
-    options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
-    options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 })
 .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
 {
@@ -82,6 +81,29 @@ services.AddAuthentication(options =>
         RoleClaimType = ClaimTypes.Role,
         NameClaimType = ClaimTypes.NameIdentifier
     };
+
+    options.Events = new JwtBearerEvents
+    {
+        OnMessageReceived = context =>
+        {
+            var accessToken = context.Request.Query["access_token"];
+            var path = context.HttpContext.Request.Path;
+            if (!string.IsNullOrEmpty(accessToken) &&
+                (path.StartsWithSegments("/chatHub")))
+            {
+                context.Token = accessToken;
+            }
+            return Task.CompletedTask;
+        },
+        // Ensure auth failures return 401 instead of redirecting (which breaks WebSockets/SignalR).
+        OnChallenge = context =>
+        {
+            // Skip the default logic that adds WWW-Authenticate and can trigger redirects.
+            context.HandleResponse();
+            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+            return Task.CompletedTask;
+        }
+    };
 })
 .AddGoogle(googleOptions =>
 {
@@ -94,12 +116,28 @@ services.AddAuthentication(options =>
     fb.AppSecret = configuration["Authentication:Facebook:AppSecret"];
 });
 
-// ----------------------------
 // Cookie options
 services.ConfigureApplicationCookie(opts =>
 {
     opts.LoginPath = "/Auth/Login";
     opts.LogoutPath = "/Auth/Logout";
+    
+    // Prevent redirects for API endpoints and SignalR - return 401 instead
+    opts.Events.OnRedirectToLogin = context =>
+    {
+        // Check if this is an API request or SignalR connection
+        if (context.Request.Path.StartsWithSegments("/api") || 
+            context.Request.Path.StartsWithSegments("/chatHub") ||
+            context.Request.Headers["Accept"].ToString().Contains("application/json"))
+        {
+            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+            return Task.CompletedTask;
+        }
+        
+        // For regular web requests, redirect to login
+        context.Response.Redirect(context.RedirectUri);
+        return Task.CompletedTask;
+    };
 });
 
 // ----------------------------
@@ -204,7 +242,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
