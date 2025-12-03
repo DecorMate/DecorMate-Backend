@@ -10,59 +10,55 @@ namespace DecorMateBackend.Hubs
     public class ChatHub : Hub
     {
         private readonly ChatService _chatService;
+        private readonly ILogger<ChatHub> _logger;
 
-        public ChatHub(ChatService chatService)
+        public ChatHub(ChatService chatService, ILogger<ChatHub> logger)
         {
             _chatService = chatService;
+            _logger = logger;
         }
 
         public override async Task OnConnectedAsync()
         {
             var userId = Context.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            
-            if (!string.IsNullOrEmpty(userId))
-            {
-                await Groups.AddToGroupAsync(Context.ConnectionId, userId);
-            }
+            _logger.LogInformation($"Client connected: ConnectionId={Context.ConnectionId}, UserId={userId}");
             await base.OnConnectedAsync();
         }
 
-        public async Task SendMessage(string receiverId, string messageContent)
+        public override async Task OnDisconnectedAsync(Exception? exception)
+        {
+            var userId = Context.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            _logger.LogInformation($"Client disconnected: ConnectionId={Context.ConnectionId}, UserId={userId}, Exception={exception?.Message}");
+            await base.OnDisconnectedAsync(exception);
+        }
+
+        public async Task SendMessage(string receiverId, string content)
         {
             var senderId = Context.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(senderId)) return;
 
-            // Save and encrypt message
-            var message = await _chatService.SaveMessageAsync(senderId, receiverId, messageContent);
+            _logger.LogInformation($"SendMessage called: SenderId={senderId}, ReceiverId={receiverId}");
 
-            // Send to receiver
-            await Clients.Group(receiverId).SendAsync("ReceiveMessage", new
+            // Save message to DB
+            var message = await _chatService.SaveMessageAsync(senderId, receiverId, content);
+
+            // Create a DTO to avoid circular reference issues
+            var messageDto = new
             {
                 message.Id,
                 message.SenderId,
-                message.Content, // This is the decrypted content returned by SaveMessageAsync
-                message.Timestamp,
-                message.ConversationId
-            });
-
-            // Send back to sender (so they see it confirmed/decrypted if needed, or just to update UI)
-            await Clients.Group(senderId).SendAsync("ReceiveMessage", new
-            {
-                message.Id,
-                message.SenderId,
+                ReceiverId = receiverId,
                 message.Content,
                 message.Timestamp,
-                message.ConversationId
-            });
-        }
+                message.ConversationId,
+                message.IsRead
+            };
 
-        public async Task LoadHistory(string otherUserId)
-        {
-            var currentUserId = Context.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (string.IsNullOrEmpty(currentUserId)) return;
+            // Send to receiver
+            await Clients.User(receiverId).SendAsync("ReceiveMessage", messageDto);
 
-            var history = await _chatService.GetConversationHistoryAsync(currentUserId, otherUserId);
-            await Clients.Caller.SendAsync("ReceiveHistory", history);
+            // Send back to sender
+            await Clients.User(senderId).SendAsync("ReceiveMessage", messageDto);
         }
     }
 }

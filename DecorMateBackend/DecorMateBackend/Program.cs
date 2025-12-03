@@ -11,9 +11,23 @@ using DecorMate_Backend_Web_app.Services;
 using DecorMateBackend.Services;
 using DecorMateBackend.Models;
 using DecorMateBackend.Repositories;
-using DecorMateBackend.Hubs;
+
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Configure Kestrel to listen on all network interfaces in development
+if (builder.Environment.IsDevelopment())
+{
+    builder.WebHost.ConfigureKestrel(serverOptions =>
+    {
+        serverOptions.ListenAnyIP(5018); // HTTP
+        serverOptions.ListenAnyIP(7247, listenOptions =>
+        {
+            listenOptions.UseHttps(); // HTTPS
+        });
+    });
+}
+
 var configuration = builder.Configuration;
 var services = builder.Services;
 
@@ -61,13 +75,25 @@ var jwtAudience = jwtSection.GetValue<string>("Audience") ?? "DecorMateClients";
 // Authentication
 services.AddAuthentication(options =>
 {
-    options.DefaultScheme = IdentityConstants.ApplicationScheme;
-    options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
-    options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
+    options.DefaultScheme = "SmartScheme";
+    options.DefaultAuthenticateScheme = "SmartScheme";
+    options.DefaultChallengeScheme = "SmartScheme";
+})
+.AddPolicyScheme("SmartScheme", "Bearer or Cookie", options =>
+{
+    options.ForwardDefaultSelector = context =>
+    {
+        var path = context.Request.Path;
+        if (path.StartsWithSegments("/api") || path.StartsWithSegments("/chatHub"))
+        {
+            return JwtBearerDefaults.AuthenticationScheme;
+        }
+        return IdentityConstants.ApplicationScheme;
+    };
 })
 .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
 {
-    options.RequireHttpsMetadata = true;
+    options.RequireHttpsMetadata = !builder.Environment.IsDevelopment();
     options.SaveToken = true;
     options.TokenValidationParameters = new TokenValidationParameters
     {
@@ -81,6 +107,24 @@ services.AddAuthentication(options =>
         ClockSkew = TimeSpan.FromSeconds(30),
         RoleClaimType = ClaimTypes.Role,
         NameClaimType = ClaimTypes.NameIdentifier
+    };
+    
+    // Configure JWT for SignalR WebSocket connections
+    options.Events = new JwtBearerEvents
+    {
+        OnMessageReceived = context =>
+        {
+            // Read the token from the query string for SignalR
+            var accessToken = context.Request.Query["access_token"];
+            var path = context.HttpContext.Request.Path;
+            
+            if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/chatHub"))
+            {
+                context.Token = accessToken;
+            }
+            
+            return Task.CompletedTask;
+        }
     };
 })
 .AddGoogle(googleOptions =>
@@ -100,6 +144,16 @@ services.ConfigureApplicationCookie(opts =>
 {
     opts.LoginPath = "/Auth/Login";
     opts.LogoutPath = "/Auth/Logout";
+    opts.Events.OnRedirectToLogin = context =>
+    {
+        if (context.Request.Path.StartsWithSegments("/api"))
+        {
+            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+            return Task.CompletedTask;
+        }
+        context.Response.Redirect(context.RedirectUri);
+        return Task.CompletedTask;
+    };
 });
 
 // ----------------------------
@@ -129,14 +183,26 @@ builder.Services.AddTransient<DecorMateBackend.Models.IEmailSenderO>(sp => sp.Ge
 builder.Services.AddScoped<DecorMateBackend.Services.EmailService>();
 builder.Services.AddScoped<DecorMateBackend.Services.Interfaces.IAccountService, DecorMateBackend.Services.AccountService>();
 services.AddScoped<EncryptionService>();
-services.AddScoped<ChatService>();
-services.AddSignalR();
 services.AddSingleton<CloudinaryService>();
+services.AddScoped<ChatService>();
 services.AddAutoMapper(typeof(Program));
 services.AddControllersWithViews();
 services.AddRazorPages();
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
+
+// ----------------------------
+
+
+
+// ----------------------------
+// SignalR
+builder.Services.AddSignalR(options =>
+{
+    options.EnableDetailedErrors = true;
+});
+builder.Logging.AddFilter("Microsoft.AspNetCore.SignalR", LogLevel.Debug);
+builder.Logging.AddFilter("Microsoft.AspNetCore.Http.Connections", LogLevel.Debug);
 
 // ----------------------------
 // Build app
@@ -207,10 +273,13 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
+// Enable WebSockets for SignalR
+app.UseWebSockets();
+
 app.UseRouting();
 
 app.UseCors(policy => policy
-    .WithOrigins("http://localhost:5018", "https://localhost:7247")
+    .WithOrigins("http://localhost:5018", "https://localhost:7247", "http://localhost:3000")
     .AllowAnyHeader()
     .AllowAnyMethod()
     .AllowCredentials());
@@ -227,6 +296,9 @@ app.MapControllerRoute(
 
 app.MapRazorPages();
 app.MapControllers();
-app.MapHub<ChatHub>("/chatHub");
+app.MapHub<DecorMateBackend.Hubs.ChatHub>("/chatHub");
+
+// ----------------------------
+
 
 app.Run();

@@ -198,11 +198,17 @@ namespace DecorMateBackend.Services
             {
                 var user = await _unitOfWork.Users.FindByEmailAsync(dto.Email);
                 if (user == null)
+                {
+                    _logger.LogWarning("Login failed: User {Email} not found", dto.Email);
                     return (false, null, "Invalid credentials");
+                }
 
                 var check = await _unitOfWork.Users.CheckPasswordSignInAsync(user, dto.Password, lockoutOnFailure: true);
                 if (!check.Succeeded)
+                {
+                    _logger.LogWarning("Login failed: Password incorrect for {Email}", dto.Email);
                     return (false, null, "Invalid credentials");
+                }
 
                 if (!await _unitOfWork.Users.IsEmailConfirmedAsync(user))
                     return (false, null, "Email not confirmed");

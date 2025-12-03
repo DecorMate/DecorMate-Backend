@@ -66,6 +66,11 @@ namespace DecorMateBackend.Services
             }).ToList<object>();
         }
 
+        public string DecryptMessage(string encryptedContent)
+        {
+            return _encryptionService.Decrypt(encryptedContent);
+        }
+
         private async Task<Conversation> GetOrCreateConversationAsync(string user1Id, string user2Id)
         {
             // Check if conversation exists
