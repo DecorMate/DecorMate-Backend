@@ -35,6 +35,7 @@ var services = builder.Services;
 // Bind settings
 services.Configure<SmtpSettings>(configuration.GetSection("Smtp"));
 services.Configure<JwtSettings>(configuration.GetSection("Jwt"));
+services.Configure<MasterpieceApiSettings>(configuration.GetSection("MasterpieceApi"));
 
 // ----------------------------
 // DbContext
@@ -176,6 +177,8 @@ services.AddAuthorization(options =>
 // ----------------------------
 // Other services
 services.AddHttpClient();
+services.AddHttpClient<MasterpieceApiService>();
+services.AddScoped<MasterpieceApiService>();
 services.AddScoped<JwtService>();
 builder.Services.Configure<DecorMateBackend.Models.SmtpSettings>(builder.Configuration.GetSection("Smtp"));
 builder.Services.AddTransient<DecorMateBackend.Services.SmtpEmailSender>();
