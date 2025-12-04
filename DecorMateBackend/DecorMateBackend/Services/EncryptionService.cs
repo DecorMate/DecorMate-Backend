@@ -52,29 +52,40 @@ namespace DecorMateBackend.Services
         {
             if (string.IsNullOrEmpty(cipherText)) return cipherText;
 
-            var fullCipher = Convert.FromBase64String(cipherText);
-
-            using (Aes aes = Aes.Create())
+            try
             {
-                aes.Key = _key;
+                var fullCipher = Convert.FromBase64String(cipherText);
 
-                // Extract IV from the beginning
-                byte[] iv = new byte[aes.BlockSize / 8];
-                Array.Copy(fullCipher, 0, iv, 0, iv.Length);
-                aes.IV = iv;
-
-                ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
-
-                using (MemoryStream ms = new MemoryStream(fullCipher, iv.Length, fullCipher.Length - iv.Length))
+                using (Aes aes = Aes.Create())
                 {
-                    using (CryptoStream cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Read))
+                    aes.Key = _key;
+
+                    // Extract IV from the beginning
+                    byte[] iv = new byte[aes.BlockSize / 8];
+                    Array.Copy(fullCipher, 0, iv, 0, iv.Length);
+                    aes.IV = iv;
+
+                    ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
+
+                    using (MemoryStream ms = new MemoryStream(fullCipher, iv.Length, fullCipher.Length - iv.Length))
                     {
-                        using (StreamReader sr = new StreamReader(cs))
+                        using (CryptoStream cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Read))
                         {
-                            return sr.ReadToEnd();
+                            using (StreamReader sr = new StreamReader(cs))
+                            {
+                                return sr.ReadToEnd();
+                            }
                         }
                     }
                 }
+            }
+            catch (FormatException ex)
+            {
+                throw new InvalidOperationException($"Message content is not valid Base64. This may indicate the message was not properly encrypted or the database content is corrupted. Content preview: {(cipherText.Length > 50 ? cipherText.Substring(0, 50) + "..." : cipherText)}", ex);
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException($"Failed to decrypt message. This may indicate an encryption key mismatch or corrupted data.", ex);
             }
         }
     }
