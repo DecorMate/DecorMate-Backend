@@ -43,26 +43,44 @@ namespace DecorMateBackend.Services
 
         public async Task<List<object>> GetConversationHistoryAsync(string userId, string otherUserId)
         {
-            var conversation = await _context.Conversations
-                .Include(c => c.Participants)
-                .Where(c => c.Participants.Any(p => p.UserId == userId) &&
-                            c.Participants.Any(p => p.UserId == otherUserId))
+            // Optimized query: Find conversation ID where both users are participants
+            var conversationId = await _context.ConversationParticipants
+                .Where(cp => cp.UserId == userId)
+                .Select(cp => cp.ConversationId)
+                .Intersect(
+                    _context.ConversationParticipants
+                    .Where(cp => cp.UserId == otherUserId)
+                    .Select(cp => cp.ConversationId)
+                )
                 .FirstOrDefaultAsync();
 
-            if (conversation == null) return new List<object>();
+            if (conversationId == 0) return new List<object>();
 
             var messages = await _context.ChatMessages
-                .Where(m => m.ConversationId == conversation.Id)
+                .Where(m => m.ConversationId == conversationId)
                 .OrderBy(m => m.Timestamp)
                 .ToListAsync();
 
-            return messages.Select(m => new
+            return messages.Select(m => 
             {
-                m.Id,
-                m.SenderId,
-                Content = _encryptionService.Decrypt(m.Content),
-                m.Timestamp,
-                m.ConversationId
+                string decryptedContent;
+                try
+                {
+                    decryptedContent = _encryptionService.Decrypt(m.Content);
+                }
+                catch
+                {
+                    decryptedContent = m.Content;
+                }
+
+                return new
+                {
+                    m.Id,
+                    m.SenderId,
+                    Content = decryptedContent,
+                    m.Timestamp,
+                    m.ConversationId
+                };
             }).ToList<object>();
         }
 

@@ -278,11 +278,22 @@ app.UseWebSockets();
 
 app.UseRouting();
 
-app.UseCors(policy => policy
-    .WithOrigins("http://localhost:5018", "https://localhost:7247", "http://localhost:3000")
-    .AllowAnyHeader()
-    .AllowAnyMethod()
-    .AllowCredentials());
+if (app.Environment.IsDevelopment())
+{
+    app.UseCors(policy => policy
+        .SetIsOriginAllowed(origin => true) // Allow any origin in development
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowCredentials());
+}
+else
+{
+    app.UseCors(policy => policy
+        .WithOrigins("http://localhost:5018", "https://localhost:7247", "http://localhost:3000", "https://decormate.runasp.net") // Add production domain if known, keeping existing + potential prod
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowCredentials());
+}
 
 app.UseAuthentication();
 app.UseAuthorization();
